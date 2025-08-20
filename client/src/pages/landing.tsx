@@ -29,7 +29,7 @@ import {
   X
 } from "lucide-react";
 import vehicleImage from "@assets/generated_images/Professional_NEMT_vehicle_corrected_34ea87bd.png";
-import assistanceImage from "@assets/generated_images/Man_helping_ambulatory_patient_f46e8b79.png";
+import assistanceImage from "@assets/generated_images/Holly_Transportation_assistance_scene_e4b0d332.png";
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
