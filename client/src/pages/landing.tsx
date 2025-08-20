@@ -58,15 +58,37 @@ export default function Landing() {
   const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const data = {
-      firstName: formData.get("firstName"),
-      lastName: formData.get("lastName"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      subject: formData.get("subject"),
-      message: formData.get("message"),
-    };
-    contactMutation.mutate(data);
+    
+    const firstName = formData.get("firstName") as string;
+    const lastName = formData.get("lastName") as string;
+    const email = formData.get("email") as string;
+    const phone = formData.get("phone") as string;
+    const subject = formData.get("subject") as string;
+    const message = formData.get("message") as string;
+    
+    // Create mailto URL
+    const emailBody = `
+Name: ${firstName} ${lastName}
+Email: ${email}
+Phone: ${phone || 'Not provided'}
+
+Message:
+${message}
+
+---
+Sent from Holly Transportation contact form
+    `.trim();
+    
+    const mailtoUrl = `mailto:hollytransport04@gmail.com?subject=${encodeURIComponent(`Contact Form: ${subject}`)}&body=${encodeURIComponent(emailBody)}`;
+    
+    // Open default email client
+    window.location.href = mailtoUrl;
+    
+    // Show success message
+    toast({
+      title: "Email Client Opened",
+      description: "Your default email client has been opened with the message ready to send.",
+    });
   };
 
   const scrollToSection = (sectionId: string) => {
