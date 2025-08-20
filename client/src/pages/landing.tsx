@@ -445,32 +445,6 @@ export default function Landing() {
             
             <div className="space-y-6">
               <div className="aspect-video bg-gradient-to-br from-primary/10 to-healthcare-green/10 rounded-xl shadow-lg"></div>
-              
-              <Card className="p-6">
-                <CardContent className="p-0">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Meet Our Team</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                        <span className="text-primary font-semibold">JD</span>
-                      </div>
-                      <div>
-                        <div className="font-medium text-gray-900">John Davis</div>
-                        <div className="text-sm text-gray-600">Operations Manager</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-healthcare-green/10 rounded-full flex items-center justify-center">
-                        <span className="text-healthcare-green font-semibold">SM</span>
-                      </div>
-                      <div>
-                        <div className="font-medium text-gray-900">Sarah Miller</div>
-                        <div className="text-sm text-gray-600">Lead Transportation Specialist</div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>
