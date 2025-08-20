@@ -243,8 +243,8 @@ export default function Landing() {
                   <div className="text-sm text-gray-600">Satisfied Patients</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-healthcare-green">24/7</div>
-                  <div className="text-sm text-gray-600">Service Available</div>
+                  <div className="text-3xl font-bold text-healthcare-green">6-6</div>
+                  <div className="text-sm text-gray-600">Daily Hours</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-primary">5★</div>
@@ -662,7 +662,7 @@ export default function Landing() {
                     </div>
                     <div>
                       <div className="font-medium text-gray-900">Email</div>
-                      <div className="text-gray-600">info@hollytransportation.com</div>
+                      <div className="text-gray-600">hollytransport04@gmail.com</div>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
@@ -693,7 +693,7 @@ export default function Landing() {
                     <span>10:00 AM - 4:00 PM</span>
                   </div>
                   <div className="text-healthcare-green font-medium mt-2">
-                    24/7 Emergency Transportation Available
+                    6AM - 6PM Daily Service Available
                   </div>
                 </div>
               </div>

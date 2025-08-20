@@ -178,7 +178,7 @@ export default function Booking() {
                   Speak directly with our booking team for personalized service and immediate assistance.
                 </p>
                 <div className="space-y-1 text-sm text-gray-600">
-                  <p>• Available 24/7 for booking and emergencies</p>
+                  <p>• Available 6AM - 6PM daily</p>
                   <p>• Immediate confirmation and scheduling</p>
                   <p>• Special requests and custom arrangements</p>
                 </div>
@@ -193,7 +193,7 @@ export default function Booking() {
                   <Phone className="w-5 h-5 mr-2" />
                   Call (555) 465-5901
                 </Button>
-                <p className="text-xs text-gray-500 text-center mt-1">Available 24/7</p>
+                <p className="text-xs text-gray-500 text-center mt-1">Available 6AM - 6PM</p>
               </div>
             </div>
           </CardContent>

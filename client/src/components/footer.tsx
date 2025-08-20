@@ -84,7 +84,9 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-primary flex-shrink-0" />
-                <span>info@hollytransportation.com</span>
+                <a href="mailto:hollytransport04@gmail.com" className="hover:text-white transition-colors">
+                  hollytransport04@gmail.com
+                </a>
               </li>
               <li className="flex items-start space-x-2">
                 <MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
@@ -92,7 +94,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-2">
                 <Clock className="w-4 h-4 text-healthcare-green flex-shrink-0" />
-                <span>24/7 Emergency Service</span>
+                <span>6AM - 6PM Daily</span>
               </li>
             </ul>
           </div>
