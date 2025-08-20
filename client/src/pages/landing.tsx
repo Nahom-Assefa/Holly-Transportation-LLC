@@ -344,11 +344,11 @@ export default function Landing() {
             <Card className="p-8 hover:shadow-lg transition-shadow">
               <CardContent className="p-0">
                 <div className="w-16 h-16 bg-healthcare-green/10 rounded-xl flex items-center justify-center mb-6">
-                  <MapPin className="w-8 h-8 text-healthcare-green" />
+                  <Phone className="w-8 h-8 text-healthcare-green" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Twin Cities Coverage</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">24/7 Support</h3>
                 <p className="text-gray-600">
-                  Comprehensive service throughout the Twin Cities metro, with specialized coverage in Dakota, Scott, Washington, and Ramsey counties.
+                  Round-the-clock customer support for booking assistance, changes, and emergency transportation needs.
                 </p>
               </CardContent>
             </Card>
