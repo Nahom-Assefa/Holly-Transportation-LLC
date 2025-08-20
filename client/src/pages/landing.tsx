@@ -29,6 +29,7 @@ import {
   X
 } from "lucide-react";
 import vehicleImage from "@assets/generated_images/Professional_NEMT_vehicle_corrected_34ea87bd.png";
+import facilityImage from "@assets/generated_images/Professional_healthcare_facility_exterior_6c6cf11a.png";
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -444,7 +445,14 @@ export default function Landing() {
             </div>
             
             <div className="space-y-6">
-              <div className="aspect-video bg-gradient-to-br from-primary/10 to-healthcare-green/10 rounded-xl shadow-lg"></div>
+              <div className="aspect-video bg-gradient-to-br from-primary/10 to-healthcare-green/10 rounded-xl shadow-lg overflow-hidden">
+                <img 
+                  src={facilityImage} 
+                  alt="Professional healthcare facility served by Holly Transportation"
+                  className="w-full h-full object-cover"
+                  data-testid="about-facility-image"
+                />
+              </div>
             </div>
           </div>
         </div>
