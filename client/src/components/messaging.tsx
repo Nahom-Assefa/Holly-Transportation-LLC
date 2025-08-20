@@ -23,7 +23,7 @@ export default function Messaging() {
   });
 
   // Fetch messages
-  const { data: messages, isLoading: messagesLoading } = useQuery({
+  const { data: messages = [], isLoading: messagesLoading } = useQuery<any[]>({
     queryKey: ["/api/messages"],
     enabled: !!user && isAuthenticated,
     refetchInterval: 30000, // Refetch every 30 seconds

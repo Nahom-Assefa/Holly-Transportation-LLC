@@ -75,7 +75,12 @@ export default function Footer() {
             <ul className="space-y-3 text-gray-400">
               <li className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
-                <span>(555) 123-4567</span>
+                <button 
+                  onClick={() => window.open('tel:+15554655901', '_self')}
+                  className="hover:text-white transition-colors"
+                >
+                  (555) 465-5901
+                </button>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-primary flex-shrink-0" />

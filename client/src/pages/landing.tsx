@@ -229,10 +229,11 @@ export default function Landing() {
                   variant="outline" 
                   size="lg"
                   className="border-primary text-primary hover:bg-primary/5"
+                  onClick={() => window.open('tel:+15554655901', '_self')}
                   data-testid="hero-call-button"
                 >
                   <Phone className="w-5 h-5 mr-2" />
-                  Call (555) 123-4567
+                  Call (555) 465-5901
                 </Button>
               </div>
               

@@ -67,13 +67,13 @@ export default function Dashboard() {
   }, [user]);
 
   // Fetch bookings
-  const { data: bookings, isLoading: bookingsLoading } = useQuery({
+  const { data: bookings = [], isLoading: bookingsLoading } = useQuery<any[]>({
     queryKey: ["/api/bookings"],
     enabled: !!user,
   });
 
   // Fetch messages
-  const { data: messages, isLoading: messagesLoading } = useQuery({
+  const { data: messages = [], isLoading: messagesLoading } = useQuery<any[]>({
     queryKey: ["/api/messages"],
     enabled: !!user,
   });

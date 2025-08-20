@@ -66,25 +66,25 @@ export default function Admin() {
   }, [user, isAuthenticated, isLoading, toast]);
 
   // Fetch admin stats
-  const { data: stats, isLoading: statsLoading } = useQuery({
+  const { data: stats = {}, isLoading: statsLoading } = useQuery<any>({
     queryKey: ["/api/admin/stats"],
     enabled: !!user?.isAdmin,
   });
 
   // Fetch all bookings
-  const { data: bookings, isLoading: bookingsLoading } = useQuery({
+  const { data: bookings = [], isLoading: bookingsLoading } = useQuery<any[]>({
     queryKey: ["/api/bookings"],
     enabled: !!user?.isAdmin,
   });
 
   // Fetch all messages
-  const { data: messages, isLoading: messagesLoading } = useQuery({
+  const { data: messages = [], isLoading: messagesLoading } = useQuery<any[]>({
     queryKey: ["/api/messages"],
     enabled: !!user?.isAdmin,
   });
 
   // Fetch contact messages
-  const { data: contactMessages, isLoading: contactMessagesLoading } = useQuery({
+  const { data: contactMessages = [], isLoading: contactMessagesLoading } = useQuery<any[]>({
     queryKey: ["/api/admin/contact-messages"],
     enabled: !!user?.isAdmin,
   });

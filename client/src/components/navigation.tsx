@@ -66,7 +66,7 @@ export default function Navigation() {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-8 w-8 rounded-full" data-testid="user-menu">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={user.profileImageUrl} alt={user.firstName || user.email} />
+                        <AvatarImage src={user.profileImageUrl ?? undefined} alt={user.firstName ?? user.email ?? "User"} />
                         <AvatarFallback>{userInitials}</AvatarFallback>
                       </Avatar>
                     </Button>

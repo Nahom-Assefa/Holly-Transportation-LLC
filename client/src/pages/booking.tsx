@@ -163,6 +163,49 @@ export default function Booking() {
           </p>
         </div>
 
+        {/* Phone Booking Option */}
+        <Card className="mb-8 border-blue-200 bg-blue-50/50" data-testid="phone-booking-card">
+          <CardHeader>
+            <CardTitle className="flex items-center text-blue-700">
+              <Phone className="w-5 h-5 mr-2" />
+              Prefer to Book by Phone?
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
+              <div>
+                <p className="text-gray-700 mb-2">
+                  Speak directly with our booking team for personalized service and immediate assistance.
+                </p>
+                <div className="space-y-1 text-sm text-gray-600">
+                  <p>• Available 24/7 for booking and emergencies</p>
+                  <p>• Immediate confirmation and scheduling</p>
+                  <p>• Special requests and custom arrangements</p>
+                </div>
+              </div>
+              <div className="flex-shrink-0">
+                <Button 
+                  size="lg"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3"
+                  onClick={() => window.open('tel:+15554655901', '_self')}
+                  data-testid="phone-booking-button"
+                >
+                  <Phone className="w-5 h-5 mr-2" />
+                  Call (555) 465-5901
+                </Button>
+                <p className="text-xs text-gray-500 text-center mt-1">Available 24/7</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Divider */}
+        <div className="flex items-center my-8">
+          <div className="flex-1 border-t border-gray-300"></div>
+          <div className="px-4 text-gray-500 text-sm font-medium">OR</div>
+          <div className="flex-1 border-t border-gray-300"></div>
+        </div>
+
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
