@@ -343,11 +343,11 @@ Sent from Holly Transportation contact form
             <Card className="p-8 hover:shadow-lg transition-shadow">
               <CardContent className="p-0">
                 <div className="w-16 h-16 bg-healthcare-green/10 rounded-xl flex items-center justify-center mb-6">
-                  <Accessibility className="w-8 h-8 text-healthcare-green" />
+                  <Users className="w-8 h-8 text-healthcare-green" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Accessibility Ready</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Walking Assistance</h3>
                 <p className="text-gray-600">
-                  Accessibility accessible vehicles and assistance for patients with mobility aids or walking assistance.
+                  Professional support for ambulatory patients who can walk independently or with minimal assistance to medical appointments.
                 </p>
               </CardContent>
             </Card>
