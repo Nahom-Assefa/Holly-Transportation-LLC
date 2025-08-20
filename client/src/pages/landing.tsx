@@ -239,7 +239,7 @@ export default function Landing() {
               
               <div className="grid grid-cols-3 gap-6 pt-8">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">500+</div>
+                  <div className="text-3xl font-bold text-primary">100+</div>
                   <div className="text-sm text-gray-600">Satisfied Patients</div>
                 </div>
                 <div className="text-center">
@@ -374,7 +374,7 @@ export default function Landing() {
               <div className="space-y-4">
                 <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">About Holly Transportation</h2>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  For over a decade, Holly Transportation has been providing reliable ambulatory transportation 
+                  For over 2 years, Holly Transportation has been providing reliable ambulatory transportation 
                   services to patients across our community. We specialize in safe, comfortable transportation 
                   for individuals who can walk independently or with minimal assistance.
                 </p>
@@ -388,13 +388,13 @@ export default function Landing() {
               <div className="grid sm:grid-cols-2 gap-6">
                 <Card className="p-6">
                   <CardContent className="p-0">
-                    <div className="text-2xl font-bold text-primary mb-2">10+</div>
+                    <div className="text-2xl font-bold text-primary mb-2">2+</div>
                     <div className="text-gray-600 font-medium">Years of Service</div>
                   </CardContent>
                 </Card>
                 <Card className="p-6">
                   <CardContent className="p-0">
-                    <div className="text-2xl font-bold text-healthcare-green mb-2">5,000+</div>
+                    <div className="text-2xl font-bold text-healthcare-green mb-2">100+</div>
                     <div className="text-gray-600 font-medium">Safe Transports</div>
                   </CardContent>
                 </Card>

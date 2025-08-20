@@ -27,7 +27,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
-              Trusted ambulatory transportation services for over a decade. Safe, reliable, and compassionate care 
+              Trusted ambulatory transportation services for over 2 years. Safe, reliable, and compassionate care 
               for all your medical transportation needs.
             </p>
           </div>
