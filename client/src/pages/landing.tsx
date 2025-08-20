@@ -275,8 +275,8 @@ export default function Landing() {
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Why Choose Holly Transportation?</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We provide professional, reliable, and compassionate ambulatory transportation services 
-              tailored to your medical needs.
+              Serving the Twin Cities area with professional ambulatory transportation services, 
+              specializing in Dakota, Scott, Washington, and Ramsey counties.
             </p>
           </div>
           
@@ -344,11 +344,11 @@ export default function Landing() {
             <Card className="p-8 hover:shadow-lg transition-shadow">
               <CardContent className="p-0">
                 <div className="w-16 h-16 bg-healthcare-green/10 rounded-xl flex items-center justify-center mb-6">
-                  <Phone className="w-8 h-8 text-healthcare-green" />
+                  <MapPin className="w-8 h-8 text-healthcare-green" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">24/7 Support</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Twin Cities Coverage</h3>
                 <p className="text-gray-600">
-                  Round-the-clock customer support for booking assistance, changes, and emergency transportation needs.
+                  Comprehensive service throughout the Twin Cities metro, with specialized coverage in Dakota, Scott, Washington, and Ramsey counties.
                 </p>
               </CardContent>
             </Card>
