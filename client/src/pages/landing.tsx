@@ -614,10 +614,11 @@ export default function Landing() {
                     variant="outline" 
                     size="lg"
                     className="border-primary text-primary hover:bg-primary/5"
+                    onClick={() => window.open('tel:+16513506846', '_self')}
                     data-testid="book-call-button"
                   >
                     <Phone className="w-5 h-5 mr-2" />
-                    Call (555) 123-4567
+                    Call 651-350-6846
                   </Button>
                 </div>
               </div>
@@ -626,7 +627,7 @@ export default function Landing() {
           
           <div className="text-center mt-8">
             <p className="text-primary-foreground/80 mb-2">Need immediate assistance or have questions?</p>
-            <p className="text-white font-semibold">Call us at (555) 123-4567 or email info@hollytransportation.com</p>
+            <p className="text-white font-semibold">Call us at 651-350-6846 or email hollytransport04@gmail.com</p>
           </div>
         </div>
       </section>
@@ -653,7 +654,12 @@ export default function Landing() {
                     </div>
                     <div>
                       <div className="font-medium text-gray-900">Phone</div>
-                      <div className="text-gray-600">(555) 123-4567</div>
+                      <button 
+                        onClick={() => window.open('tel:+16513506846', '_self')}
+                        className="text-gray-600 hover:text-primary transition-colors"
+                      >
+                        651-350-6846
+                      </button>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
@@ -671,7 +677,7 @@ export default function Landing() {
                     </div>
                     <div>
                       <div className="font-medium text-gray-900">Address</div>
-                      <div className="text-gray-600">123 Healthcare Drive<br />Medical City, MC 12345</div>
+                      <div className="text-gray-600">19255 Clearwater Loop<br />Farmington, MN 55024</div>
                     </div>
                   </div>
                 </div>
