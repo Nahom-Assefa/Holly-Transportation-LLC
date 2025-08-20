@@ -693,19 +693,11 @@ export default function Landing() {
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">Business Hours</h4>
                 <div className="space-y-2 text-gray-600">
                   <div className="flex justify-between">
-                    <span>Monday - Friday:</span>
+                    <span>Monday - Sunday:</span>
                     <span>6:00 AM - 8:00 PM</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Saturday:</span>
-                    <span>8:00 AM - 6:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Sunday:</span>
-                    <span>10:00 AM - 4:00 PM</span>
-                  </div>
                   <div className="text-healthcare-green font-medium mt-2">
-                    6AM to 6PM Daily Service Available
+                    Daily Service Available
                   </div>
                 </div>
               </div>
