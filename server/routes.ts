@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import { insertBookingSchema, insertMessageSchema, insertContactMessageSchema } from "@shared/schema";
+import { sendContactFormNotification } from "./mailjet";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
@@ -153,6 +154,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertContactMessageSchema.parse(req.body);
       const message = await storage.createContactMessage(validatedData);
+      
+      // Send email notification
+      try {
+        await sendContactFormNotification(validatedData);
+        console.log("Email notification sent for contact form submission");
+      } catch (emailError) {
+        console.error("Failed to send email notification:", emailError);
+        // Don't fail the request if email fails
+      }
+      
       res.json(message);
     } catch (error) {
       console.error("Error creating contact message:", error);
