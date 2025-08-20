@@ -28,6 +28,7 @@ import {
   Menu,
   X
 } from "lucide-react";
+import vehicleImage from "@assets/generated_images/Professional_NEMT_transport_vehicle_77c77b8a.png";
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -256,7 +257,7 @@ export default function Landing() {
             <div className="relative">
               <div className="aspect-video bg-gradient-to-br from-primary/10 to-healthcare-green/10 rounded-2xl shadow-2xl overflow-hidden">
                 <img 
-                  src="/attached_assets/generated_images/Professional_NEMT_transport_vehicle_77c77b8a.png" 
+                  src={vehicleImage} 
                   alt="Professional NEMT transport vehicle by Holly Transportation"
                   className="w-full h-full object-cover"
                   data-testid="hero-vehicle-image"
