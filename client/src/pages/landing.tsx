@@ -263,25 +263,7 @@ export default function Landing() {
                   data-testid="hero-vehicle-image"
                 />
               </div>
-              
-              {/* Floating testimonial card */}
-              <Card className="absolute -bottom-6 -left-6 max-w-sm shadow-xl">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-healthcare-green/10 rounded-full flex items-center justify-center">
-                      <Star className="w-6 h-6 text-healthcare-green fill-current" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600">"Professional, punctual, and caring service every time."</p>
-                      <div className="flex text-yellow-400 text-xs mt-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-3 h-3 fill-current" />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+
             </div>
           </div>
         </div>
