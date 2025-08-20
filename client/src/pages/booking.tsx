@@ -187,11 +187,11 @@ export default function Booking() {
                 <Button 
                   size="lg"
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3"
-                  onClick={() => window.open('tel:+15554655901', '_self')}
+                  onClick={() => window.open('tel:+16513506846', '_self')}
                   data-testid="phone-booking-button"
                 >
                   <Phone className="w-5 h-5 mr-2" />
-                  Call (555) 465-5901
+                  Call 651-350-6846
                 </Button>
                 <p className="text-xs text-gray-500 text-center mt-1">Available 6AM - 6PM</p>
               </div>

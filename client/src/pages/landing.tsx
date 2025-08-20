@@ -229,11 +229,11 @@ export default function Landing() {
                   variant="outline" 
                   size="lg"
                   className="border-primary text-primary hover:bg-primary/5"
-                  onClick={() => window.open('tel:+15554655901', '_self')}
+                  onClick={() => window.open('tel:+16513506846', '_self')}
                   data-testid="hero-call-button"
                 >
                   <Phone className="w-5 h-5 mr-2" />
-                  Call (555) 465-5901
+                  Call 651-350-6846
                 </Button>
               </div>
               
@@ -834,19 +834,26 @@ export default function Landing() {
               <ul className="space-y-3 text-gray-400">
                 <li className="flex items-center space-x-2">
                   <Phone className="w-4 h-4 text-primary" />
-                  <span>(555) 123-4567</span>
+                  <button 
+                    onClick={() => window.open('tel:+16513506846', '_self')}
+                    className="hover:text-primary transition-colors"
+                  >
+                    651-350-6846
+                  </button>
                 </li>
                 <li className="flex items-center space-x-2">
                   <Mail className="w-4 h-4 text-primary" />
-                  <span>info@hollytransportation.com</span>
+                  <a href="mailto:hollytransport04@gmail.com" className="hover:text-primary transition-colors">
+                    hollytransport04@gmail.com
+                  </a>
                 </li>
                 <li className="flex items-center space-x-2">
                   <MapPin className="w-4 h-4 text-primary" />
-                  <span>123 Healthcare Drive<br />Medical City, MC 12345</span>
+                  <span>19255 Clearwater Loop<br />Farmington, MN 55024</span>
                 </li>
                 <li className="flex items-center space-x-2">
                   <Clock className="w-4 h-4 text-healthcare-green" />
-                  <span>24/7 Emergency Service</span>
+                  <span>6AM - 6PM Daily</span>
                 </li>
               </ul>
             </div>

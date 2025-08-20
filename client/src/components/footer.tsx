@@ -76,10 +76,10 @@ export default function Footer() {
               <li className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
                 <button 
-                  onClick={() => window.open('tel:+15554655901', '_self')}
+                  onClick={() => window.open('tel:+16513506846', '_self')}
                   className="hover:text-white transition-colors"
                 >
-                  (555) 465-5901
+                  651-350-6846
                 </button>
               </li>
               <li className="flex items-center space-x-2">
@@ -90,7 +90,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start space-x-2">
                 <MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                <span>123 Healthcare Drive<br />Medical City, MC 12345</span>
+                <span>19255 Clearwater Loop<br />Farmington, MN 55024</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Clock className="w-4 h-4 text-healthcare-green flex-shrink-0" />
