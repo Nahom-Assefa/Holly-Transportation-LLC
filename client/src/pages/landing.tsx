@@ -243,7 +243,7 @@ export default function Landing() {
                   <div className="text-sm text-gray-600">Satisfied Patients</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-healthcare-green">6-6</div>
+                  <div className="text-2xl font-bold text-healthcare-green">6AM to 6PM</div>
                   <div className="text-sm text-gray-600">Daily Hours</div>
                 </div>
                 <div className="text-center">
@@ -693,7 +693,7 @@ export default function Landing() {
                     <span>10:00 AM - 4:00 PM</span>
                   </div>
                   <div className="text-healthcare-green font-medium mt-2">
-                    6AM - 6PM Daily Service Available
+                    6AM to 6PM Daily Service Available
                   </div>
                 </div>
               </div>
@@ -853,7 +853,7 @@ export default function Landing() {
                 </li>
                 <li className="flex items-center space-x-2">
                   <Clock className="w-4 h-4 text-healthcare-green" />
-                  <span>6AM - 6PM Daily</span>
+                  <span>6AM to 6PM Daily</span>
                 </li>
               </ul>
             </div>

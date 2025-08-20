@@ -94,7 +94,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-2">
                 <Clock className="w-4 h-4 text-healthcare-green flex-shrink-0" />
-                <span>6AM - 6PM Daily</span>
+                <span>6AM to 6PM Daily</span>
               </li>
             </ul>
           </div>
