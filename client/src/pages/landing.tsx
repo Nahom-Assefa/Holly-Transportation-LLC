@@ -637,6 +637,32 @@ Sent from Holly Transportation contact form
           <div className="grid lg:grid-cols-3 gap-8 mb-12">
             <Card className="p-8 bg-white shadow-lg">
               <CardContent className="p-0">
+                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
+                  <DollarSign className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Payment Options</h3>
+                <p className="text-gray-600 mb-6">
+                  We accept multiple convenient payment methods for your transportation services.
+                </p>
+                <ul className="space-y-3 text-gray-600">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
+                    <span className="font-medium">Cash payments</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
+                    <span className="font-medium">Credit & debit cards</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
+                    <span className="font-medium">Personal checks</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+            
+            <Card className="p-8 bg-white shadow-lg">
+              <CardContent className="p-0">
                 <div className="w-16 h-16 bg-healthcare-green rounded-xl flex items-center justify-center mb-6">
                   <Shield className="w-8 h-8 text-white" />
                 </div>
@@ -660,36 +686,6 @@ Sent from Holly Transportation contact form
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
                     No-fault auto insurance
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-            
-            <Card className="p-8 bg-white shadow-lg">
-              <CardContent className="p-0">
-                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
-                  <DollarSign className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Payment Options</h3>
-                <p className="text-gray-600 mb-6">
-                  Multiple convenient payment methods available for your transportation services.
-                </p>
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    Cash payments
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    Credit & debit cards
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    Personal checks
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    Payment plans available
                   </li>
                 </ul>
               </CardContent>
