@@ -668,7 +668,7 @@ Sent from Holly Transportation contact form
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">Minnesota Medicaid (MA)</h3>
                 <p className="text-gray-600 mb-6">
-                  Minnesota's Medicaid program for people with low income.
+                  Minnesota's state healthcare program providing accessible medical transportation coverage.
                 </p>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center">
@@ -685,7 +685,7 @@ Sent from Holly Transportation contact form
                   </li>
                   <li className="flex items-center text-sm">
                     <div className="w-5 h-5 mr-3 flex-shrink-0"></div>
-                    <span className="text-gray-500 italic">For Minnesotans with low incomes who do not have access to affordable health care coverage</span>
+                    <span className="text-gray-500 italic">For Minnesotans who need affordable health care coverage options</span>
                   </li>
                 </ul>
               </CardContent>
