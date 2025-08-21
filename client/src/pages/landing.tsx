@@ -666,7 +666,7 @@ Sent from Holly Transportation contact form
                 <div className="w-16 h-16 bg-healthcare-green rounded-xl flex items-center justify-center mb-6">
                   <Shield className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Minnesota Medicaid (MA)</h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Minnesota Medicaid (MA)</h3>
                 <p className="text-gray-600 mb-6">
                   Minnesota's state healthcare program providing accessible medical transportation coverage.
                 </p>
