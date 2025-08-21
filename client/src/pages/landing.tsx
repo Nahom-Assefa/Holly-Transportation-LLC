@@ -497,8 +497,8 @@ Sent from Holly Transportation contact form
       <section id="services" className="py-20 bg-white" data-testid="services-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-black text-gray-900 mb-6 tracking-wide">Our Services</h2>
-            <p className="text-2xl text-gray-700 max-w-4xl mx-auto font-semibold leading-relaxed">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Our Services</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Comprehensive ambulatory transportation services designed to meet your medical transportation needs safely and reliably.
             </p>
           </div>
