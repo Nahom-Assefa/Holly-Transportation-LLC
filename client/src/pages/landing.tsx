@@ -412,7 +412,7 @@ Sent from Holly Transportation contact form
                 
                 <div className="bg-white rounded-lg p-6 border border-gray-200">
                   <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4">Where We Transport You</h3>
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-healthcare-green flex-shrink-0" />
                       <span className="text-lg text-gray-700 font-medium">Care Facilities</span>
