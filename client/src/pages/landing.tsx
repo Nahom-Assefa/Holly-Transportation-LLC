@@ -696,26 +696,26 @@ Sent from Holly Transportation contact form
                 <div className="w-16 h-16 bg-gray-600 rounded-xl flex items-center justify-center mb-6">
                   <Users className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Affordable Care</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Waiver Programs</h3>
                 <p className="text-gray-600 mb-6">
-                  We believe transportation should never be a barrier to healthcare access.
+                  We accept various Minnesota waiver programs to help cover your transportation costs.
                 </p>
-                <ul className="space-y-2 text-sm text-gray-600">
+                <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    Competitive rates
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
+                    <span className="font-medium">BI</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    No hidden fees
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
+                    <span className="font-medium">CAC</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    Senior discounts
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
+                    <span className="font-medium">CADI</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    Financial assistance
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
+                    <span className="font-medium">DD</span>
                   </li>
                 </ul>
               </CardContent>
