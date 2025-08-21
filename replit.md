@@ -38,6 +38,14 @@ A professional website for Holly Transportation providing NEMT ambulatory servic
 - Comprehensive admin management features
 
 ## Recent Changes
+- **August 21, 2025**: Admin portal preview and deployment preparation
+  - Created comprehensive admin portal with booking management, messaging, and analytics
+  - Added admin preview at `/admin-preview` showing full dashboard functionality
+  - Contact form now uses mailto protocol to hollytransport04@gmail.com
+  - Updated "Accessibility Ready" to "Walking Assistance" for ambulatory services
+  - Verified booking functionality with complete test scenarios
+  - Prepared admin setup instructions for production deployment
+
 - **August 20, 2025**: Complete Holly Transportation platform implemented
   - PostgreSQL database with full schema (users, bookings, messages, contact)
   - Replit authentication with user management
@@ -50,6 +58,13 @@ A professional website for Holly Transportation providing NEMT ambulatory servic
   - Contact email: hollytransport04@gmail.com
   - Mobile-responsive design throughout
   - All TypeScript errors resolved and application fully functional
+
+## Admin Setup Instructions
+After deployment, set yourself as admin by:
+1. Log in to your deployed website using Replit Auth
+2. Use the Database pane in Replit to access your production database
+3. Run SQL: `UPDATE users SET is_admin = true WHERE email = 'your-email@example.com';`
+4. Refresh the website - you'll now have access to the Admin Portal
 
 ## Technical Stack
 - React 18 with TypeScript
