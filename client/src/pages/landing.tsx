@@ -510,7 +510,7 @@ Sent from Holly Transportation contact form
                   <Heart className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Medical Appointments</h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-lg text-gray-600 mb-6">
                   Reliable transportation to and from doctor visits, specialists, routine check-ups, and medical procedures.
                 </p>
                 <ul className="space-y-2 text-sm text-gray-600">
@@ -540,7 +540,7 @@ Sent from Holly Transportation contact form
                   <Calendar className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Scheduled Transportation</h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-lg text-gray-600 mb-6">
                   Pre-planned transportation services with flexible scheduling options to accommodate your medical needs.
                 </p>
                 <ul className="space-y-2 text-sm text-gray-600">
@@ -570,7 +570,7 @@ Sent from Holly Transportation contact form
                   <Ambulance className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Specialized Support</h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-lg text-gray-600 mb-6">
                   Additional assistance and accommodations for patients with specific mobility or medical requirements.
                 </p>
                 <ul className="space-y-2 text-sm text-gray-600">
