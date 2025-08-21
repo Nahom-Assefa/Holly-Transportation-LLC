@@ -322,7 +322,7 @@ Sent from Holly Transportation contact form
                 <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
                   <Shield className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Licensed & Insured</h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Licensed & Insured</h3>
                 <p className="text-gray-600">
                   Fully licensed transportation service with comprehensive insurance coverage for your peace of mind.
                 </p>
@@ -334,7 +334,7 @@ Sent from Holly Transportation contact form
                 <div className="w-16 h-16 bg-healthcare-green/10 rounded-xl flex items-center justify-center mb-6">
                   <Clock className="w-8 h-8 text-healthcare-green" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Punctual Service</h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Punctual Service</h3>
                 <p className="text-gray-600">
                   On-time arrivals guaranteed. We understand the importance of keeping your medical appointments.
                 </p>
@@ -346,7 +346,7 @@ Sent from Holly Transportation contact form
                 <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
                   <Heart className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Compassionate Care</h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Compassionate Care</h3>
                 <p className="text-gray-600">
                   Our trained staff provides respectful, patient-centered service with attention to individual needs.
                 </p>
@@ -358,7 +358,7 @@ Sent from Holly Transportation contact form
                 <div className="w-16 h-16 bg-healthcare-green/10 rounded-xl flex items-center justify-center mb-6">
                   <Users className="w-8 h-8 text-healthcare-green" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Walking Assistance</h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Walking Assistance</h3>
                 <p className="text-gray-600">
                   Professional support for ambulatory patients who can walk independently or with minimal assistance to medical appointments.
                 </p>
@@ -370,7 +370,7 @@ Sent from Holly Transportation contact form
                 <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
                   <Smartphone className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Easy Booking</h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Easy Booking</h3>
                 <p className="text-gray-600">
                   Simple online booking system with real-time scheduling and automatic confirmation notifications.
                 </p>
@@ -382,7 +382,7 @@ Sent from Holly Transportation contact form
                 <div className="w-16 h-16 bg-healthcare-green/10 rounded-xl flex items-center justify-center mb-6">
                   <Phone className="w-8 h-8 text-healthcare-green" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">24/7 Support</h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">24/7 Support</h3>
                 <p className="text-gray-600">
                   Round-the-clock customer support for booking assistance, changes, and emergency transportation needs.
                 </p>
