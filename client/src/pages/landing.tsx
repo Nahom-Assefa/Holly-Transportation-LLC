@@ -666,26 +666,26 @@ Sent from Holly Transportation contact form
                 <div className="w-16 h-16 bg-healthcare-green rounded-xl flex items-center justify-center mb-6">
                   <Shield className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Insurance Accepted</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Minnesota Medicaid (MA)</h3>
                 <p className="text-gray-600 mb-6">
-                  We work with major insurance providers to help cover your transportation costs when medically necessary.
+                  Minnesota's Medicaid program for people with low income. MA does not require you to pay a monthly premium.
                 </p>
-                <ul className="space-y-2 text-sm text-gray-600">
+                <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    Medicare & Medicaid
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
+                    <span className="font-medium">No monthly premium required</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    Private insurance plans
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
+                    <span className="font-medium">Small co-pays: $1 - $3</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    Workers' compensation
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
+                    <span className="font-medium">MinnesotaCare available</span>
                   </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
-                    No-fault auto insurance
+                  <li className="flex items-center text-sm">
+                    <div className="w-5 h-5 mr-3 flex-shrink-0"></div>
+                    <span className="text-gray-500 italic">For Minnesotans with low incomes who do not have access to affordable health care coverage</span>
                   </li>
                 </ul>
               </CardContent>
