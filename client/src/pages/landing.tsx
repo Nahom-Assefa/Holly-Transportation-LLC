@@ -812,8 +812,8 @@ Sent from Holly Transportation contact form
           <Card className="p-8">
             <CardContent className="p-0">
               <div className="text-center py-8">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Ready to Schedule?</h3>
-                <p className="text-gray-600 mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Schedule?</h3>
+                <p className="text-lg text-gray-600 mb-6">
                   Create an account or sign in to access our easy-to-use booking system and manage your transportation needs.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -842,8 +842,8 @@ Sent from Holly Transportation contact form
           </Card>
           
           <div className="text-center mt-8">
-            <p className="text-primary-foreground/80 mb-2">Need immediate assistance or have questions?</p>
-            <p className="text-white font-semibold">Call us at (651) 500-6198 or email hollytransport04@gmail.com</p>
+            <p className="text-lg text-primary-foreground/80 mb-2">Need immediate assistance or have questions?</p>
+            <p className="text-lg text-white font-bold">Call us at (651) 500-6198 or email hollytransport04@gmail.com</p>
           </div>
         </div>
       </section>

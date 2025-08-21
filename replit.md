@@ -38,6 +38,15 @@ A professional website for Holly Transportation providing NEMT ambulatory servic
 - Comprehensive admin management features
 
 ## Recent Changes
+- **August 21, 2025**: Complete accessibility overhaul for older adults
+  - Systematically enlarged all typography throughout entire website for enhanced readability
+  - Enhanced all section headings to text-2xl lg:text-3xl font-bold minimum
+  - Enlarged all description text to text-lg (18px) minimum across all sections
+  - Improved Why Choose, About, Services, Service Areas, Payment, Billing, Booking, and Contact sections
+  - Enhanced all CTA buttons with text-xl font-bold py-6 px-8 and w-6 h-6 icons
+  - Prioritized accessibility for older adults seeking ambulatory transportation services
+  - Website deployment-ready with comprehensive accessibility improvements
+
 - **August 21, 2025**: Admin portal preview and deployment preparation
   - Created comprehensive admin portal with booking management, messaging, and analytics
   - Added admin preview at `/admin-preview` showing full dashboard functionality
