@@ -599,24 +599,24 @@ Sent from Holly Transportation contact form
           <Card className="mt-16 p-8 bg-slate-50">
             <CardContent className="p-0">
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Service Areas</h3>
-                <p className="text-gray-600">We proudly serve patients throughout the metropolitan area and surrounding communities.</p>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Service Areas</h3>
+                <p className="text-lg text-gray-600">We proudly serve patients throughout the metropolitan area and surrounding communities.</p>
               </div>
               <div className="grid md:grid-cols-3 gap-6 text-center">
                 <div>
                   <MapPin className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <h4 className="font-semibold text-gray-900">Downtown Core</h4>
-                  <p className="text-sm text-gray-600">All major medical facilities</p>
+                  <h4 className="text-lg font-bold text-gray-900">Downtown Core</h4>
+                  <p className="text-lg text-gray-600">All major medical facilities</p>
                 </div>
                 <div>
                   <MapPin className="w-8 h-8 text-healthcare-green mx-auto mb-2" />
-                  <h4 className="font-semibold text-gray-900">Suburban Areas</h4>
-                  <p className="text-sm text-gray-600">Residential communities</p>
+                  <h4 className="text-lg font-bold text-gray-900">Suburban Areas</h4>
+                  <p className="text-lg text-gray-600">Residential communities</p>
                 </div>
                 <div>
                   <MapPin className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <h4 className="font-semibold text-gray-900">Outlying Clinics</h4>
-                  <p className="text-sm text-gray-600">Extended service radius</p>
+                  <h4 className="text-lg font-bold text-gray-900">Outlying Clinics</h4>
+                  <p className="text-lg text-gray-600">Extended service radius</p>
                 </div>
               </div>
             </CardContent>
