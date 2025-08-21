@@ -906,9 +906,6 @@ Sent from Holly Transportation contact form
                     <span>Monday - Sunday:</span>
                     <span>6:00 AM - 8:00 PM</span>
                   </div>
-                  <div className="text-lg text-healthcare-green font-bold mt-2">
-                    Daily Service Available
-                  </div>
                 </div>
               </div>
               
