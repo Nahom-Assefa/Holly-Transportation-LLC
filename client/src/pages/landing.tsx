@@ -843,7 +843,7 @@ Sent from Holly Transportation contact form
           
           <div className="text-center mt-8">
             <p className="text-lg text-primary-foreground/80 mb-2">Need immediate assistance or have questions?</p>
-            <p className="text-lg text-white font-bold">Call us at (651) 500-6198 or email hollytransport04@gmail.com</p>
+            <p className="text-lg text-black font-bold">Call us at (651) 500-6198 or email hollytransport04@gmail.com</p>
           </div>
         </div>
       </section>
