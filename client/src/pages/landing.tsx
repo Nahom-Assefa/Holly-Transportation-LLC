@@ -411,35 +411,35 @@ Sent from Holly Transportation contact form
                 </p>
                 
                 <div className="bg-white rounded-lg p-6 border border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Where We Transport You</h3>
+                  <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4">Where We Transport You</h3>
                   <div className="grid sm:grid-cols-2 gap-3">
                     <div className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-healthcare-green flex-shrink-0" />
-                      <span className="text-gray-600">Care Facilities</span>
+                      <span className="text-lg text-gray-600">Care Facilities</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-healthcare-green flex-shrink-0" />
-                      <span className="text-gray-600">Cancer Treatment Centers</span>
+                      <span className="text-lg text-gray-600">Cancer Treatment Centers</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-healthcare-green flex-shrink-0" />
-                      <span className="text-gray-600">Doctor's Offices</span>
+                      <span className="text-lg text-gray-600">Doctor's Offices</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-healthcare-green flex-shrink-0" />
-                      <span className="text-gray-600">Hospital Discharge</span>
+                      <span className="text-lg text-gray-600">Hospital Discharge</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-healthcare-green flex-shrink-0" />
-                      <span className="text-gray-600">Dialysis Treatment</span>
+                      <span className="text-lg text-gray-600">Dialysis Treatment</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-healthcare-green flex-shrink-0" />
-                      <span className="text-gray-600">Rehab Centers</span>
+                      <span className="text-lg text-gray-600">Rehab Centers</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-healthcare-green flex-shrink-0" />
-                      <span className="text-gray-600">School & Day Programs</span>
+                      <span className="text-lg text-gray-600">School & Day Programs</span>
                     </div>
                   </div>
                 </div>
@@ -461,19 +461,19 @@ Sent from Holly Transportation contact form
               </div>
               
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-gray-900">Our Values</h3>
+                <h3 className="text-xl lg:text-2xl font-bold text-gray-900">Our Values</h3>
                 <ul className="space-y-3">
                   <li className="flex items-start space-x-3">
                     <CheckCircle className="w-6 h-6 text-healthcare-green mt-1 flex-shrink-0" />
-                    <span className="text-gray-600"><strong>Safety First:</strong> Every trip prioritizes passenger safety and comfort</span>
+                    <span className="text-lg text-gray-600"><strong>Safety First:</strong> Every trip prioritizes passenger safety and comfort</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <CheckCircle className="w-6 h-6 text-healthcare-green mt-1 flex-shrink-0" />
-                    <span className="text-gray-600"><strong>Reliability:</strong> Dependable service you can count on</span>
+                    <span className="text-lg text-gray-600"><strong>Reliability:</strong> Dependable service you can count on</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <CheckCircle className="w-6 h-6 text-healthcare-green mt-1 flex-shrink-0" />
-                    <span className="text-gray-600"><strong>Compassion:</strong> Understanding and respectful patient care</span>
+                    <span className="text-lg text-gray-600"><strong>Compassion:</strong> Understanding and respectful patient care</span>
                   </li>
                 </ul>
               </div>
