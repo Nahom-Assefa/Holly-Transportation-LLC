@@ -862,17 +862,17 @@ Sent from Holly Transportation contact form
             {/* Contact Information */}
             <div className="space-y-8">
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">Get in Touch</h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
                       <Phone className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900">Phone</div>
+                      <div className="text-lg font-bold text-gray-900">Phone</div>
                       <button 
                         onClick={() => window.open('tel:+16515006198', '_self')}
-                        className="text-gray-600 hover:text-primary transition-colors"
+                        className="text-lg text-gray-600 hover:text-primary transition-colors"
                       >
                         (651) 500-6198
                       </button>
@@ -883,8 +883,8 @@ Sent from Holly Transportation contact form
                       <Mail className="w-6 h-6 text-healthcare-green" />
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900">Email</div>
-                      <div className="text-gray-600">hollytransport04@gmail.com</div>
+                      <div className="text-lg font-bold text-gray-900">Email</div>
+                      <div className="text-lg text-gray-600">hollytransport04@gmail.com</div>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
@@ -892,29 +892,29 @@ Sent from Holly Transportation contact form
                       <MapPin className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900">Address</div>
-                      <div className="text-gray-600">19255 Clearwater Loop<br />Farmington, MN 55024</div>
+                      <div className="text-lg font-bold text-gray-900">Address</div>
+                      <div className="text-lg text-gray-600">19255 Clearwater Loop<br />Farmington, MN 55024</div>
                     </div>
                   </div>
                 </div>
               </div>
               
               <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-4">Business Hours</h4>
-                <div className="space-y-2 text-gray-600">
+                <h4 className="text-xl font-bold text-gray-900 mb-4">Business Hours</h4>
+                <div className="space-y-2 text-lg text-gray-600">
                   <div className="flex justify-between">
                     <span>Monday - Sunday:</span>
                     <span>6:00 AM - 8:00 PM</span>
                   </div>
-                  <div className="text-healthcare-green font-medium mt-2">
+                  <div className="text-lg text-healthcare-green font-bold mt-2">
                     Daily Service Available
                   </div>
                 </div>
               </div>
               
               <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-4">Service Coverage</h4>
-                <p className="text-gray-600">
+                <h4 className="text-xl font-bold text-gray-900 mb-4">Service Coverage</h4>
+                <p className="text-lg text-gray-600">
                   We provide ambulatory transportation services throughout the metropolitan area, 
                   including all major medical facilities, hospitals, clinics, and residential areas within a 30-mile radius.
                 </p>
@@ -924,12 +924,12 @@ Sent from Holly Transportation contact form
             {/* Contact Form */}
             <Card className="p-8 bg-slate-50">
               <CardContent className="p-0">
-                <h3 className="text-xl font-semibold text-gray-900 mb-6">Send us a Message</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
                 
                 <form onSubmit={handleContactSubmit} className="space-y-6" data-testid="contact-form">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                      <label className="block text-lg font-bold text-gray-700 mb-2">First Name *</label>
                       <Input 
                         name="firstName"
                         placeholder="John"
@@ -938,7 +938,7 @@ Sent from Holly Transportation contact form
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                      <label className="block text-lg font-bold text-gray-700 mb-2">Last Name *</label>
                       <Input 
                         name="lastName"
                         placeholder="Doe"
@@ -949,7 +949,7 @@ Sent from Holly Transportation contact form
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                    <label className="block text-lg font-bold text-gray-700 mb-2">Email Address *</label>
                     <Input 
                       name="email"
                       type="email"
@@ -960,7 +960,7 @@ Sent from Holly Transportation contact form
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    <label className="block text-lg font-bold text-gray-700 mb-2">Phone Number</label>
                     <Input 
                       name="phone"
                       type="tel"
@@ -970,7 +970,7 @@ Sent from Holly Transportation contact form
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Subject *</label>
+                    <label className="block text-lg font-bold text-gray-700 mb-2">Subject *</label>
                     <Select name="subject" required data-testid="select-subject">
                       <SelectTrigger>
                         <SelectValue placeholder="Select a subject" />
@@ -987,7 +987,7 @@ Sent from Holly Transportation contact form
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Message *</label>
+                    <label className="block text-lg font-bold text-gray-700 mb-2">Message *</label>
                     <Textarea 
                       name="message"
                       rows={4}
