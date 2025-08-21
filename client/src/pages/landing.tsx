@@ -136,6 +136,13 @@ Sent from Holly Transportation contact form
                 Services
               </button>
               <button 
+                onClick={() => scrollToSection('payment')}
+                className="text-gray-700 hover:text-primary font-medium transition-colors"
+                data-testid="nav-payment"
+              >
+                Payment
+              </button>
+              <button 
                 onClick={() => scrollToSection('contact')}
                 className="text-gray-700 hover:text-primary font-medium transition-colors"
                 data-testid="nav-contact"
@@ -201,6 +208,12 @@ Sent from Holly Transportation contact form
                 className="block w-full text-left text-gray-700 hover:text-primary font-medium"
               >
                 Services
+              </button>
+              <button 
+                onClick={() => scrollToSection('payment')}
+                className="block w-full text-left text-gray-700 hover:text-primary font-medium"
+              >
+                Payment
               </button>
               <button 
                 onClick={() => scrollToSection('contact')}
@@ -611,6 +624,185 @@ Sent from Holly Transportation contact form
         </div>
       </section>
 
+      {/* Payment Section */}
+      <section id="payment" className="py-20 bg-gradient-to-br from-slate-50 to-primary/5" data-testid="payment-section">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Payment & Insurance</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              We accept various payment methods and work with insurance providers to make transportation accessible and affordable.
+            </p>
+          </div>
+          
+          <div className="grid lg:grid-cols-3 gap-8 mb-12">
+            <Card className="p-8 bg-white shadow-lg">
+              <CardContent className="p-0">
+                <div className="w-16 h-16 bg-healthcare-green rounded-xl flex items-center justify-center mb-6">
+                  <Shield className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Insurance Accepted</h3>
+                <p className="text-gray-600 mb-6">
+                  We work with major insurance providers to help cover your transportation costs when medically necessary.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    Medicare & Medicaid
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    Private insurance plans
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    Workers' compensation
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    No-fault auto insurance
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+            
+            <Card className="p-8 bg-white shadow-lg">
+              <CardContent className="p-0">
+                <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
+                  <DollarSign className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Payment Options</h3>
+                <p className="text-gray-600 mb-6">
+                  Multiple convenient payment methods available for your transportation services.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    Cash payments
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    Credit & debit cards
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    Personal checks
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    Payment plans available
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+            
+            <Card className="p-8 bg-white shadow-lg">
+              <CardContent className="p-0">
+                <div className="w-16 h-16 bg-gray-600 rounded-xl flex items-center justify-center mb-6">
+                  <Users className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Affordable Care</h3>
+                <p className="text-gray-600 mb-6">
+                  We believe transportation should never be a barrier to healthcare access.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    Competitive rates
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    No hidden fees
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    Senior discounts
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    Financial assistance
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+          
+          {/* Billing Information */}
+          <Card className="p-8 bg-white">
+            <CardContent className="p-0">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Billing Process</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <span className="text-primary font-semibold text-sm">1</span>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900">Pre-Authorization</h4>
+                        <p className="text-gray-600 text-sm">We handle insurance pre-authorization when required for your transportation.</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-4">
+                      <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <span className="text-primary font-semibold text-sm">2</span>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900">Service Completion</h4>
+                        <p className="text-gray-600 text-sm">After your safe transport, we process billing with your insurance provider.</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-4">
+                      <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <span className="text-primary font-semibold text-sm">3</span>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900">Statement & Payment</h4>
+                        <p className="text-gray-600 text-sm">You receive a clear statement for any remaining balance after insurance.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-slate-50 rounded-lg p-6">
+                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Questions About Payment?</h4>
+                  <p className="text-gray-600 mb-4">
+                    Our billing team is here to help you understand your coverage and payment options.
+                  </p>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-3">
+                      <Phone className="w-5 h-5 text-primary" />
+                      <div>
+                        <div className="font-medium text-gray-900">Call for Billing Questions</div>
+                        <button 
+                          onClick={() => window.open('tel:+16513506846', '_self')}
+                          className="text-gray-600 hover:text-primary transition-colors"
+                        >
+                          651-350-6846
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <Mail className="w-5 h-5 text-healthcare-green" />
+                      <div>
+                        <div className="font-medium text-gray-900">Email Support</div>
+                        <a href="mailto:hollytransport04@gmail.com" className="text-gray-600 hover:text-healthcare-green transition-colors">
+                          hollytransport04@gmail.com
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-4 p-4 bg-primary/10 rounded-lg">
+                    <p className="text-sm text-gray-700">
+                      <strong>Important:</strong> Payment is never required upfront. We bill insurance first and work with you on any remaining balance.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
       {/* Booking Section */}
       <section id="book" className="py-20 bg-gradient-to-br from-primary to-primary/80" data-testid="booking-section">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -850,6 +1042,7 @@ Sent from Holly Transportation contact form
               <ul className="space-y-3 text-gray-400">
                 <li><button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">About Us</button></li>
                 <li><button onClick={() => scrollToSection('services')} className="hover:text-white transition-colors">Our Services</button></li>
+                <li><button onClick={() => scrollToSection('payment')} className="hover:text-white transition-colors">Payment & Insurance</button></li>
                 <li><button onClick={() => scrollToSection('book')} className="hover:text-white transition-colors">Book Now</button></li>
                 <li><button onClick={() => scrollToSection('contact')} className="hover:text-white transition-colors">Contact</button></li>
               </ul>
