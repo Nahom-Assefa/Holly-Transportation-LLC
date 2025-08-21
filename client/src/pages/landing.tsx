@@ -255,22 +255,22 @@ Sent from Holly Transportation contact form
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="bg-primary text-white hover:bg-primary/90"
+                  className="bg-primary text-white hover:bg-primary/90 text-xl font-bold py-6 px-8"
                   onClick={() => scrollToSection('book')}
                   data-testid="hero-book-button"
                 >
-                  <Calendar className="w-5 h-5 mr-2" />
+                  <Calendar className="w-6 h-6 mr-3" />
                   Book Transportation
                 </Button>
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="border-primary text-primary hover:bg-primary/5"
-                  onClick={() => window.open('tel:+16513506846', '_self')}
+                  className="border-primary text-primary hover:bg-primary/5 text-xl font-bold py-6 px-8"
+                  onClick={() => window.open('tel:+16515006198', '_self')}
                   data-testid="hero-call-button"
                 >
-                  <Phone className="w-5 h-5 mr-2" />
-                  Call 651-350-6846
+                  <Phone className="w-6 h-6 mr-3" />
+                  Call (651) 500-6198
                 </Button>
               </div>
               
@@ -820,20 +820,20 @@ Sent from Holly Transportation contact form
                   <Button 
                     size="lg"
                     onClick={() => window.location.href = '/api/login'}
-                    className="bg-primary text-white hover:bg-primary/90"
+                    className="bg-primary text-white hover:bg-primary/90 text-xl font-bold py-6 px-8"
                     data-testid="book-login-button"
                   >
-                    <Calendar className="w-5 h-5 mr-2" />
+                    <Calendar className="w-6 h-6 mr-3" />
                     Sign In to Book
                   </Button>
                   <Button 
                     variant="outline" 
                     size="lg"
-                    className="border-primary text-primary hover:bg-primary/5"
+                    className="border-primary text-primary hover:bg-primary/5 text-xl font-bold py-6 px-8"
                     onClick={() => window.open('tel:+16515006198', '_self')}
                     data-testid="book-call-button"
                   >
-                    <Phone className="w-5 h-5 mr-2" />
+                    <Phone className="w-6 h-6 mr-3" />
                     Call (651) 500-6198
                   </Button>
                 </div>
