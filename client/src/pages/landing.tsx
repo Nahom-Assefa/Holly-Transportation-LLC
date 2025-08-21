@@ -497,8 +497,8 @@ Sent from Holly Transportation contact form
       <section id="services" className="py-20 bg-white" data-testid="services-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Our Services</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-4xl lg:text-5xl font-black text-gray-900 mb-6 tracking-wide">Our Services</h2>
+            <p className="text-2xl text-gray-700 max-w-4xl mx-auto font-semibold leading-relaxed">
               Comprehensive ambulatory transportation services designed to meet your medical transportation needs safely and reliably.
             </p>
           </div>
@@ -513,21 +513,21 @@ Sent from Holly Transportation contact form
                 <p className="text-lg text-gray-600 mb-6">
                   Reliable transportation to and from doctor visits, specialists, routine check-ups, and medical procedures.
                 </p>
-                <ul className="space-y-2 text-sm text-gray-600">
+                <ul className="space-y-3 text-lg text-gray-700 font-medium">
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Doctor visits
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Specialist appointments
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Lab work & testing
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Physical therapy
                   </li>
                 </ul>
@@ -543,21 +543,21 @@ Sent from Holly Transportation contact form
                 <p className="text-lg text-gray-600 mb-6">
                   Pre-planned transportation services with flexible scheduling options to accommodate your medical needs.
                 </p>
-                <ul className="space-y-2 text-sm text-gray-600">
+                <ul className="space-y-3 text-lg text-gray-700 font-medium">
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Recurring appointments
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Flexible scheduling
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Advance booking
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Reminder notifications
                   </li>
                 </ul>
@@ -573,21 +573,21 @@ Sent from Holly Transportation contact form
                 <p className="text-lg text-gray-600 mb-6">
                   Additional assistance and accommodations for patients with specific mobility or medical requirements.
                 </p>
-                <ul className="space-y-2 text-sm text-gray-600">
+                <ul className="space-y-3 text-lg text-gray-700 font-medium">
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Accessibility assistance
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Walker/mobility aid support
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Medical equipment transport
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-healthcare-green mr-2 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
                     Companion assistance
                   </li>
                 </ul>
