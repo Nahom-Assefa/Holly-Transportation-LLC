@@ -668,7 +668,7 @@ Sent from Holly Transportation contact form
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">Minnesota Medicaid (MA)</h3>
                 <p className="text-gray-600 mb-6">
-                  Minnesota's Medicaid program for people with low income. MA does not require you to pay a monthly premium.
+                  Minnesota's Medicaid program for people with low income.
                 </p>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center">
