@@ -598,9 +598,9 @@ Sent from Holly Transportation contact form
           {/* Service Areas */}
           <Card className="mt-16 p-8 bg-slate-50">
             <CardContent className="p-0">
-              <div className="text-center mb-10">
-                <h3 className="text-3xl lg:text-4xl font-black text-gray-900 mb-6 tracking-wide">Service Areas</h3>
-                <p className="text-xl text-gray-700 font-semibold leading-relaxed max-w-2xl mx-auto">We proudly serve patients throughout the metropolitan area and surrounding communities with reliable ambulatory transportation.</p>
+              <div className="text-center mb-8">
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Service Areas</h3>
+                <p className="text-lg text-gray-600">We proudly serve patients throughout the metropolitan area and surrounding communities.</p>
               </div>
               <div className="grid md:grid-cols-3 gap-8 text-center">
                 <div className="bg-white/50 rounded-xl p-6 border border-gray-200 shadow-sm">
