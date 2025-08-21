@@ -9,6 +9,7 @@ import Home from "@/pages/home";
 import Booking from "@/pages/booking";
 import Dashboard from "@/pages/dashboard";
 import Admin from "@/pages/admin";
+import AdminPreview from "@/pages/admin-preview";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -17,7 +18,10 @@ function Router() {
   return (
     <Switch>
       {isLoading || !isAuthenticated ? (
-        <Route path="/" component={Landing} />
+        <>
+          <Route path="/" component={Landing} />
+          <Route path="/admin-preview" component={AdminPreview} />
+        </>
       ) : (
         <>
           <Route path="/" component={Home} />

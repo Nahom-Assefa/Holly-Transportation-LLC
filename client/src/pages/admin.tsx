@@ -52,6 +52,10 @@ export default function Admin() {
   }, [isAuthenticated, isLoading, toast]);
 
   useEffect(() => {
+    // Skip admin check for demo purposes when on /admin-demo route
+    if (window.location.pathname === '/admin-demo') {
+      return;
+    }
     if (!isLoading && isAuthenticated && user && !user.isAdmin) {
       toast({
         title: "Access Denied",
@@ -65,22 +69,25 @@ export default function Admin() {
     }
   }, [user, isAuthenticated, isLoading, toast]);
 
+  // Determine if this is demo mode
+  const isDemo = window.location.pathname === '/admin-demo';
+  
   // Fetch admin stats
   const { data: stats = {}, isLoading: statsLoading } = useQuery<any>({
-    queryKey: ["/api/admin/stats"],
-    enabled: !!user?.isAdmin,
+    queryKey: isDemo ? ["/api/admin/demo-stats"] : ["/api/admin/stats"],
+    enabled: isDemo || !!user?.isAdmin,
   });
 
   // Fetch all bookings
   const { data: bookings = [], isLoading: bookingsLoading } = useQuery<any[]>({
-    queryKey: ["/api/bookings"],
-    enabled: !!user?.isAdmin,
+    queryKey: isDemo ? ["/api/admin/demo-bookings"] : ["/api/bookings"],
+    enabled: isDemo || !!user?.isAdmin,
   });
 
   // Fetch all messages
   const { data: messages = [], isLoading: messagesLoading } = useQuery<any[]>({
-    queryKey: ["/api/messages"],
-    enabled: !!user?.isAdmin,
+    queryKey: isDemo ? ["/api/admin/demo-messages"] : ["/api/messages"],
+    enabled: isDemo || !!user?.isAdmin,
   });
 
   // Fetch contact messages
@@ -199,7 +206,8 @@ export default function Admin() {
     );
   }
 
-  if (!isAuthenticated || !user || !user.isAdmin) {
+  // Allow demo access for /admin-demo route
+  if (window.location.pathname !== '/admin-demo' && (!isAuthenticated || !user || !user.isAdmin)) {
     return null;
   }
 
@@ -216,8 +224,13 @@ export default function Admin() {
               Back to Home
             </Link>
           </Button>
-          <h1 className="text-3xl font-bold text-gray-900" data-testid="admin-title">Admin Portal</h1>
-          <p className="text-gray-600 mt-2">Holly Transportation Management Dashboard</p>
+          <h1 className="text-3xl font-bold text-gray-900" data-testid="admin-title">
+            Admin Portal {isDemo && <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded ml-2">DEMO</span>}
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Holly Transportation Management Dashboard
+            {isDemo && " - Preview Mode"}
+          </p>
         </div>
 
         {/* Quick Stats */}
