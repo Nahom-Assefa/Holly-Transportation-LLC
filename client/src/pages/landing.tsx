@@ -108,8 +108,8 @@ Sent from Holly Transportation contact form
                 <Ambulance className="text-white text-lg" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-primary">Holly Transportation</h1>
-                <p className="text-xs text-gray-500">Professional Ambulatory Services</p>
+                <h1 className="text-xl lg:text-3xl font-bold text-primary">Holly Transportation</h1>
+                <p className="text-xs lg:text-sm text-gray-500">Professional Ambulatory Services</p>
               </div>
             </div>
             
