@@ -640,7 +640,7 @@ Sent from Holly Transportation contact form
                 <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
                   <DollarSign className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Payment Options</h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Payment Options</h3>
                 <p className="text-gray-600 mb-6">
                   We accept multiple convenient payment methods for your transportation services.
                 </p>
@@ -696,7 +696,7 @@ Sent from Holly Transportation contact form
                 <div className="w-16 h-16 bg-gray-600 rounded-xl flex items-center justify-center mb-6">
                   <Users className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Waiver Programs</h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Waiver Programs</h3>
                 <p className="text-gray-600 mb-6">
                   We accept various Minnesota waiver programs to help cover your transportation costs.
                 </p>
