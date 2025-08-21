@@ -904,7 +904,7 @@ Sent from Holly Transportation contact form
                 <div className="space-y-2 text-lg text-gray-600">
                   <div className="flex justify-between">
                     <span>Monday - Sunday:</span>
-                    <span>6:00 AM - 8:00 PM</span>
+                    <span className="text-healthcare-green font-bold">6:00 AM - 8:00 PM</span>
                   </div>
                 </div>
               </div>
