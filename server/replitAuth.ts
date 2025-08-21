@@ -24,21 +24,15 @@ const getOidcConfig = memoize(
 
 export function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
-  const pgStore = connectPg(session);
-  const sessionStore = new pgStore({
-    conString: process.env.DATABASE_URL,
-    createTableIfMissing: false,
-    ttl: sessionTtl,
-    tableName: "sessions",
-  });
+  
+  // Use memory store temporarily for debugging
   return session({
     secret: process.env.SESSION_SECRET!,
-    store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: true,
+      secure: false, // Set to false for development
       maxAge: sessionTtl,
     },
   });
@@ -67,12 +61,24 @@ async function upsertUser(
 }
 
 export async function setupAuth(app: Express) {
+  console.log('Setting up authentication...');
+  console.log('REPLIT_DOMAINS:', process.env.REPLIT_DOMAINS);
+  console.log('REPL_ID exists:', !!process.env.REPL_ID);
+  console.log('SESSION_SECRET exists:', !!process.env.SESSION_SECRET);
+  
   app.set("trust proxy", 1);
   app.use(getSession());
   app.use(passport.initialize());
   app.use(passport.session());
 
-  const config = await getOidcConfig();
+  let config;
+  try {
+    config = await getOidcConfig();
+    console.log('OIDC config loaded successfully');
+  } catch (error) {
+    console.error('Failed to load OIDC config:', error);
+    throw error;
+  }
 
   const verify: VerifyFunction = async (
     tokens: client.TokenEndpointResponse & client.TokenEndpointResponseHelpers,
@@ -102,14 +108,19 @@ export async function setupAuth(app: Express) {
   passport.deserializeUser((user: Express.User, cb) => cb(null, user));
 
   app.get("/api/login", (req, res, next) => {
-    passport.authenticate(`replitauth:${req.hostname}`, {
+    console.log('Login request hostname:', req.hostname);
+    console.log('Available domains:', process.env.REPLIT_DOMAINS);
+    
+    const domain = process.env.REPLIT_DOMAINS!.split(",")[0]; // Use the first domain
+    passport.authenticate(`replitauth:${domain}`, {
       prompt: "login consent",
       scope: ["openid", "email", "profile", "offline_access"],
     })(req, res, next);
   });
 
   app.get("/api/callback", (req, res, next) => {
-    passport.authenticate(`replitauth:${req.hostname}`, {
+    const domain = process.env.REPLIT_DOMAINS!.split(",")[0]; // Use the first domain
+    passport.authenticate(`replitauth:${domain}`, {
       successReturnToOrRedirect: "/",
       failureRedirect: "/api/login",
     })(req, res, next);
