@@ -774,10 +774,10 @@ Sent from Holly Transportation contact form
                       <div>
                         <div className="font-medium text-gray-900">Call for Billing Questions</div>
                         <button 
-                          onClick={() => window.open('tel:+16513506846', '_self')}
+                          onClick={() => window.open('tel:+16515006198', '_self')}
                           className="text-gray-600 hover:text-primary transition-colors"
                         >
-                          651-350-6846
+                          (651) 500-6198
                         </button>
                       </div>
                     </div>
@@ -834,11 +834,11 @@ Sent from Holly Transportation contact form
                     variant="outline" 
                     size="lg"
                     className="border-primary text-primary hover:bg-primary/5"
-                    onClick={() => window.open('tel:+16513506846', '_self')}
+                    onClick={() => window.open('tel:+16515006198', '_self')}
                     data-testid="book-call-button"
                   >
                     <Phone className="w-5 h-5 mr-2" />
-                    Call 651-350-6846
+                    Call (651) 500-6198
                   </Button>
                 </div>
               </div>
@@ -847,7 +847,7 @@ Sent from Holly Transportation contact form
           
           <div className="text-center mt-8">
             <p className="text-primary-foreground/80 mb-2">Need immediate assistance or have questions?</p>
-            <p className="text-white font-semibold">Call us at 651-350-6846 or email hollytransport04@gmail.com</p>
+            <p className="text-white font-semibold">Call us at (651) 500-6198 or email hollytransport04@gmail.com</p>
           </div>
         </div>
       </section>
@@ -875,10 +875,10 @@ Sent from Holly Transportation contact form
                     <div>
                       <div className="font-medium text-gray-900">Phone</div>
                       <button 
-                        onClick={() => window.open('tel:+16513506846', '_self')}
+                        onClick={() => window.open('tel:+16515006198', '_self')}
                         className="text-gray-600 hover:text-primary transition-colors"
                       >
-                        651-350-6846
+                        (651) 500-6198
                       </button>
                     </div>
                   </div>
@@ -1054,10 +1054,10 @@ Sent from Holly Transportation contact form
                 <li className="flex items-center space-x-2">
                   <Phone className="w-4 h-4 text-primary" />
                   <button 
-                    onClick={() => window.open('tel:+16513506846', '_self')}
+                    onClick={() => window.open('tel:+16515006198', '_self')}
                     className="hover:text-primary transition-colors"
                   >
-                    651-350-6846
+                    (651) 500-6198
                   </button>
                 </li>
                 <li className="flex items-center space-x-2">

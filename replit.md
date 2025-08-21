@@ -53,7 +53,7 @@ A professional website for Holly Transportation providing NEMT ambulatory servic
   - Admin portal with booking management and messaging
   - Real-time messaging system between users and admin
   - Professional landing page with contact form
-  - Phone booking feature with click-to-call functionality 651-350-6846
+  - Phone booking feature with click-to-call functionality (651) 500-6198
   - Business hours updated to 6AM - 6PM daily
   - Contact email: hollytransport04@gmail.com
   - Mobile-responsive design throughout
