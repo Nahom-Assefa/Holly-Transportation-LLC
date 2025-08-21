@@ -323,7 +323,7 @@ Sent from Holly Transportation contact form
                   <Shield className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Licensed & Insured</h3>
-                <p className="text-gray-600">
+                <p className="text-lg text-gray-600">
                   Fully licensed transportation service with comprehensive insurance coverage for your peace of mind.
                 </p>
               </CardContent>
@@ -335,7 +335,7 @@ Sent from Holly Transportation contact form
                   <Clock className="w-8 h-8 text-healthcare-green" />
                 </div>
                 <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Punctual Service</h3>
-                <p className="text-gray-600">
+                <p className="text-lg text-gray-600">
                   On-time arrivals guaranteed. We understand the importance of keeping your medical appointments.
                 </p>
               </CardContent>
@@ -347,7 +347,7 @@ Sent from Holly Transportation contact form
                   <Heart className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Compassionate Care</h3>
-                <p className="text-gray-600">
+                <p className="text-lg text-gray-600">
                   Our trained staff provides respectful, patient-centered service with attention to individual needs.
                 </p>
               </CardContent>
@@ -359,7 +359,7 @@ Sent from Holly Transportation contact form
                   <Users className="w-8 h-8 text-healthcare-green" />
                 </div>
                 <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Walking Assistance</h3>
-                <p className="text-gray-600">
+                <p className="text-lg text-gray-600">
                   Professional support for ambulatory patients who can walk independently or with minimal assistance to medical appointments.
                 </p>
               </CardContent>
@@ -371,7 +371,7 @@ Sent from Holly Transportation contact form
                   <Smartphone className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Easy Booking</h3>
-                <p className="text-gray-600">
+                <p className="text-lg text-gray-600">
                   Simple online booking system with real-time scheduling and automatic confirmation notifications.
                 </p>
               </CardContent>
@@ -383,7 +383,7 @@ Sent from Holly Transportation contact form
                   <Phone className="w-8 h-8 text-healthcare-green" />
                 </div>
                 <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">24/7 Support</h3>
-                <p className="text-gray-600">
+                <p className="text-lg text-gray-600">
                   Round-the-clock customer support for booking assistance, changes, and emergency transportation needs.
                 </p>
               </CardContent>
