@@ -727,15 +727,15 @@ Sent from Holly Transportation contact form
             <CardContent className="p-0">
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Billing Process</h3>
+                  <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">Billing Process</h3>
                   <div className="space-y-4">
                     <div className="flex items-start space-x-4">
                       <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                         <span className="text-primary font-semibold text-sm">1</span>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-900">Pre-Authorization</h4>
-                        <p className="text-gray-600 text-sm">We handle insurance pre-authorization when required for your transportation.</p>
+                        <h4 className="text-lg font-bold text-gray-900">Pre-Authorization</h4>
+                        <p className="text-lg text-gray-600">We handle insurance pre-authorization when required for your transportation.</p>
                       </div>
                     </div>
                     <div className="flex items-start space-x-4">
@@ -743,8 +743,8 @@ Sent from Holly Transportation contact form
                         <span className="text-primary font-semibold text-sm">2</span>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-900">Service Completion</h4>
-                        <p className="text-gray-600 text-sm">After your safe transport, we process billing with your insurance provider.</p>
+                        <h4 className="text-lg font-bold text-gray-900">Service Completion</h4>
+                        <p className="text-lg text-gray-600">After your safe transport, we process billing with your insurance provider.</p>
                       </div>
                     </div>
                     <div className="flex items-start space-x-4">
@@ -752,26 +752,26 @@ Sent from Holly Transportation contact form
                         <span className="text-primary font-semibold text-sm">3</span>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-900">Statement & Payment</h4>
-                        <p className="text-gray-600 text-sm">You receive a clear statement for any remaining balance after insurance.</p>
+                        <h4 className="text-lg font-bold text-gray-900">Statement & Payment</h4>
+                        <p className="text-lg text-gray-600">You receive a clear statement for any remaining balance after insurance.</p>
                       </div>
                     </div>
                   </div>
                 </div>
                 
                 <div className="bg-slate-50 rounded-lg p-6">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Questions About Payment?</h4>
-                  <p className="text-gray-600 mb-4">
+                  <h4 className="text-xl font-bold text-gray-900 mb-4">Questions About Payment?</h4>
+                  <p className="text-lg text-gray-600 mb-4">
                     Our billing team is here to help you understand your coverage and payment options.
                   </p>
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
                       <Phone className="w-5 h-5 text-primary" />
                       <div>
-                        <div className="font-medium text-gray-900">Call for Billing Questions</div>
+                        <div className="text-lg font-bold text-gray-900">Call for Billing Questions</div>
                         <button 
                           onClick={() => window.open('tel:+16515006198', '_self')}
-                          className="text-gray-600 hover:text-primary transition-colors"
+                          className="text-lg text-gray-600 hover:text-primary transition-colors"
                         >
                           (651) 500-6198
                         </button>
@@ -780,15 +780,15 @@ Sent from Holly Transportation contact form
                     <div className="flex items-center space-x-3">
                       <Mail className="w-5 h-5 text-healthcare-green" />
                       <div>
-                        <div className="font-medium text-gray-900">Email Support</div>
-                        <a href="mailto:hollytransport04@gmail.com" className="text-gray-600 hover:text-healthcare-green transition-colors">
+                        <div className="text-lg font-bold text-gray-900">Email Support</div>
+                        <a href="mailto:hollytransport04@gmail.com" className="text-lg text-gray-600 hover:text-healthcare-green transition-colors">
                           hollytransport04@gmail.com
                         </a>
                       </div>
                     </div>
                   </div>
                   <div className="mt-4 p-4 bg-primary/10 rounded-lg">
-                    <p className="text-sm text-gray-700">
+                    <p className="text-lg text-gray-700">
                       <strong>Important:</strong> Payment is never required upfront. We bill insurance first and work with you on any remaining balance.
                     </p>
                   </div>
