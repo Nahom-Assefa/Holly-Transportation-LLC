@@ -419,7 +419,7 @@ Sent from Holly Transportation contact form
                     </div>
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-healthcare-green flex-shrink-0" />
-                      <span className="text-lg text-gray-700 font-medium">Cancer Treatment Centers</span>
+                      <span className="text-lg text-gray-700 font-medium">Cancer Centers</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-healthcare-green flex-shrink-0" />
