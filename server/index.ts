@@ -1,7 +1,17 @@
+/**
+ * Holly Transportation Server Entry Point
+ * 
+ * @description Main server file for Holly Transportation NEMT application.
+ * Sets up Express server, authentication, API routes, database connections,
+ * and development/production static file serving.
+ */
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
+/**
+ * Main Express application instance
+ */
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -15,7 +15,13 @@ import {
 import { db } from "./db";
 import { eq, desc, and, count } from "drizzle-orm";
 
-// Interface for storage operations
+/**
+ * Storage interface defining all database operations for Holly Transportation
+ * 
+ * @description Comprehensive interface for user management, booking operations,
+ * messaging system, and admin functionality. Ensures consistent data access
+ * patterns across the application.
+ */
 export interface IStorage {
   // User operations
   // (IMPORTANT) these user operations are mandatory for Replit Auth.
@@ -50,14 +56,34 @@ export interface IStorage {
   }>;
 }
 
+/**
+ * Database storage implementation for Holly Transportation
+ * 
+ * @description Production-ready storage class implementing all business logic
+ * for user management, booking operations, messaging, and admin functionality.
+ * Uses Drizzle ORM with PostgreSQL for reliable data persistence.
+ */
 export class DatabaseStorage implements IStorage {
   // User operations
   // (IMPORTANT) these user operations are mandatory for Replit Auth.
+  
+  /**
+   * Retrieves a user by their unique identifier
+   * 
+   * @param {string} id - The user's unique identifier from authentication
+   * @returns {Promise<User | undefined>} The user object or undefined if not found
+   */
   async getUser(id: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
   }
 
+  /**
+   * Creates or updates a user record
+   * 
+   * @param {UpsertUser} userData - User data to insert or update
+   * @returns {Promise<User>} The created or updated user object
+   */
   async upsertUser(userData: UpsertUser): Promise<User> {
     const [user] = await db
       .insert(users)
@@ -74,6 +100,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Booking operations
+  
+  /**
+   * Creates a new transportation booking
+   * 
+   * @param {InsertBooking} booking - Booking data to create
+   * @returns {Promise<Booking>} The created booking object
+   */
   async createBooking(booking: InsertBooking): Promise<Booking> {
     const [newBooking] = await db
       .insert(bookings)
@@ -82,6 +115,12 @@ export class DatabaseStorage implements IStorage {
     return newBooking;
   }
 
+  /**
+   * Retrieves all bookings for a specific user
+   * 
+   * @param {string} userId - The user's unique identifier
+   * @returns {Promise<Booking[]>} Array of user's bookings ordered by creation date
+   */
   async getBookingsByUser(userId: string): Promise<Booking[]> {
     return await db
       .select()
@@ -90,6 +129,11 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(bookings.createdAt));
   }
 
+  /**
+   * Retrieves all bookings across all users (admin function)
+   * 
+   * @returns {Promise<Booking[]>} Array of all bookings ordered by creation date
+   */
   async getAllBookings(): Promise<Booking[]> {
     return await db
       .select()

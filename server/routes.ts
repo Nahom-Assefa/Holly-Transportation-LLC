@@ -4,7 +4,16 @@ import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import { insertBookingSchema, insertMessageSchema, insertContactMessageSchema } from "@shared/schema";
 
-
+/**
+ * Registers all API routes for Holly Transportation
+ * 
+ * @description Sets up authentication middleware and all API endpoints including
+ * user management, booking operations, messaging system, and admin functionality.
+ * Handles request validation, error responses, and database interactions.
+ * 
+ * @param {Express} app - Express application instance
+ * @returns {Promise<Server>} HTTP server instance for the application
+ */
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   await setupAuth(app);
