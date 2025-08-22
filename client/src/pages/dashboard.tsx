@@ -198,6 +198,12 @@ export default function Dashboard() {
                               <Clock className="w-4 h-4 mr-1" />
                               {booking.pickupDate} at {booking.pickupTime}
                             </div>
+                            {booking.phone && (
+                              <div className="text-sm text-gray-600 flex items-center mt-1">
+                                <Phone className="w-4 h-4 mr-1" />
+                                <a href={`tel:${booking.phone}`} className="hover:text-primary">{booking.phone}</a>
+                              </div>
+                            )}
                           </div>
                           <Badge className={getStatusColor(booking.status || 'pending')}>
                             {booking.status || 'pending'}
@@ -213,6 +219,9 @@ export default function Dashboard() {
                           </div>
                           <div><strong>Service:</strong> {formatServiceType(booking.serviceType)}</div>
                           <div><strong>Mobility:</strong> {formatMobilityAssistance(booking.mobilityAssistance)}</div>
+                          {user.isAdmin && booking.createdAt && (
+                            <div><strong>Booked:</strong> {new Date(booking.createdAt).toLocaleDateString()} at {new Date(booking.createdAt).toLocaleTimeString()}</div>
+                          )}
                           {booking.notes && <div><strong>Notes:</strong> {booking.notes}</div>}
                         </div>
                       </Card>
