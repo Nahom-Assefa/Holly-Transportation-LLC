@@ -120,6 +120,21 @@ export default function Booking() {
       return;
     }
 
+    // Validate pickup time is within business hours (6am - 9pm)
+    if (formData.pickupTime) {
+      const [hours, minutes] = formData.pickupTime.split(':').map(Number);
+      const timeIn24Hour = hours + minutes / 60;
+      
+      if (timeIn24Hour < 6 || timeIn24Hour > 21) {
+        toast({
+          title: "Invalid Pickup Time",
+          description: "Please select a pickup time between 6:00 AM and 9:00 PM. Our service hours are 6AM to 9PM daily.",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     bookingMutation.mutate({
       patientName: formData.patientName,
       phone: formData.phone,
@@ -268,8 +283,6 @@ export default function Booking() {
                     type="time"
                     value={formData.pickupTime}
                     onChange={(e) => handleInputChange("pickupTime", e.target.value)}
-                    min="06:00"
-                    max="21:00"
                     required
                     data-testid="input-pickup-time"
                   />
