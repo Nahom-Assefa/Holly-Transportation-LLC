@@ -207,9 +207,26 @@ export function setupLocalAuth(app: Express) {
  */
 async function createDefaultUsers() {
   try {
-    // Check if admin already exists
+    // Check if admin already exists by username or email
     const existingAdmin = await storage.getUserByUsername("admin");
-    if (existingAdmin) return;
+    if (existingAdmin) {
+      console.log("✅ Default users already exist");
+      return;
+    }
+    
+    // Check if email exists
+    const existingEmailAdmin = await storage.getUserByEmail("admin@hollytransportation.com");
+    if (existingEmailAdmin && !existingEmailAdmin.username) {
+      // Update existing user with username and password
+      const adminPassword = await hashPassword("admin123");
+      await storage.updateUser(existingEmailAdmin.id, {
+        username: "admin",
+        password: adminPassword,
+        isAdmin: true
+      });
+      console.log("✅ Updated existing admin user with local auth credentials");
+      return;
+    }
 
     // Create admin user
     const adminPassword = await hashPassword("admin123");

@@ -32,6 +32,7 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createLocalUser(userData: any): Promise<User>;
+  updateUser(id: string, userData: any): Promise<User>;
   
   // Booking operations
   createBooking(booking: InsertBooking): Promise<Booking>;
@@ -115,6 +116,22 @@ export class DatabaseStorage implements IStorage {
     const [user] = await db
       .insert(users)
       .values(userData)
+      .returning();
+    return user;
+  }
+
+  /**
+   * Updates an existing user record
+   * 
+   * @param {string} id - User ID to update
+   * @param {any} userData - User data to update
+   * @returns {Promise<User>} The updated user object
+   */
+  async updateUser(id: string, userData: any): Promise<User> {
+    const [user] = await db
+      .update(users)
+      .set({ ...userData, updatedAt: new Date() })
+      .where(eq(users.id, id))
       .returning();
     return user;
   }
