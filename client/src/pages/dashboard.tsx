@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import type { Booking, Message, InsertMessage } from "@shared/schema";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { isUnauthorizedError } from "@/lib/authUtils";
@@ -67,20 +68,20 @@ export default function Dashboard() {
   }, [user]);
 
   // Fetch bookings
-  const { data: bookings = [], isLoading: bookingsLoading } = useQuery<any[]>({
+  const { data: bookings = [], isLoading: bookingsLoading } = useQuery<Booking[]>({
     queryKey: ["/api/bookings"],
     enabled: !!user,
   });
 
   // Fetch messages
-  const { data: messages = [], isLoading: messagesLoading } = useQuery<any[]>({
+  const { data: messages = [], isLoading: messagesLoading } = useQuery<Message[]>({
     queryKey: ["/api/messages"],
     enabled: !!user,
   });
 
   // Send message mutation
   const sendMessageMutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: Pick<InsertMessage, 'subject' | 'message'>) => {
       await apiRequest("POST", "/api/messages", data);
     },
     onSuccess: () => {
@@ -225,7 +226,7 @@ export default function Dashboard() {
                   </div>
                 ) : bookings && bookings.length > 0 ? (
                   <div className="space-y-4">
-                    {bookings.map((booking: any) => (
+                    {bookings.map((booking: Booking) => (
                       <Card key={booking.id} className="p-6" data-testid={`booking-${booking.id}`}>
                         <div className="flex justify-between items-start mb-4">
                           <div>
@@ -396,7 +397,7 @@ export default function Dashboard() {
                   </div>
                 ) : messages && messages.length > 0 ? (
                   <div className="space-y-4">
-                    {messages.map((message: any) => (
+                    {messages.map((message: Message) => (
                       <Card key={message.id} className="p-6" data-testid={`message-${message.id}`}>
                         <div className="flex items-start space-x-4">
                           <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">

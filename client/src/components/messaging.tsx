@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import type { Message, InsertMessage } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -23,7 +24,7 @@ export default function Messaging() {
   });
 
   // Fetch messages
-  const { data: messages = [], isLoading: messagesLoading } = useQuery<any[]>({
+  const { data: messages = [], isLoading: messagesLoading } = useQuery<Message[]>({
     queryKey: ["/api/messages"],
     enabled: !!user && isAuthenticated,
     refetchInterval: 30000, // Refetch every 30 seconds
@@ -31,7 +32,7 @@ export default function Messaging() {
 
   // Send message mutation
   const sendMessageMutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: Pick<InsertMessage, 'subject' | 'message'>) => {
       await apiRequest("POST", "/api/messages", data);
     },
     onSuccess: () => {
@@ -69,7 +70,7 @@ export default function Messaging() {
     }
   };
 
-  const unreadMessages = messages?.filter((msg: any) => !msg.response).length || 0;
+  const unreadMessages = messages?.filter((msg: Message) => !msg.response).length || 0;
 
   if (!isAuthenticated || !user) {
     return null;
@@ -157,7 +158,7 @@ export default function Messaging() {
                   </div>
                 ) : messages && messages.length > 0 ? (
                   <div className="space-y-4 max-h-64 overflow-y-auto">
-                    {messages.map((message: any) => (
+                    {messages.map((message: Message) => (
                       <Card key={message.id} className="p-4" data-testid={`message-${message.id}`}>
                         <div className="space-y-3">
                           <div className="flex justify-between items-start">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import type { InsertBooking } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { isUnauthorizedError } from "@/lib/authUtils";
@@ -56,7 +57,7 @@ export default function Booking() {
   }, [user]);
 
   const bookingMutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: Omit<InsertBooking, 'userId'>) => {
       await apiRequest("POST", "/api/bookings", data);
     },
     onSuccess: () => {

@@ -30,6 +30,7 @@ import {
   Trash2
 } from "lucide-react";
 import { Link } from "wouter";
+import type { Booking, Message, ContactMessage } from "@shared/schema";
 
 export default function Admin() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -73,25 +74,30 @@ export default function Admin() {
   const isDemo = window.location.pathname === '/admin-demo';
   
   // Fetch admin stats
-  const { data: stats = {}, isLoading: statsLoading } = useQuery<any>({
+  const { data: stats = {}, isLoading: statsLoading } = useQuery<{
+    todayBookings: number;
+    activeUsers: number;
+    pendingMessages: number;
+    totalRevenue: number;
+  }>({
     queryKey: isDemo ? ["/api/admin/demo-stats"] : ["/api/admin/stats"],
     enabled: isDemo || !!user?.isAdmin,
   });
 
   // Fetch all bookings
-  const { data: bookings = [], isLoading: bookingsLoading } = useQuery<any[]>({
+  const { data: bookings = [], isLoading: bookingsLoading } = useQuery<Booking[]>({
     queryKey: isDemo ? ["/api/admin/demo-bookings"] : ["/api/bookings"],
     enabled: isDemo || !!user?.isAdmin,
   });
 
   // Fetch all messages
-  const { data: messages = [], isLoading: messagesLoading } = useQuery<any[]>({
+  const { data: messages = [], isLoading: messagesLoading } = useQuery<Message[]>({
     queryKey: isDemo ? ["/api/admin/demo-messages"] : ["/api/messages"],
     enabled: isDemo || !!user?.isAdmin,
   });
 
   // Fetch contact messages
-  const { data: contactMessages = [], isLoading: contactMessagesLoading } = useQuery<any[]>({
+  const { data: contactMessages = [], isLoading: contactMessagesLoading } = useQuery<ContactMessage[]>({
     queryKey: ["/api/admin/contact-messages"],
     enabled: !!user?.isAdmin,
   });
@@ -191,7 +197,7 @@ export default function Admin() {
     }
   };
 
-  const filteredBookings = bookings?.filter((booking: any) => 
+  const filteredBookings = bookings?.filter((booking: Booking) => 
     bookingStatusFilter === "all" || booking.status === bookingStatusFilter
   ) || [];
 
@@ -324,7 +330,7 @@ export default function Admin() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {filteredBookings.map((booking: any) => (
+                        {filteredBookings.map((booking: Booking) => (
                           <TableRow key={booking.id} data-testid={`booking-row-${booking.id}`}>
                             <TableCell>
                               <div>
@@ -432,7 +438,7 @@ export default function Admin() {
                     </div>
                   ) : messages && messages.length > 0 ? (
                     <div className="space-y-4 max-h-96 overflow-y-auto">
-                      {messages.map((message: any) => (
+                      {messages.map((message: Message) => (
                         <Card key={message.id} className="p-4" data-testid={`user-message-${message.id}`}>
                           <div className="space-y-3">
                             <div className="flex justify-between items-start">
@@ -500,7 +506,7 @@ export default function Admin() {
                     </div>
                   ) : contactMessages && contactMessages.length > 0 ? (
                     <div className="space-y-4 max-h-96 overflow-y-auto">
-                      {contactMessages.map((message: any) => (
+                      {contactMessages.map((message: ContactMessage) => (
                         <Card key={message.id} className="p-4" data-testid={`contact-message-${message.id}`}>
                           <div className="space-y-3">
                             <div className="flex justify-between items-start">

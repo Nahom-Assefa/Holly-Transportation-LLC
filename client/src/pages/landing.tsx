@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
+import type { InsertContactMessage } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { 
@@ -37,7 +38,7 @@ export default function Landing() {
 
   // Contact form mutation
   const contactMutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: InsertContactMessage) => {
       await apiRequest("POST", "/api/contact", data);
     },
     onSuccess: () => {
