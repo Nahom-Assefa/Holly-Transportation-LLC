@@ -120,6 +120,21 @@ export default function Booking() {
       return;
     }
 
+    // Validate phone number format
+    if (formData.phone) {
+      const phoneRegex = /^[\+]?[1-9][\d]{0,15}$|^[\+]?[(]?[\d\s\-\(\)]{10,17}$/;
+      const cleanPhone = formData.phone.replace(/[\s\-\(\)]/g, '');
+      
+      if (!phoneRegex.test(formData.phone) || cleanPhone.length < 10 || cleanPhone.length > 15) {
+        toast({
+          title: "Invalid Phone Number",
+          description: "Please enter a valid phone number (e.g., (555) 123-4567 or 555-123-4567).",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     // Validate pickup time is within business hours (6am - 9pm)
     if (formData.pickupTime) {
       const [hours, minutes] = formData.pickupTime.split(':').map(Number);
