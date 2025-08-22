@@ -19,7 +19,7 @@ export default function Messaging() {
   const { user, isAuthenticated } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
-  if (!isAuthenticated || !user) {
+  if (!isAuthenticated || !user || user.isAdmin) {
     return null;
   }
 

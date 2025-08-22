@@ -154,10 +154,12 @@ export default function Dashboard() {
         </div>
 
         <Tabs defaultValue="bookings" className="space-y-6" data-testid="dashboard-tabs">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className={`grid w-full ${user.isAdmin ? 'grid-cols-2' : 'grid-cols-3'}`}>
             <TabsTrigger value="bookings" data-testid="tab-bookings">My Bookings</TabsTrigger>
             <TabsTrigger value="profile" data-testid="tab-profile">Profile Settings</TabsTrigger>
-            <TabsTrigger value="messages" data-testid="tab-messages">Contact Support</TabsTrigger>
+            {!user.isAdmin && (
+              <TabsTrigger value="messages" data-testid="tab-messages">Contact Support</TabsTrigger>
+            )}
           </TabsList>
 
           {/* Bookings Tab */}
@@ -296,7 +298,8 @@ export default function Dashboard() {
           </TabsContent>
 
           {/* Messages Tab - Now uses mailto protocol */}
-          <TabsContent value="messages" className="space-y-6" data-testid="messages-content">
+          {!user.isAdmin && (
+            <TabsContent value="messages" className="space-y-6" data-testid="messages-content">
             <Card>
               <CardHeader>
                 <div className="flex justify-between items-center">
@@ -369,6 +372,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </TabsContent>
+          )}
         </Tabs>
       </div>
 
