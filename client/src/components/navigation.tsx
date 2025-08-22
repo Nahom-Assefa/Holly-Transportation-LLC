@@ -36,12 +36,14 @@ export default function Navigation() {
               <Button variant="ghost" asChild data-testid="nav-home">
                 <Link href="/">Home</Link>
               </Button>
-              <Button variant="ghost" asChild data-testid="nav-book">
-                <Link href="/book">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Book Ride
-                </Link>
-              </Button>
+              {!user?.isAdmin && (
+                <Button variant="ghost" asChild data-testid="nav-book">
+                  <Link href="/book">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Book Ride
+                  </Link>
+                </Button>
+              )}
               <Button variant="ghost" asChild data-testid="nav-dashboard">
                 <Link href="/dashboard">
                   <User className="w-4 h-4 mr-2" />
@@ -87,12 +89,14 @@ export default function Navigation() {
                         <span>My Account</span>
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/book" className="w-full cursor-pointer">
-                        <Calendar className="mr-2 h-4 w-4" />
-                        <span>Book Ride</span>
-                      </Link>
-                    </DropdownMenuItem>
+                    {!user.isAdmin && (
+                      <DropdownMenuItem asChild>
+                        <Link href="/book" className="w-full cursor-pointer">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          <span>Book Ride</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
                     {user.isAdmin && (
                       <DropdownMenuItem asChild>
                         <Link href="/admin" className="w-full cursor-pointer">
@@ -144,12 +148,14 @@ export default function Navigation() {
               <Button variant="ghost" asChild className="w-full justify-start" onClick={() => setMobileMenuOpen(false)}>
                 <Link href="/">Home</Link>
               </Button>
-              <Button variant="ghost" asChild className="w-full justify-start" onClick={() => setMobileMenuOpen(false)}>
-                <Link href="/book">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Book Ride
-                </Link>
-              </Button>
+              {!user?.isAdmin && (
+                <Button variant="ghost" asChild className="w-full justify-start" onClick={() => setMobileMenuOpen(false)}>
+                  <Link href="/book">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Book Ride
+                  </Link>
+                </Button>
+              )}
               <Button variant="ghost" asChild className="w-full justify-start" onClick={() => setMobileMenuOpen(false)}>
                 <Link href="/dashboard">
                   <User className="w-4 h-4 mr-2" />
