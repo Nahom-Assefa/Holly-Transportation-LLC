@@ -82,8 +82,8 @@ export default function Home() {
                     <User className="w-6 h-6 text-healthcare-green" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">My Bookings</h3>
-                    <p className="text-sm text-gray-600">View & manage rides</p>
+                    <h3 className="font-semibold text-gray-900">{user.isAdmin ? 'Recent Bookings' : 'My Bookings'}</h3>
+                    <p className="text-sm text-gray-600">{user.isAdmin ? 'Manage all rides' : 'View & manage rides'}</p>
                   </div>
                 </div>
               </Link>
