@@ -225,11 +225,12 @@ export default function Dashboard() {
                               year: 'numeric', 
                               month: 'short', 
                               day: 'numeric'
-                            })} at {new Date(booking.createdAt).toLocaleTimeString('en-US', {
+                            })} at {new Date(booking.createdAt).toLocaleString('en-US', {
                               hour: 'numeric',
                               minute: '2-digit',
-                              hour12: true
-                            })}</div>
+                              hour12: true,
+                              timeZone: 'America/Chicago'
+                            }).split(', ')[1]}</div>
                           )}
                           {booking.notes && <div><strong>Notes:</strong> {booking.notes}</div>}
                         </div>
