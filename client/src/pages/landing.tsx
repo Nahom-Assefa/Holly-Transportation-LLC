@@ -180,14 +180,14 @@ Sent from Holly Transportation contact form
             <div className="flex items-center space-x-4">
               <Button 
                 variant="ghost" 
-                onClick={() => window.location.href = '/api/login'}
+                onClick={() => window.location.href = '/auth'}
                 data-testid="login-button"
               >
                 Login
               </Button>
               <Button 
                 className="bg-healthcare-green text-white hover:bg-healthcare-green/90"
-                onClick={() => window.location.href = '/api/login'}
+                onClick={() => window.location.href = '/auth'}
                 data-testid="signup-button"
               >
                 Sign Up
@@ -838,7 +838,7 @@ Sent from Holly Transportation contact form
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button 
                     size="lg"
-                    onClick={() => window.location.href = '/api/login'}
+                    onClick={() => window.location.href = '/auth'}
                     className="bg-primary text-white hover:bg-primary/90 text-xl font-bold py-6 px-8"
                     data-testid="book-login-button"
                   >

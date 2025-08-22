@@ -7,8 +7,12 @@ import type { Express, RequestHandler } from "express";
 import memoize from "memoizee";
 import connectPg from "connect-pg-simple";
 import { storage } from "./storage";
+import { setupLocalAuth } from "./localAuth";
 
-if (!process.env.REPLIT_DOMAINS) {
+// Check if we're in local development mode
+const isLocalDevelopment = process.env.NODE_ENV === 'development' && !process.env.REPLIT_DOMAINS;
+
+if (!isLocalDevelopment && !process.env.REPLIT_DOMAINS) {
   throw new Error("Environment variable REPLIT_DOMAINS not provided");
 }
 
@@ -83,6 +87,14 @@ async function upsertUser(
 }
 
 export async function setupAuth(app: Express) {
+  // Use local authentication for development
+  if (isLocalDevelopment) {
+    console.log("🔧 Using local development authentication");
+    setupLocalAuth(app);
+    return;
+  }
+
+  console.log("🔒 Using Replit authentication");
   console.log('Setting up authentication...');
   console.log('REPLIT_DOMAINS:', process.env.REPLIT_DOMAINS);
   console.log('REPL_ID exists:', !!process.env.REPL_ID);

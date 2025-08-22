@@ -10,6 +10,7 @@ import Booking from "@/pages/booking";
 import Dashboard from "@/pages/dashboard";
 import Admin from "@/pages/admin";
 import AdminPreview from "@/pages/admin-preview";
+import AuthPage from "@/pages/auth";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -20,6 +21,7 @@ function Router() {
       {isLoading || !isAuthenticated ? (
         <>
           <Route path="/" component={Landing} />
+          <Route path="/auth" component={AuthPage} />
           <Route path="/admin-preview" component={AdminPreview} />
         </>
       ) : (

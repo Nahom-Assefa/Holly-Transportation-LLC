@@ -28,6 +28,11 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
   
+  // Local development user operations
+  getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
+  createLocalUser(userData: any): Promise<User>;
+  
   // Booking operations
   createBooking(booking: InsertBooking): Promise<Booking>;
   getBookingsByUser(userId: string): Promise<Booking[]>;
@@ -75,6 +80,42 @@ export class DatabaseStorage implements IStorage {
    */
   async getUser(id: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  /**
+   * Retrieves a user by their username (for local development)
+   * 
+   * @param {string} username - The user's username
+   * @returns {Promise<User | undefined>} The user object or undefined if not found
+   */
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  /**
+   * Retrieves a user by their email address
+   * 
+   * @param {string} email - The user's email address
+   * @returns {Promise<User | undefined>} The user object or undefined if not found
+   */
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user;
+  }
+
+  /**
+   * Creates a new user for local development authentication
+   * 
+   * @param {any} userData - Complete user data including password and username
+   * @returns {Promise<User>} The created user object
+   */
+  async createLocalUser(userData: any): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(userData)
+      .returning();
     return user;
   }
 

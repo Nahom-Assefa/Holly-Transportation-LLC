@@ -35,6 +35,9 @@ export const users = pgTable("users", {
   phone: varchar("phone"),
   medicalNotes: text("medical_notes"),
   isAdmin: boolean("is_admin").default(false),
+  // Local development authentication fields
+  password: varchar("password"), // For local development only
+  username: varchar("username").unique(), // For local development only
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
