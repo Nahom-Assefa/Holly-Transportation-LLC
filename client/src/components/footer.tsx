@@ -1,7 +1,10 @@
 import { Ambulance, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Footer() {
+  const { isAuthenticated } = useAuth();
+  
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -15,7 +18,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white py-16" data-testid="footer">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className={`grid ${isAuthenticated ? 'md:grid-cols-3' : 'md:grid-cols-4'} gap-8`}>
           <div className="col-span-2">
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
@@ -32,43 +35,45 @@ export default function Footer() {
             </p>
           </div>
           
-          <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-3 text-gray-400">
-              <li>
-                <button 
-                  onClick={() => scrollToSection('about')} 
-                  className="hover:text-white transition-colors text-left"
-                >
-                  About Us
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => scrollToSection('services')} 
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Our Services
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => scrollToSection('book')} 
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Book Now
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => scrollToSection('contact')} 
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Contact
-                </button>
-              </li>
-            </ul>
-          </div>
+          {!isAuthenticated && (
+            <div>
+              <h4 className="font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-3 text-gray-400">
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('about')} 
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    About Us
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('services')} 
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    Our Services
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('book')} 
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    Book Now
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('contact')} 
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    Contact
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
           
           <div>
             <h4 className="font-semibold mb-4">Contact Info</h4>
