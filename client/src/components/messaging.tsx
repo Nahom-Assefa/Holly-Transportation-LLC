@@ -13,6 +13,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from "@/components/ui/badge";
 import { MessageCircle, Send, X } from "lucide-react";
 
+/**
+ * Messaging Component
+ * 
+ * @description Floating messaging widget for authenticated users to communicate with
+ * Holly Transportation admin. Features real-time message fetching, thread display,
+ * and accessible messaging interface.
+ * 
+ * @component
+ * @returns {JSX.Element} Floating messaging button and dialog interface
+ */
 export default function Messaging() {
   const { user, isAuthenticated } = useAuth();
   const { toast } = useToast();

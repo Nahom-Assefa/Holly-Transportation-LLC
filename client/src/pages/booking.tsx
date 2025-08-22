@@ -16,6 +16,16 @@ import Footer from "@/components/footer";
 import { Calendar, Phone, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 
+/**
+ * Transportation Booking Component
+ * 
+ * @description Protected booking page for authenticated users to schedule ambulatory
+ * transportation services. Features comprehensive form validation, accessibility design,
+ * and real-time booking submission to Holly Transportation.
+ * 
+ * @component
+ * @returns {JSX.Element} Complete booking form with service options and validation
+ */
 export default function Booking() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const { toast } = useToast();

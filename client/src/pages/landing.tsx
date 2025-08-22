@@ -32,6 +32,16 @@ import {
 import vehicleImage from "@assets/generated_images/Professional_NEMT_vehicle_corrected_34ea87bd.png";
 import assistanceImage from "@assets/generated_images/Holly_Transportation_assistance_scene_e4b0d332.png";
 
+/**
+ * Holly Transportation Landing Page Component
+ * 
+ * @description Main landing page for Holly Transportation's NEMT ambulatory services.
+ * Features comprehensive service information, contact form, and accessibility-focused design
+ * optimized for older adults seeking medical transportation services.
+ * 
+ * @component
+ * @returns {JSX.Element} The complete landing page with navigation, hero, services, and contact sections
+ */
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { toast } = useToast();
@@ -56,6 +66,14 @@ export default function Landing() {
     },
   });
 
+  /**
+   * Handles contact form submission with mailto protocol
+   * 
+   * @description Processes contact form data and creates a pre-filled mailto link
+   * to hollytransport04@gmail.com with all form information formatted.
+   * 
+   * @param {React.FormEvent<HTMLFormElement>} e - Form submission event
+   */
   const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

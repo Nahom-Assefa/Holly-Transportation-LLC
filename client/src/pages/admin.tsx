@@ -32,6 +32,16 @@ import {
 import { Link } from "wouter";
 import type { Booking, Message, ContactMessage } from "@shared/schema";
 
+/**
+ * Admin Portal Component
+ * 
+ * @description Protected admin dashboard for managing Holly Transportation operations.
+ * Features booking management, user administration, messaging system, and analytics.
+ * Only accessible to users with admin privileges.
+ * 
+ * @component
+ * @returns {JSX.Element} Complete admin portal with comprehensive management tools
+ */
 export default function Admin() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const { toast } = useToast();

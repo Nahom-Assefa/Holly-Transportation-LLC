@@ -25,6 +25,16 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 
+/**
+ * User Dashboard Component
+ * 
+ * @description Protected dashboard page for authenticated users to manage their profile,
+ * view bookings, and communicate with Holly Transportation admin. Features accessibility
+ * optimizations and comprehensive user account management.
+ * 
+ * @component
+ * @returns {JSX.Element} Complete dashboard with profile, bookings, and messaging sections
+ */
 export default function Dashboard() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const { toast } = useToast();
