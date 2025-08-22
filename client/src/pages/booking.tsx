@@ -327,7 +327,6 @@ export default function Booking() {
                     <SelectContent>
                       <SelectItem value="independent">Independent walking</SelectItem>
                       <SelectItem value="walker">Walker assistance</SelectItem>
-                      <SelectItem value="wheelchair">Wheelchair assistance</SelectItem>
                       <SelectItem value="other">Other (specify in notes)</SelectItem>
                     </SelectContent>
                   </Select>

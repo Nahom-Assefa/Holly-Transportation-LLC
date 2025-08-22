@@ -62,7 +62,6 @@ export const serviceTypeEnum = pgEnum('service_type', [
 export const mobilityAssistanceEnum = pgEnum('mobility_assistance', [
   'independent',
   'walker',
-  'wheelchair',
   'other'
 ]);
 

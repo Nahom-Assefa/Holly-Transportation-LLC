@@ -163,8 +163,6 @@ export default function Dashboard() {
         return 'Independent walking';
       case 'walker':
         return 'Walker assistance';
-      case 'wheelchair':
-        return 'Wheelchair assistance';
       case 'other':
         return 'Other';
       default:
