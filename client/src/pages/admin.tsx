@@ -106,11 +106,11 @@ export default function Admin() {
     enabled: isDemo || !!user?.isAdmin,
   });
 
-  // Fetch contact messages
-  const { data: contactMessages = [], isLoading: contactMessagesLoading } = useQuery<ContactMessage[]>({
-    queryKey: ["/api/admin/contact-messages"],
-    enabled: !!user?.isAdmin,
-  });
+  // Fetch contact messages - DISABLED
+  // const { data: contactMessages = [], isLoading: contactMessagesLoading } = useQuery<ContactMessage[]>({
+  //   queryKey: ["/api/admin/contact-messages"],
+  //   enabled: !!user?.isAdmin,
+  // });
 
   // Update booking status mutation
   const updateBookingStatusMutation = useMutation({
@@ -500,8 +500,8 @@ export default function Admin() {
                 </CardContent>
               </Card>
 
-              {/* Contact Form Messages */}
-              <Card>
+              {/* Contact Form Messages - DISABLED */}
+              {/* <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Mail className="w-5 h-5 text-healthcare-green" />
@@ -546,7 +546,7 @@ export default function Admin() {
                     </div>
                   )}
                 </CardContent>
-              </Card>
+              </Card> */}
             </div>
           </TabsContent>
 

@@ -158,17 +158,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Contact form route (public)
-  app.post('/api/contact', async (req, res) => {
-    try {
-      const validatedData = insertContactMessageSchema.parse(req.body);
-      const message = await storage.createContactMessage(validatedData);
-      res.json(message);
-    } catch (error) {
-      console.error("Error creating contact message:", error);
-      res.status(400).json({ message: "Failed to send contact message" });
-    }
-  });
+  // Contact form route (public) - DISABLED
+  // app.post('/api/contact', async (req, res) => {
+  //   try {
+  //     const validatedData = insertContactMessageSchema.parse(req.body);
+  //     const message = await storage.createContactMessage(validatedData);
+  //     res.json(message);
+  //   } catch (error) {
+  //     console.error("Error creating contact message:", error);
+  //     res.status(400).json({ message: "Failed to send contact message" });
+  //   }
+  // });
 
   // Temporary demo route for admin preview
   app.get('/api/admin/demo-stats', async (req, res) => {
@@ -219,22 +219,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/admin/contact-messages', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      
-      if (!user?.isAdmin) {
-        return res.status(403).json({ message: "Admin access required" });
-      }
-      
-      const messages = await storage.getAllContactMessages();
-      res.json(messages);
-    } catch (error) {
-      console.error("Error fetching contact messages:", error);
-      res.status(500).json({ message: "Failed to fetch contact messages" });
-    }
-  });
+  // app.get('/api/admin/contact-messages', isAuthenticated, async (req: any, res) => {
+  //   try {
+  //     const userId = req.user.claims.sub;
+  //     const user = await storage.getUser(userId);
+  //     
+  //     if (!user?.isAdmin) {
+  //       return res.status(403).json({ message: "Admin access required" });
+  //     }
+  //     
+  //     const messages = await storage.getAllContactMessages();
+  //     res.json(messages);
+  //   } catch (error) {
+  //     console.error("Error fetching contact messages:", error);
+  //     res.status(500).json({ message: "Failed to fetch contact messages" });
+  //   }
+  // });
 
   const httpServer = createServer(app);
   return httpServer;

@@ -46,25 +46,25 @@ export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { toast } = useToast();
 
-  // Contact form mutation
-  const contactMutation = useMutation({
-    mutationFn: async (data: InsertContactMessage) => {
-      await apiRequest("POST", "/api/contact", data);
-    },
-    onSuccess: () => {
-      toast({
-        title: "Message Sent",
-        description: "Thank you for contacting us. We'll get back to you soon!",
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
+  // Contact form mutation - DISABLED (using mailto only)
+  // const contactMutation = useMutation({
+  //   mutationFn: async (data: InsertContactMessage) => {
+  //     await apiRequest("POST", "/api/contact", data);
+  //   },
+  //   onSuccess: () => {
+  //     toast({
+  //       title: "Message Sent",
+  //       description: "Thank you for contacting us. We'll get back to you soon!",
+  //     });
+  //   },
+  //   onError: (error) => {
+  //     toast({
+  //       title: "Error",
+  //       description: "Failed to send message. Please try again.",
+  //       variant: "destructive",
+  //     });
+  //   },
+  // });
 
   /**
    * Handles contact form submission with mailto protocol
@@ -1016,11 +1016,11 @@ Sent from Holly Transportation contact form
                   <Button 
                     type="submit" 
                     className="w-full bg-primary text-white hover:bg-primary/90"
-                    disabled={contactMutation.isPending}
+                    disabled={false}
                     data-testid="button-submit-contact"
                   >
                     <Mail className="w-5 h-5 mr-2" />
-                    {contactMutation.isPending ? "Sending..." : "Send Message"}
+                    Send Message
                   </Button>
                 </form>
               </CardContent>
