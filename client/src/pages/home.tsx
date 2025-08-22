@@ -129,28 +129,28 @@ export default function Home() {
         </div>
 
         {/* Recent Activity */}
-        <div className={`grid ${user.isAdmin ? 'lg:grid-cols-1' : 'lg:grid-cols-2'} gap-8`}>
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Calendar className="w-5 h-5 text-primary" />
-                <span>Recent Bookings</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8">
-                <p className="text-gray-500 mb-4">No recent bookings</p>
-                <Button asChild>
-                  <Link href="/book">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Book Your First Ride
-                  </Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+        {!user.isAdmin && (
+          <div className="grid lg:grid-cols-2 gap-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Calendar className="w-5 h-5 text-primary" />
+                  <span>Recent Bookings</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <p className="text-gray-500 mb-4">No recent bookings</p>
+                  <Button asChild>
+                    <Link href="/book">
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Book Your First Ride
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
 
-          {!user.isAdmin && (
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
@@ -171,8 +171,8 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Admin Portal Access */}
         {user.isAdmin && (
