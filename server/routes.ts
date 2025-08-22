@@ -87,76 +87,89 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Message routes
-  app.post('/api/messages', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const validatedData = insertMessageSchema.parse({
-        ...req.body,
-        userId,
-      });
-      
-      const message = await storage.createMessage(validatedData);
-      res.json(message);
-    } catch (error) {
-      console.error("Error creating message:", error);
-      res.status(400).json({ message: "Failed to create message" });
-    }
-  });
+  /**
+   * MESSAGING SYSTEM API ROUTES - COMMENTED OUT
+   * 
+   * The messaging system has been replaced with mailto protocol for direct email contact.
+   * Contact messages are now sent directly to hollytransport04@gmail.com instead of being
+   * stored in the database. This provides immediate delivery and simpler user experience.
+   * 
+   * Disabled routes:
+   * - POST /api/messages (create message)
+   * - GET /api/messages (fetch user messages)
+   * - PATCH /api/messages/:id/response (admin respond to message)
+   * - PATCH /api/messages/:id/read (mark message as read)
+   */
+  
+  // app.post('/api/messages', isAuthenticated, async (req: any, res) => {
+  //   try {
+  //     const userId = req.user.claims.sub;
+  //     const validatedData = insertMessageSchema.parse({
+  //       ...req.body,
+  //       userId,
+  //     });
+  //     
+  //     const message = await storage.createMessage(validatedData);
+  //     res.json(message);
+  //   } catch (error) {
+  //     console.error("Error creating message:", error);
+  //     res.status(400).json({ message: "Failed to create message" });
+  //   }
+  // });
 
-  app.get('/api/messages', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      
-      let messages;
-      if (user?.isAdmin) {
-        messages = await storage.getAllMessages();
-      } else {
-        messages = await storage.getMessagesByUser(userId);
-      }
-      
-      res.json(messages);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-      res.status(500).json({ message: "Failed to fetch messages" });
-    }
-  });
+  // app.get('/api/messages', isAuthenticated, async (req: any, res) => {
+  //   try {
+  //     const userId = req.user.claims.sub;
+  //     const user = await storage.getUser(userId);
+  //     
+  //     let messages;
+  //     if (user?.isAdmin) {
+  //       messages = await storage.getAllMessages();
+  //     } else {
+  //       messages = await storage.getMessagesByUser(userId);
+  //     }
+  //     
+  //     res.json(messages);
+  //   } catch (error) {
+  //     console.error("Error fetching messages:", error);
+  //     res.status(500).json({ message: "Failed to fetch messages" });
+  //   }
+  // });
 
-  app.patch('/api/messages/:id/response', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      
-      if (!user?.isAdmin) {
-        return res.status(403).json({ message: "Admin access required" });
-      }
-      
-      const message = await storage.updateMessageResponse(req.params.id, req.body.response);
-      if (!message) {
-        return res.status(404).json({ message: "Message not found" });
-      }
-      
-      res.json(message);
-    } catch (error) {
-      console.error("Error responding to message:", error);
-      res.status(500).json({ message: "Failed to respond to message" });
-    }
-  });
+  // app.patch('/api/messages/:id/response', isAuthenticated, async (req: any, res) => {
+  //   try {
+  //     const userId = req.user.claims.sub;
+  //     const user = await storage.getUser(userId);
+  //     
+  //     if (!user?.isAdmin) {
+  //       return res.status(403).json({ message: "Admin access required" });
+  //     }
+  //     
+  //     const message = await storage.updateMessageResponse(req.params.id, req.body.response);
+  //     if (!message) {
+  //       return res.status(404).json({ message: "Message not found" });
+  //     }
+  //     
+  //     res.json(message);
+  //   } catch (error) {
+  //     console.error("Error responding to message:", error);
+  //     res.status(500).json({ message: "Failed to respond to message" });
+  //   }
+  // });
 
-  app.patch('/api/messages/:id/read', isAuthenticated, async (req: any, res) => {
-    try {
-      const message = await storage.markMessageAsRead(req.params.id);
-      if (!message) {
-        return res.status(404).json({ message: "Message not found" });
-      }
-      
-      res.json(message);
-    } catch (error) {
-      console.error("Error marking message as read:", error);
-      res.status(500).json({ message: "Failed to mark message as read" });
-    }
-  });
+  // app.patch('/api/messages/:id/read', isAuthenticated, async (req: any, res) => {
+  //   try {
+  //     const message = await storage.markMessageAsRead(req.params.id);
+  //     if (!message) {
+  //       return res.status(404).json({ message: "Message not found" });
+  //     }
+  //     
+  //     res.json(message);
+  //   } catch (error) {
+  //     console.error("Error marking message as read:", error);
+  //     res.status(500).json({ message: "Failed to mark message as read" });
+  //   }
+  // });
 
   // Contact form route (public) - DISABLED
   // app.post('/api/contact', async (req, res) => {
@@ -191,15 +204,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/admin/demo-messages', async (req, res) => {
-    try {
-      const messages = await storage.getAllMessages();
-      res.json(messages);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-      res.status(500).json({ message: "Failed to fetch messages" });
-    }
-  });
+  // app.get('/api/admin/demo-messages', async (req, res) => {
+  //   try {
+  //     const messages = await storage.getAllMessages();
+  //     res.json(messages);
+  //   } catch (error) {
+  //     console.error("Error fetching messages:", error);
+  //     res.status(500).json({ message: "Failed to fetch messages" });
+  //   }
+  // });
 
   // Admin routes
   app.get('/api/admin/stats', isAuthenticated, async (req: any, res) => {

@@ -216,47 +216,61 @@ export class DatabaseStorage implements IStorage {
     return booking;
   }
 
-  // Message operations
-  async createMessage(message: InsertMessage): Promise<Message> {
-    const [newMessage] = await db
-      .insert(messages)
-      .values(message)
-      .returning();
-    return newMessage;
-  }
+  /**
+   * MESSAGE OPERATIONS - DISABLED
+   * 
+   * Message functionality has been replaced with mailto protocol for direct email contact.
+   * Users now contact Holly Transportation directly via email instead of using the database
+   * messaging system. This provides immediate delivery and simpler administration.
+   * 
+   * Previously supported:
+   * - createMessage: Store user messages in database
+   * - getMessagesByUser: Fetch messages for specific user
+   * - getAllMessages: Admin view of all messages
+   * - updateMessageResponse: Admin response to user messages
+   * - markMessageAsRead: Mark messages as read
+   */
+  
+  // async createMessage(message: InsertMessage): Promise<Message> {
+  //   const [newMessage] = await db
+  //     .insert(messages)
+  //     .values(message)
+  //     .returning();
+  //   return newMessage;
+  // }
 
-  async getMessagesByUser(userId: string): Promise<Message[]> {
-    return await db
-      .select()
-      .from(messages)
-      .where(eq(messages.userId, userId))
-      .orderBy(desc(messages.createdAt));
-  }
+  // async getMessagesByUser(userId: string): Promise<Message[]> {
+  //   return await db
+  //     .select()
+  //     .from(messages)
+  //     .where(eq(messages.userId, userId))
+  //     .orderBy(desc(messages.createdAt));
+  // }
 
-  async getAllMessages(): Promise<Message[]> {
-    return await db
-      .select()
-      .from(messages)
-      .orderBy(desc(messages.createdAt));
-  }
+  // async getAllMessages(): Promise<Message[]> {
+  //   return await db
+  //     .select()
+  //     .from(messages)
+  //     .orderBy(desc(messages.createdAt));
+  // }
 
-  async updateMessageResponse(id: string, response: string): Promise<Message | undefined> {
-    const [message] = await db
-      .update(messages)
-      .set({ response, isResolved: true, updatedAt: new Date() })
-      .where(eq(messages.id, id))
-      .returning();
-    return message;
-  }
+  // async updateMessageResponse(id: string, response: string): Promise<Message | undefined> {
+  //   const [message] = await db
+  //     .update(messages)
+  //     .set({ response, isResolved: true, updatedAt: new Date() })
+  //     .where(eq(messages.id, id))
+  //     .returning();
+  //   return message;
+  // }
 
-  async markMessageAsRead(id: string): Promise<Message | undefined> {
-    const [message] = await db
-      .update(messages)
-      .set({ isRead: true, updatedAt: new Date() })
-      .where(eq(messages.id, id))
-      .returning();
-    return message;
-  }
+  // async markMessageAsRead(id: string): Promise<Message | undefined> {
+  //   const [message] = await db
+  //     .update(messages)
+  //     .set({ isRead: true, updatedAt: new Date() })
+  //     .where(eq(messages.id, id))
+  //     .returning();
+  //   return message;
+  // }
 
   // Contact message operations
   async createContactMessage(message: InsertContactMessage): Promise<ContactMessage> {

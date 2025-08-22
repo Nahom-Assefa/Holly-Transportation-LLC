@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import type { Booking, Message, InsertMessage } from "@shared/schema";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
-import { isUnauthorizedError } from "@/lib/authUtils";
+import type { Booking } from "@shared/schema";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -38,11 +36,6 @@ import { Link } from "wouter";
 export default function Dashboard() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
-  const [messageForm, setMessageForm] = useState({
-    subject: "",
-    message: "",
-  });
   const [profileForm, setProfileForm] = useState({
     firstName: "",
     lastName: "",
@@ -83,49 +76,7 @@ export default function Dashboard() {
     enabled: !!user,
   });
 
-  // Fetch messages
-  const { data: messages = [], isLoading: messagesLoading } = useQuery<Message[]>({
-    queryKey: ["/api/messages"],
-    enabled: !!user,
-  });
-
-  // Send message mutation
-  const sendMessageMutation = useMutation({
-    mutationFn: async (data: Pick<InsertMessage, 'subject' | 'message'>) => {
-      await apiRequest("POST", "/api/messages", data);
-    },
-    onSuccess: () => {
-      toast({
-        title: "Message Sent",
-        description: "Your message has been sent to the admin team.",
-      });
-      setMessageForm({ subject: "", message: "" });
-      queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
-    },
-    onError: (error) => {
-      if (isUnauthorizedError(error)) {
-        toast({
-          title: "Unauthorized",
-          description: "You are logged out. Logging in again...",
-          variant: "destructive",
-        });
-        setTimeout(() => {
-          window.location.href = "/api/login";
-        }, 500);
-        return;
-      }
-      toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    sendMessageMutation.mutate(messageForm);
-  };
+  // Messages functionality removed - now uses mailto protocol for direct email contact
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -206,7 +157,7 @@ export default function Dashboard() {
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="bookings" data-testid="tab-bookings">My Bookings</TabsTrigger>
             <TabsTrigger value="profile" data-testid="tab-profile">Profile Settings</TabsTrigger>
-            <TabsTrigger value="messages" data-testid="tab-messages">Messages</TabsTrigger>
+            <TabsTrigger value="messages" data-testid="tab-messages">Contact Support</TabsTrigger>
           </TabsList>
 
           {/* Bookings Tab */}
@@ -344,100 +295,77 @@ export default function Dashboard() {
             </Card>
           </TabsContent>
 
-          {/* Messages Tab */}
+          {/* Messages Tab - Now uses mailto protocol */}
           <TabsContent value="messages" className="space-y-6" data-testid="messages-content">
             <Card>
               <CardHeader>
                 <div className="flex justify-between items-center">
                   <CardTitle className="flex items-center space-x-2">
                     <MessageCircle className="w-5 h-5 text-blue-600" />
-                    <span>Messages</span>
+                    <span>Contact Support</span>
                   </CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
-                {/* Send New Message */}
-                <Card className="mb-6 bg-healthcare-green/5">
-                  <CardHeader>
-                    <CardTitle className="text-lg">Send New Message</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <form onSubmit={handleSendMessage} className="space-y-4" data-testid="message-form">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-                        <Input
-                          value={messageForm.subject}
-                          onChange={(e) => setMessageForm(prev => ({ ...prev, subject: e.target.value }))}
-                          placeholder="Brief description of your inquiry"
-                          required
-                          data-testid="input-message-subject"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                        <Textarea
-                          value={messageForm.message}
-                          onChange={(e) => setMessageForm(prev => ({ ...prev, message: e.target.value }))}
-                          rows={4}
-                          placeholder="How can we help you?"
-                          required
-                          data-testid="textarea-message-content"
-                        />
-                      </div>
-                      <Button
-                        type="submit"
-                        className="bg-healthcare-green text-white hover:bg-healthcare-green/90"
-                        disabled={sendMessageMutation.isPending}
-                        data-testid="button-send-message"
-                      >
-                        <MessageCircle className="w-4 h-4 mr-2" />
-                        {sendMessageMutation.isPending ? "Sending..." : "Send Message"}
-                      </Button>
-                    </form>
-                  </CardContent>
-                </Card>
+                <div className="text-center py-12">
+                  <Mail className="w-16 h-16 text-healthcare-green mx-auto mb-6" />
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Need Help or Have Questions?</h3>
+                  <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
+                    Contact Holly Transportation directly via email or phone for personalized assistance with your transportation needs.
+                  </p>
+                  
+                  <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                    {/* Email Contact */}
+                    <Card className="p-6 border-healthcare-green/20 hover:border-healthcare-green/40 transition-colors">
+                      <CardContent className="p-0 text-center">
+                        <Mail className="w-8 h-8 text-healthcare-green mx-auto mb-4" />
+                        <h4 className="text-xl font-bold text-gray-900 mb-2">Send Email</h4>
+                        <p className="text-gray-600 mb-4">Get a detailed response to your questions</p>
+                        <Button
+                          size="lg"
+                          className="bg-healthcare-green text-white hover:bg-healthcare-green/90 w-full"
+                          onClick={() => window.open('mailto:hollytransport04@gmail.com?subject=Transportation Inquiry from Dashboard', '_self')}
+                          data-testid="email-support-button"
+                        >
+                          <Mail className="w-5 h-5 mr-2" />
+                          Email Support
+                        </Button>
+                        <p className="text-sm text-gray-500 mt-2">hollytransport04@gmail.com</p>
+                      </CardContent>
+                    </Card>
 
-                {/* Message History */}
-                {messagesLoading ? (
-                  <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-                    <p className="mt-2 text-gray-600">Loading messages...</p>
+                    {/* Phone Contact */}
+                    <Card className="p-6 border-blue-200 hover:border-blue-300 transition-colors">
+                      <CardContent className="p-0 text-center">
+                        <Phone className="w-8 h-8 text-blue-600 mx-auto mb-4" />
+                        <h4 className="text-xl font-bold text-gray-900 mb-2">Call Us</h4>
+                        <p className="text-gray-600 mb-4">Speak directly with our team</p>
+                        <Button
+                          size="lg"
+                          variant="outline"
+                          className="border-blue-600 text-blue-600 hover:bg-blue-50 w-full"
+                          onClick={() => window.open('tel:+16515006198', '_self')}
+                          data-testid="call-support-button"
+                        >
+                          <Phone className="w-5 h-5 mr-2" />
+                          Call (651) 500-6198
+                        </Button>
+                        <p className="text-sm text-gray-500 mt-2">Available 6AM - 6PM Daily</p>
+                      </CardContent>
+                    </Card>
                   </div>
-                ) : messages && messages.length > 0 ? (
-                  <div className="space-y-4">
-                    {messages.map((message: Message) => (
-                      <Card key={message.id} className="p-6" data-testid={`message-${message.id}`}>
-                        <div className="flex items-start space-x-4">
-                          <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                            <MessageCircle className="w-5 h-5 text-primary" />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-center mb-2">
-                              <div className="font-medium text-gray-900">{message.subject}</div>
-                              <div className="text-sm text-gray-500">
-                                {new Date(message.createdAt).toLocaleDateString()}
-                              </div>
-                            </div>
-                            <p className="text-gray-600 mb-3">{message.message}</p>
-                            {message.response && (
-                              <div className="bg-slate-50 p-4 rounded-lg">
-                                <div className="text-sm font-medium text-gray-900 mb-2">
-                                  Admin Response:
-                                </div>
-                                <p className="text-gray-600">{message.response}</p>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </Card>
-                    ))}
+                  
+                  <div className="mt-8 p-4 bg-slate-50 rounded-lg max-w-2xl mx-auto">
+                    <h4 className="font-semibold text-gray-900 mb-2">Common Topics We Can Help With:</h4>
+                    <div className="text-sm text-gray-600 space-y-1">
+                      <p>• Booking assistance and scheduling changes</p>
+                      <p>• Insurance and billing questions</p>
+                      <p>• Special accommodation requests</p>
+                      <p>• Service area information</p>
+                      <p>• General transportation inquiries</p>
+                    </div>
                   </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <MessageCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500">No messages yet</p>
-                  </div>
-                )}
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
