@@ -125,7 +125,7 @@ export default function Home() {
         </div>
 
         {/* Recent Activity */}
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className={`grid ${user.isAdmin ? 'lg:grid-cols-1' : 'lg:grid-cols-2'} gap-8`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
@@ -146,26 +146,28 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <MessageCircle className="w-5 h-5 text-healthcare-green" />
-                <span>Recent Messages</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8">
-                <p className="text-gray-500 mb-4">No recent messages</p>
-                <Button 
-                  variant="outline"
-                  onClick={() => window.open('mailto:hollytransport04@gmail.com?subject=Transportation Inquiry', '_self')}
-                >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Contact Support
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          {!user.isAdmin && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <MessageCircle className="w-5 h-5 text-healthcare-green" />
+                  <span>Recent Messages</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <p className="text-gray-500 mb-4">No recent messages</p>
+                  <Button 
+                    variant="outline"
+                    onClick={() => window.open('mailto:hollytransport04@gmail.com?subject=Transportation Inquiry', '_self')}
+                  >
+                    <MessageCircle className="w-4 h-4 mr-2" />
+                    Contact Support
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Admin Portal Access */}
