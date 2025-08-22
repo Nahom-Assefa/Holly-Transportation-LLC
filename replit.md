@@ -94,3 +94,11 @@ After deployment, set yourself as admin by:
 - Tailwind CSS with shadcn/ui
 - TanStack Query for data fetching
 - React Hook Form for forms
+
+## Development vs Production
+- **Production**: Replit OpenID Connect authentication with PostgreSQL sessions
+- **Development**: Local username/password authentication with in-memory sessions
+- **Environment Detection**: Automatic based on `REPLIT_DOMAINS` environment variable
+- **Database Schema**: Supports both auth methods with conditional fields
+- **Test Accounts**: Auto-created in development (admin/admin123, testuser/test123)
+- **Documentation**: See `DEVELOPMENT.md` for comprehensive environment differences
