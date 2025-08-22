@@ -87,9 +87,11 @@ async function upsertUser(
 }
 
 export async function setupAuth(app: Express) {
-  // Use local authentication for development
-  if (isLocalDevelopment) {
-    console.log("🔧 Using local development authentication");
+  // Force local development mode
+  const forceLocalMode = true;
+  
+  if (forceLocalMode) {
+    console.log("🔧 Using local development authentication (forced)");
     setupLocalAuth(app);
     return;
   }
