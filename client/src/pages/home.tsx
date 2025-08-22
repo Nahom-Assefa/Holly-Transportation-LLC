@@ -57,22 +57,24 @@ export default function Home() {
         </div>
 
         {/* Quick Actions */}
-        <div className={`grid md:grid-cols-2 ${user.isAdmin ? 'lg:grid-cols-3' : 'lg:grid-cols-4'} gap-6 mb-8`}>
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardContent className="p-6">
-              <Link href="/book" className="block">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                    <Calendar className="w-6 h-6 text-primary" />
+        <div className={`grid md:grid-cols-2 ${user.isAdmin ? 'lg:grid-cols-2' : 'lg:grid-cols-4'} gap-6 mb-8`}>
+          {!user.isAdmin && (
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+              <CardContent className="p-6">
+                <Link href="/book" className="block">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                      <Calendar className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Book Ride</h3>
+                      <p className="text-sm text-gray-600">Schedule transportation</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">Book Ride</h3>
-                    <p className="text-sm text-gray-600">Schedule transportation</p>
-                  </div>
-                </div>
-              </Link>
-            </CardContent>
-          </Card>
+                </Link>
+              </CardContent>
+            </Card>
+          )}
 
           <Card className="hover:shadow-lg transition-shadow cursor-pointer">
             <CardContent className="p-6">
