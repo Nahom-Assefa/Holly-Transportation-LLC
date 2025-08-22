@@ -25,17 +25,39 @@ const getOidcConfig = memoize(
 export function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
   
-  // Use memory store temporarily for debugging
-  return session({
-    secret: process.env.SESSION_SECRET!,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: false, // Set to false for development
-      maxAge: sessionTtl,
-    },
-  });
+  if (process.env.NODE_ENV === 'production') {
+    const pgStore = connectPg(session);
+    const sessionStore = new pgStore({
+      conString: process.env.DATABASE_URL,
+      createTableIfMissing: true,
+      ttl: sessionTtl,
+      tableName: "sessions",
+    });
+    
+    return session({
+      secret: process.env.SESSION_SECRET!,
+      store: sessionStore,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        secure: true,
+        maxAge: sessionTtl,
+      },
+    });
+  } else {
+    // Use memory store for development
+    return session({
+      secret: process.env.SESSION_SECRET!,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        secure: false,
+        maxAge: sessionTtl,
+      },
+    });
+  }
 }
 
 function updateUserSession(
@@ -137,16 +159,7 @@ export async function setupAuth(app: Express) {
     passport.authenticate(`replitauth:${hostname}`, {
       successReturnToOrRedirect: "/",
       failureRedirect: "/api/login",
-    })(req, res, (err) => {
-      if (err) {
-        console.error('Authentication callback error:', err);
-        return res.status(500).json({ 
-          message: "Authentication failed", 
-          error: err.message 
-        });
-      }
-      next();
-    });
+    })(req, res, next);
   });
 
   app.get("/api/logout", (req, res) => {
