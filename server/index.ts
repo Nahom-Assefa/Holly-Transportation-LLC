@@ -5,6 +5,7 @@
  * Sets up Express server, authentication, API routes, database connections,
  * and development/production static file serving.
  */
+import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
