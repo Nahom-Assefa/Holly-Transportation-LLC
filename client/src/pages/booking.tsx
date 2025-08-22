@@ -268,6 +268,8 @@ export default function Booking() {
                     type="time"
                     value={formData.pickupTime}
                     onChange={(e) => handleInputChange("pickupTime", e.target.value)}
+                    min="06:00"
+                    max="21:00"
                     required
                     data-testid="input-pickup-time"
                   />
