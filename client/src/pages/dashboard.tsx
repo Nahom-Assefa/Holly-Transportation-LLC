@@ -225,12 +225,15 @@ export default function Dashboard() {
                               year: 'numeric', 
                               month: 'short', 
                               day: 'numeric'
-                            })} at {new Date(booking.createdAt).toLocaleString('en-US', {
-                              hour: 'numeric',
-                              minute: '2-digit',
-                              hour12: true,
-                              timeZone: 'America/Chicago'
-                            }).split(', ')[1]}</div>
+                            })} at {(() => {
+                              const date = new Date(booking.createdAt);
+                              let hours = date.getHours();
+                              const minutes = date.getMinutes().toString().padStart(2, '0');
+                              const ampm = hours >= 12 ? 'PM' : 'AM';
+                              hours = hours % 12;
+                              hours = hours ? hours : 12; // 0 should be 12
+                              return `${hours}:${minutes} ${ampm}`;
+                            })()}</div>
                           )}
                           {booking.notes && <div><strong>Notes:</strong> {booking.notes}</div>}
                         </div>
