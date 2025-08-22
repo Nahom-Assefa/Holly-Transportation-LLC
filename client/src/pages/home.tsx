@@ -90,7 +90,10 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card 
+            className="hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => window.open('mailto:hollytransport04@gmail.com?subject=Transportation Inquiry from Dashboard', '_self')}
+          >
             <CardContent className="p-6">
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
@@ -153,7 +156,10 @@ export default function Home() {
             <CardContent>
               <div className="text-center py-8">
                 <p className="text-gray-500 mb-4">No recent messages</p>
-                <Button variant="outline">
+                <Button 
+                  variant="outline"
+                  onClick={() => window.open('mailto:hollytransport04@gmail.com?subject=Transportation Inquiry', '_self')}
+                >
                   <MessageCircle className="w-4 h-4 mr-2" />
                   Contact Support
                 </Button>
