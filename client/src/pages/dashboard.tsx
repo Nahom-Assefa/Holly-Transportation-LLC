@@ -195,8 +195,8 @@ export default function Dashboard() {
                               {booking.pickupDate} at {booking.pickupTime}
                             </div>
                           </div>
-                          <Badge className={getStatusColor(booking.status)}>
-                            {booking.status}
+                          <Badge className={getStatusColor(booking.status || 'pending')}>
+                            {booking.status || 'pending'}
                           </Badge>
                         </div>
                         <div className="space-y-2 text-sm text-gray-600">
