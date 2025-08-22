@@ -189,6 +189,27 @@ export async function setupAuth(app: Express) {
 }
 
 export const isAuthenticated: RequestHandler = async (req, res, next) => {
+  // Check if we're in local development mode (session-based auth)
+  const isLocalDevelopment = process.env.NODE_ENV === 'development' && !process.env.REPLIT_DOMAINS;
+  const forceLocalMode = true; // This matches the setting in setupAuth
+  
+  if (forceLocalMode || isLocalDevelopment) {
+    // Use session-based authentication for local development
+    const session = req.session as any;
+    if (!session.userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    
+    // Set user data for routes that expect it
+    req.user = {
+      claims: {
+        sub: session.userId
+      }
+    };
+    return next();
+  }
+
+  // Use Passport-based authentication for production
   const user = req.user as any;
 
   if (!req.isAuthenticated() || !user.expires_at) {
