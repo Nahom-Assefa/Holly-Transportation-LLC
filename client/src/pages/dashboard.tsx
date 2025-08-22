@@ -155,7 +155,7 @@ export default function Dashboard() {
 
         <Tabs defaultValue="bookings" className="space-y-6" data-testid="dashboard-tabs">
           <TabsList className={`grid w-full ${user.isAdmin ? 'grid-cols-2' : 'grid-cols-3'}`}>
-            <TabsTrigger value="bookings" data-testid="tab-bookings">My Bookings</TabsTrigger>
+            <TabsTrigger value="bookings" data-testid="tab-bookings">{user.isAdmin ? 'Recent Bookings' : 'My Bookings'}</TabsTrigger>
             <TabsTrigger value="profile" data-testid="tab-profile">Profile Settings</TabsTrigger>
             {!user.isAdmin && (
               <TabsTrigger value="messages" data-testid="tab-messages">Contact Support</TabsTrigger>
@@ -169,14 +169,16 @@ export default function Dashboard() {
                 <div className="flex justify-between items-center">
                   <CardTitle className="flex items-center space-x-2">
                     <Calendar className="w-5 h-5 text-primary" />
-                    <span>My Bookings</span>
+                    <span>{user.isAdmin ? 'Recent Bookings' : 'My Bookings'}</span>
                   </CardTitle>
-                  <Button asChild data-testid="new-booking-button">
-                    <Link href="/book">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      New Booking
-                    </Link>
-                  </Button>
+                  {!user.isAdmin && (
+                    <Button asChild data-testid="new-booking-button">
+                      <Link href="/book">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        New Booking
+                      </Link>
+                    </Button>
+                  )}
                 </div>
               </CardHeader>
               <CardContent>
