@@ -1,19 +1,52 @@
 "use client"
 
+/**
+ * Dialog Components for Modal Interactions
+ * 
+ * @description Complete set of dialog components built on Radix UI primitives.
+ * Provides accessible modal dialogs with proper focus management, escape key handling,
+ * and backdrop interactions. Perfect for confirmations, forms, and detailed content.
+ */
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Root Dialog Container
+ * 
+ * @description Main dialog container that manages modal state and accessibility.
+ */
 const Dialog = DialogPrimitive.Root
 
+/**
+ * Dialog Trigger Button
+ * 
+ * @description Button that opens the dialog when clicked. Can be any element.
+ */
 const DialogTrigger = DialogPrimitive.Trigger
 
+/**
+ * Dialog Portal Container
+ * 
+ * @description Renders dialog content in a portal for proper z-index layering.
+ */
 const DialogPortal = DialogPrimitive.Portal
 
+/**
+ * Dialog Close Button
+ * 
+ * @description Button that closes the dialog. Can be placed anywhere in the dialog.
+ */
 const DialogClose = DialogPrimitive.Close
 
+/**
+ * Dialog Overlay Component
+ * 
+ * @description Semi-transparent backdrop that appears behind the dialog content.
+ * Includes smooth fade animations and click-to-close functionality.
+ */
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -29,6 +62,31 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
+/**
+ * Dialog Content Component
+ * 
+ * @description Main content container for the dialog with close button and animations.
+ * Automatically centers on screen and includes accessibility features.
+ * 
+ * @example
+ * ```tsx
+ * <Dialog>
+ *   <DialogTrigger asChild>
+ *     <Button>Open Dialog</Button>
+ *   </DialogTrigger>
+ *   <DialogContent>
+ *     <DialogHeader>
+ *       <DialogTitle>Confirm Action</DialogTitle>
+ *       <DialogDescription>Are you sure you want to continue?</DialogDescription>
+ *     </DialogHeader>
+ *     <DialogFooter>
+ *       <Button variant="outline">Cancel</Button>
+ *       <Button>Confirm</Button>
+ *     </DialogFooter>
+ *   </DialogContent>
+ * </Dialog>
+ * ```
+ */
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>

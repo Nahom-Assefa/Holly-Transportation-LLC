@@ -1,7 +1,39 @@
+/**
+ * Input Component for Form Fields
+ * 
+ * @description Accessible input component with consistent styling across the application.
+ * Includes proper focus states, validation styling, and responsive design.
+ * Supports all native HTML input types and attributes.
+ */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Input Field Component
+ * 
+ * @description Styled input component with accessibility features and theme support.
+ * Automatically handles focus states, validation styling, and disabled states.
+ * 
+ * @param {React.ComponentProps<"input">} props - All native input attributes
+ * @param {React.Ref<HTMLInputElement>} ref - Forwarded ref to the input element
+ * 
+ * @example
+ * ```tsx
+ * // Basic text input
+ * <Input type="text" placeholder="Enter your name" />
+ * 
+ * // Email input with validation
+ * <Input type="email" required placeholder="email@example.com" />
+ * 
+ * // Controlled input
+ * <Input 
+ *   type="text" 
+ *   value={value} 
+ *   onChange={(e) => setValue(e.target.value)} 
+ * />
+ * ```
+ */
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     return (

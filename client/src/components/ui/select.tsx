@@ -1,17 +1,58 @@
 "use client"
 
+/**
+ * Select Components for Dropdown Selection
+ * 
+ * @description Complete set of select components built on Radix UI primitives.
+ * Provides accessible dropdown selection with keyboard navigation, search support,
+ * and proper focus management. Perfect for forms and filter interfaces.
+ */
 import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
 import { Check, ChevronDown, ChevronUp } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Root Select Container
+ * 
+ * @description Main select container that manages selection state and accessibility.
+ */
 const Select = SelectPrimitive.Root
 
+/**
+ * Select Group Container
+ * 
+ * @description Groups related select items together with optional labeling.
+ */
 const SelectGroup = SelectPrimitive.Group
 
+/**
+ * Select Value Display
+ * 
+ * @description Displays the currently selected value or placeholder text.
+ */
 const SelectValue = SelectPrimitive.Value
 
+/**
+ * Select Trigger Component
+ * 
+ * @description Button that opens the select dropdown when clicked.
+ * Includes dropdown arrow icon and proper accessibility attributes.
+ * 
+ * @example
+ * ```tsx
+ * <Select>
+ *   <SelectTrigger>
+ *     <SelectValue placeholder="Choose an option..." />
+ *   </SelectTrigger>
+ *   <SelectContent>
+ *     <SelectItem value="option1">Option 1</SelectItem>
+ *     <SelectItem value="option2">Option 2</SelectItem>
+ *   </SelectContent>
+ * </Select>
+ * ```
+ */
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>

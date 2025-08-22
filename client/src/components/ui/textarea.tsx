@@ -1,7 +1,37 @@
+/**
+ * Textarea Component for Multi-line Text Input
+ * 
+ * @description Accessible textarea component with consistent styling and proper focus management.
+ * Ideal for longer text inputs like comments, descriptions, or message content.
+ * Includes responsive text sizing and proper validation states.
+ */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Multi-line Text Input Component
+ * 
+ * @description Styled textarea with accessibility features and responsive design.
+ * Automatically handles focus states, validation styling, and disabled states.
+ * 
+ * @param {React.ComponentProps<"textarea">} props - All native textarea attributes
+ * @param {React.Ref<HTMLTextAreaElement>} ref - Forwarded ref to the textarea element
+ * 
+ * @example
+ * ```tsx
+ * // Basic textarea
+ * <Textarea placeholder="Enter your message..." />
+ * 
+ * // Controlled textarea with validation
+ * <Textarea 
+ *   value={message} 
+ *   onChange={(e) => setMessage(e.target.value)}
+ *   required
+ *   rows={5}
+ * />
+ * ```
+ */
 const Textarea = React.forwardRef<
   HTMLTextAreaElement,
   React.ComponentProps<"textarea">

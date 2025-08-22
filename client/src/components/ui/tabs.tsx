@@ -1,10 +1,41 @@
+/**
+ * Tabs Components for Tabbed Interfaces
+ * 
+ * @description Complete set of tab components built on Radix UI primitives.
+ * Provides accessible tab navigation with keyboard support, focus management,
+ * and smooth transitions. Perfect for organizing content into sections.
+ */
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Root Tabs Container
+ * 
+ * @description Main tabs container that manages tab state and accessibility.
+ * Use this as the wrapper for all tab-related components.
+ */
 const Tabs = TabsPrimitive.Root
 
+/**
+ * Tabs List Component
+ * 
+ * @description Container for tab triggers with consistent styling and layout.
+ * Automatically handles keyboard navigation and focus management.
+ * 
+ * @example
+ * ```tsx
+ * <Tabs defaultValue="profile">
+ *   <TabsList>
+ *     <TabsTrigger value="profile">Profile</TabsTrigger>
+ *     <TabsTrigger value="settings">Settings</TabsTrigger>
+ *   </TabsList>
+ *   <TabsContent value="profile">Profile content</TabsContent>
+ *   <TabsContent value="settings">Settings content</TabsContent>
+ * </Tabs>
+ * ```
+ */
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
@@ -20,6 +51,12 @@ const TabsList = React.forwardRef<
 ))
 TabsList.displayName = TabsPrimitive.List.displayName
 
+/**
+ * Tab Trigger Component
+ * 
+ * @description Individual tab button that users click to switch between content panels.
+ * Includes proper accessibility attributes and visual feedback for active state.
+ */
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
@@ -35,6 +72,12 @@ const TabsTrigger = React.forwardRef<
 ))
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
 
+/**
+ * Tab Content Component
+ * 
+ * @description Container for content that appears when a tab is selected.
+ * Automatically handles visibility and accessibility attributes.
+ */
 const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>

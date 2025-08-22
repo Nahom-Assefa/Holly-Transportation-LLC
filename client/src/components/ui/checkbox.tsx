@@ -1,9 +1,43 @@
+/**
+ * Checkbox Component for Boolean Input
+ * 
+ * @description Accessible checkbox component built on Radix UI primitives.
+ * Supports indeterminate state, proper keyboard navigation, and screen reader support.
+ * Perfect for forms, settings, and multi-selection interfaces.
+ */
 import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { Check } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Checkbox Input Component
+ * 
+ * @description Styled checkbox with accessibility features and visual feedback.
+ * Supports checked, unchecked, and indeterminate states with smooth animations.
+ * 
+ * @param {React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>} props - Checkbox properties
+ * @param {React.Ref} ref - Forwarded ref to the checkbox element
+ * 
+ * @example
+ * ```tsx
+ * // Basic checkbox
+ * <Checkbox />
+ * 
+ * // Controlled checkbox
+ * <Checkbox 
+ *   checked={isChecked} 
+ *   onCheckedChange={setIsChecked}
+ * />
+ * 
+ * // Checkbox with label
+ * <div className="flex items-center space-x-2">
+ *   <Checkbox id="terms" />
+ *   <label htmlFor="terms">Accept terms and conditions</label>
+ * </div>
+ * ```
+ */
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>

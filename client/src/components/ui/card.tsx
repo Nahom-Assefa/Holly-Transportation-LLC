@@ -1,7 +1,33 @@
+/**
+ * Card Components for Content Layout
+ * 
+ * @description Set of card components for organizing content with consistent styling.
+ * Includes Card, CardHeader, CardTitle, CardDescription, CardContent, and CardFooter.
+ * Built with semantic HTML and accessibility best practices.
+ */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Main Card Container
+ * 
+ * @description Root card component with rounded borders, shadow, and theme-aware styling.
+ * 
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - Standard div attributes
+ * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref to the card element
+ * 
+ * @example
+ * ```tsx
+ * <Card>
+ *   <CardHeader>
+ *     <CardTitle>Card Title</CardTitle>
+ *     <CardDescription>Card description</CardDescription>
+ *   </CardHeader>
+ *   <CardContent>Content goes here</CardContent>
+ * </Card>
+ * ```
+ */
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -17,6 +43,12 @@ const Card = React.forwardRef<
 ))
 Card.displayName = "Card"
 
+/**
+ * Card Header Component
+ * 
+ * @description Header section for cards, typically containing title and description.
+ * Provides consistent spacing and layout for card headers.
+ */
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -29,6 +61,11 @@ const CardHeader = React.forwardRef<
 ))
 CardHeader.displayName = "CardHeader"
 
+/**
+ * Card Title Component
+ * 
+ * @description Primary heading for card content with proper typography scaling.
+ */
 const CardTitle = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
