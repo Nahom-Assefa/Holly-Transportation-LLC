@@ -220,7 +220,16 @@ export default function Dashboard() {
                           <div><strong>Service:</strong> {formatServiceType(booking.serviceType)}</div>
                           <div><strong>Mobility:</strong> {formatMobilityAssistance(booking.mobilityAssistance)}</div>
                           {user.isAdmin && booking.createdAt && (
-                            <div><strong>Booked:</strong> {new Date(booking.createdAt).toLocaleDateString()} at {new Date(booking.createdAt).toLocaleTimeString()}</div>
+                            <div><strong>Booked:</strong> {new Date(booking.createdAt).toLocaleDateString('en-US', { 
+                              weekday: 'short',
+                              year: 'numeric', 
+                              month: 'short', 
+                              day: 'numeric'
+                            })} at {new Date(booking.createdAt).toLocaleTimeString('en-US', {
+                              hour: 'numeric',
+                              minute: '2-digit',
+                              hour12: true
+                            })}</div>
                           )}
                           {booking.notes && <div><strong>Notes:</strong> {booking.notes}</div>}
                         </div>
