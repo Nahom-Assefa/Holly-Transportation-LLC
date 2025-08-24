@@ -114,6 +114,8 @@ export default function Dashboard() {
     }
   }, []);
 
+
+
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -152,8 +154,21 @@ export default function Dashboard() {
   // Fetch bookings
   const { data: bookings = [], isLoading: bookingsLoading, refetch: refetchBookings } = useQuery<Booking[]>({
     queryKey: ["/api/bookings"],
+    queryFn: async () => {
+      const response = await apiRequest("GET", "/api/bookings");
+      return response.json();
+    },
     enabled: !!user,
   });
+
+  // Refresh user data when component mounts or user changes
+  useEffect(() => {
+    if (user) {
+      refreshUserData();
+      // Also refresh bookings to ensure we have the latest data
+      refetchBookings();
+    }
+  }, [user, refreshUserData, refetchBookings]);
 
   // Delete booking mutation
   const deleteBookingMutation = useMutation({

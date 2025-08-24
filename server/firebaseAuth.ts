@@ -41,13 +41,16 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
 
     const token = authHeader.substring(7);
     const decodedToken = await getAuth().verifyIdToken(token);
+
+    // Simple admin check from environment variable
+    const adminEmails = process.env.ADMIN_EMAILS?.split(',') || [];
     
     req.user = {
       id: decodedToken.uid,
       email: decodedToken.email || null,
       firstName: decodedToken.name?.split(' ')[0] || null,
       lastName: decodedToken.name?.split(' ').slice(1).join(' ') || null,
-      isAdmin: false // We'll need to check this against your PostgreSQL users table
+      isAdmin: adminEmails.includes(decodedToken.email || '')
     };
 
     next();

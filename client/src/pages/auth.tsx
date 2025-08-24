@@ -20,6 +20,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/useAuth";
+import { AUTH_CONFIG } from "@/lib/authConfig";
+import { useCustomAlert } from "@/utils/customAlert";
 
 // Form validation schemas
 const loginSchema = z.object({
@@ -48,6 +50,7 @@ export default function AuthPage() {
   const queryClient = useQueryClient();
   const { user, isLoading } = useAuth();
   const [activeTab, setActiveTab] = useState("login");
+  const customAlert = useCustomAlert();
 
   // Redirect if already logged in
   if (!isLoading && user) {
@@ -55,7 +58,7 @@ export default function AuthPage() {
     return null;
   }
 
-  // Login form
+  // Login form (only for local auth)
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -64,7 +67,7 @@ export default function AuthPage() {
     },
   });
 
-  // Registration form
+  // Registration form (only for local auth)
   const registerForm = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -77,14 +80,56 @@ export default function AuthPage() {
     },
   });
 
-  // Login mutation
+
+
+  // Login mutation - handles both local and Firebase auth
   const loginMutation = useMutation({
     mutationFn: async (data: LoginFormData) => {
-      const response = await apiRequest("POST", "/api/login", data);
-      return response.json();
+      if (AUTH_CONFIG.useFirebase) {
+        // Firebase auth
+        const { auth } = await import("@/lib/firebase");
+        const { signInWithEmailAndPassword } = await import("firebase/auth");
+        
+        const userCredential = await signInWithEmailAndPassword(auth, data.username, data.password);
+        return { success: true, user: userCredential.user };
+      } else {
+        // Local auth
+        const response = await apiRequest("POST", "/api/login", data);
+        return response.json();
+      }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+    onSuccess: async (result) => {
+      if (AUTH_CONFIG.useFirebase) {
+        // For Firebase, we need to fetch user data from our API
+        try {
+          const { auth } = await import("@/lib/firebase");
+          const token = await auth.currentUser?.getIdToken();
+          
+          if (token) {
+            const userResponse = await fetch("/api/auth/user", {
+              headers: { "Authorization": `Bearer ${token}` }
+            });
+            
+            if (userResponse.ok) {
+              const userData = await userResponse.json();
+              queryClient.setQueryData(["/api/auth/user"], userData);
+            }
+          }
+        } catch (error) {
+          console.error("Failed to fetch Firebase user data:", error);
+        }
+      } else {
+        // Local auth - fetch fresh user data
+        try {
+          const userResponse = await apiRequest("GET", "/api/auth/user");
+          const userData = await userResponse.json();
+          queryClient.setQueryData(["/api/auth/user"], userData);
+        } catch (error) {
+          console.error("Failed to fetch user data after login:", error);
+          queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+        }
+      }
+      
       toast({
         title: "Login Successful",
         description: "Welcome back to Holly Transportation!",
@@ -100,14 +145,79 @@ export default function AuthPage() {
     },
   });
 
-  // Registration mutation
+
+
+  // Registration mutation - handles both local and Firebase auth
   const registerMutation = useMutation({
     mutationFn: async (data: RegisterFormData) => {
-      const response = await apiRequest("POST", "/api/register", data);
-      return response.json();
+      if (AUTH_CONFIG.useFirebase) {
+        // Firebase auth
+        const { auth } = await import("@/lib/firebase");
+        const { createUserWithEmailAndPassword } = await import("firebase/auth");
+        
+        const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+        
+        // Store additional user data in our database
+        const token = await userCredential.user.getIdToken();
+        const userData = {
+          id: userCredential.user.uid,
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          phone: data.phone,
+          username: data.username,
+          isAdmin: false
+        };
+        
+        // Create user in our database
+        await fetch("/api/auth/user", {
+          method: "POST",
+          headers: { 
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(userData)
+        });
+        
+        return { success: true, user: userCredential.user };
+      } else {
+        // Local auth
+        const response = await apiRequest("POST", "/api/register", data);
+        return response.json();
+      }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+    onSuccess: async (result) => {
+      if (AUTH_CONFIG.useFirebase) {
+        // For Firebase, we need to fetch user data from our API
+        try {
+          const { auth } = await import("@/lib/firebase");
+          const token = await auth.currentUser?.getIdToken();
+          
+          if (token) {
+            const userResponse = await fetch("/api/auth/user", {
+              headers: { "Authorization": `Bearer ${token}` }
+            });
+            
+            if (userResponse.ok) {
+              const userData = await userResponse.json();
+              queryClient.setQueryData(["/api/auth/user"], userData);
+            }
+          }
+        } catch (error) {
+          console.error("Failed to fetch Firebase user data:", error);
+        }
+      } else {
+        // Local auth - fetch fresh user data
+        try {
+          const userResponse = await apiRequest("GET", "/api/auth/user");
+          const userData = await userResponse.json();
+          queryClient.setQueryData(["/api/auth/user"], userData);
+        } catch (error) {
+          console.error("Failed to fetch user data after registration:", error);
+          queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+        }
+      }
+      
       toast({
         title: "Registration Successful",
         description: "Welcome to Holly Transportation!",
@@ -137,7 +247,15 @@ export default function AuthPage() {
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Holly Transportation</h1>
           <p className="text-gray-600 mt-2">Professional NEMT Services</p>
-          <p className="text-sm text-gray-500 mt-1">Development Mode</p>
+          {!AUTH_CONFIG.useFirebase && (
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm font-medium text-gray-700 mb-2">Test Accounts:</p>
+              <div className="text-xs text-gray-600 space-y-1">
+                <p><strong>Admin:</strong> username=admin, password=admin123</p>
+                <p><strong>User:</strong> username=testuser, password=test123</p>
+              </div>
+            </div>
+          )}
         </div>
 
         <Card>
@@ -148,16 +266,15 @@ export default function AuthPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
-              </TabsList>
+                      <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="login">Login</TabsTrigger>
+              <TabsTrigger value="register">Register</TabsTrigger>
+            </TabsList>
               
               <TabsContent value="login" className="space-y-4">
                 <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
                   <div>
-                    <Label htmlFor="login-username">Username</Label>
                     <Input
                       id="login-username"
                       {...loginForm.register("username")}
@@ -172,7 +289,6 @@ export default function AuthPage() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="login-password">Password</Label>
                     <Input
                       id="login-password"
                       type="password"
@@ -196,21 +312,12 @@ export default function AuthPage() {
                     {loginMutation.isPending ? "Logging in..." : "Login"}
                   </Button>
                 </form>
-
-                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm font-medium text-gray-700 mb-2">Test Accounts:</p>
-                  <div className="text-xs text-gray-600 space-y-1">
-                    <p><strong>Admin:</strong> username=admin, password=admin123</p>
-                    <p><strong>User:</strong> username=testuser, password=test123</p>
-                  </div>
-                </div>
               </TabsContent>
               
               <TabsContent value="register" className="space-y-4">
                 <form onSubmit={registerForm.handleSubmit(handleRegister)} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="register-firstName">First Name</Label>
                       <Input
                         id="register-firstName"
                         {...registerForm.register("firstName")}
@@ -225,7 +332,6 @@ export default function AuthPage() {
                     </div>
                     
                     <div>
-                      <Label htmlFor="register-lastName">Last Name</Label>
                       <Input
                         id="register-lastName"
                         {...registerForm.register("lastName")}
@@ -241,7 +347,6 @@ export default function AuthPage() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="register-username">Username</Label>
                     <Input
                       id="register-username"
                       {...registerForm.register("username")}
@@ -256,12 +361,11 @@ export default function AuthPage() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="register-email">Email</Label>
                     <Input
                       id="register-email"
                       type="email"
                       {...registerForm.register("email")}
-                      placeholder="your@email.com"
+                      placeholder="email@address.com"
                       data-testid="input-register-email"
                     />
                     {registerForm.formState.errors.email && (
@@ -272,7 +376,6 @@ export default function AuthPage() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="register-password">Password</Label>
                     <Input
                       id="register-password"
                       type="password"
@@ -288,12 +391,12 @@ export default function AuthPage() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="register-phone">Phone (Optional)</Label>
+
                     <Input
                       id="register-phone"
                       type="tel"
                       {...registerForm.register("phone")}
-                      placeholder="(555) 123-4567"
+                      placeholder="Phone Number"
                       data-testid="input-register-phone"
                     />
                   </div>

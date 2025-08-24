@@ -86,12 +86,20 @@ export default function Admin() {
     activeUsers: number;
   }>({
     queryKey: ['/api/admin/stats'],
+    queryFn: async () => {
+      const response = await apiRequest("GET", "/api/admin/stats");
+      return response.json();
+    },
     enabled: !!user?.isAdmin,
   });
 
   // Fetch all bookings
   const { data: bookings = [], isLoading: bookingsLoading } = useQuery<Booking[]>({
     queryKey: ['/api/bookings'],
+    queryFn: async () => {
+      const response = await apiRequest("GET", "/api/bookings");
+      return response.json();
+    },
     enabled: !!user?.isAdmin,
   });
 

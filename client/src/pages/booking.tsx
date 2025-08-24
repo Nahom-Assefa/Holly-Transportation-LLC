@@ -135,8 +135,8 @@ export default function Booking() {
       const [hours, minutes] = formData.pickupTime.split(':').map(Number);
       const timeIn24Hour = hours + minutes / 60;
       
-      if (timeIn24Hour < 6 || timeIn24Hour > 21) {
-        customAlert("Please select a pickup time between 6:00 AM and 9:00 PM. Our service hours are 6AM to 6PM daily.", "error");
+      if (timeIn24Hour < 6 || timeIn24Hour > 18) {
+        customAlert("Please select a pickup time between 6:00 AM and 6:00 PM. Our service hours are 6AM to 6PM daily.", "error");
         return;
       }
     }

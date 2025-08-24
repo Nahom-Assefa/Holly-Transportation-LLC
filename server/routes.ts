@@ -38,11 +38,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/auth/user', requireAuth, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const user = await storage.getUser(userId);
+      let user = await storage.getUser(userId);
+      
+      // If user doesn't exist in database (first time Firebase sign-in), create them
+      if (!user && useFirebaseAuth) {
+        user = await storage.upsertUser({
+          id: req.user.id,
+          email: req.user.email,
+          firstName: req.user.firstName,
+          lastName: req.user.lastName,
+          isAdmin: req.user.isAdmin,
+        });
+      }
+      
       res.json(user);
     } catch (error) {
       console.error("Error fetching user:", error);
       res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Create user endpoint for Firebase registration
+  app.post('/api/auth/user', requireAuth, async (req: any, res) => {
+    try {
+      const userData = req.body;
+      const user = await storage.upsertUser(userData);
+      res.json(user);
+    } catch (error) {
+      console.error("Error creating user:", error);
+      res.status(500).json({ message: "Failed to create user" });
     }
   });
 

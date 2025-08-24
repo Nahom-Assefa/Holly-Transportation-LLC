@@ -19,6 +19,8 @@ export default function Home() {
   const { toast } = useToast();
   const [localUser, setLocalUser] = useState(user);
 
+
+
   // Fetch recent bookings for non-admin users
   const { data: recentBookings = [], isLoading: bookingsLoading, refetch: refetchBookings } = useQuery<Array<{
     id: string;
@@ -30,6 +32,10 @@ export default function Home() {
     patientName?: string; // Added for deny functionality
   }>>({
     queryKey: ['/api/bookings'],
+    queryFn: async () => {
+      const response = await apiRequest("GET", "/api/bookings");
+      return response.json();
+    },
     enabled: !!user && !user.isAdmin,
   });
 
@@ -58,19 +64,6 @@ export default function Home() {
 
 
 
-  // Function to refresh user data from the server
-  const refreshUserData = useCallback(async () => {
-    try {
-      const response = await apiRequest("GET", "/api/auth/user");
-      const userData = await response.json();
-      if (userData) {
-        setLocalUser(userData);
-      }
-    } catch (error) {
-      console.error("Failed to refresh user data:", error);
-    }
-  }, []);
-
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       toast({
@@ -85,14 +78,12 @@ export default function Home() {
     }
   }, [isAuthenticated, isLoading, toast]);
 
-  // Refresh user data when component mounts or user changes
+  // Refresh bookings when page becomes visible (user navigates back)
   useEffect(() => {
-    if (user) {
-      refreshUserData();
-      // Also refresh bookings to ensure we have the latest data
+    if (user && !user.isAdmin) {
       refetchBookings();
     }
-  }, [user, refreshUserData, refetchBookings]);
+  }, [user, refetchBookings]);
 
   // Refresh bookings when page becomes visible (user navigates back)
   useEffect(() => {

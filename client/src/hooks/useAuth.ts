@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import type { User } from "@shared/schema";
 import { AUTH_CONFIG } from "@/lib/authConfig";
 import { auth } from "@/lib/firebase";
+import { apiRequest } from "@/lib/queryClient";
+
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
@@ -55,10 +57,42 @@ export function useAuth() {
   // Firebase authentication
   useEffect(() => {
     if (AUTH_CONFIG.useFirebase) {
+      console.log("🔥 Setting up Firebase auth state listener...");
+      console.log("🔥 Firebase auth object:", auth);
+      console.log("🔥 Firebase current user:", auth.currentUser);
+      
       const unsubscribe = onAuthStateChanged(auth, (user) => {
+        console.log("👤 Firebase auth state changed:", user ? `User: ${user.email}` : "No user");
         setFirebaseUser(user);
-        setIsLoading(false);
+        setIsLoading(false); // Always set loading to false, even for no user
+        
+        // If no user and we're on a protected route, redirect to auth
+        if (!user) {
+          const currentPath = window.location.pathname;
+          const isOnPublicPage = currentPath === '/' || currentPath === '/auth';
+          
+          if (!isOnPublicPage) {
+            console.log("🚫 No Firebase user on protected route, redirecting to /auth");
+            window.location.href = "/auth";
+          }
+        }
       });
+      
+      // Set loading to false immediately if no user (not stuck waiting)
+      if (!auth.currentUser) {
+        console.log("🔥 No current user, setting loading to false");
+        setIsLoading(false);
+        
+        // Also check if we need to redirect immediately
+        const currentPath = window.location.pathname;
+        const isOnPublicPage = currentPath === '/' || currentPath === '/auth';
+        
+        if (!isOnPublicPage) {
+          console.log("🚫 No current user on protected route, redirecting to /auth");
+          window.location.href = "/auth";
+        }
+      }
+      
       return unsubscribe;
     }
   }, []);
@@ -66,10 +100,63 @@ export function useAuth() {
   // Local authentication (existing React Query approach)
   const { data: localUser, isLoading: localLoading } = useQuery<ExtendedUser>({
     queryKey: ["/api/auth/user"],
+    queryFn: async () => {
+      const response = await apiRequest("GET", "/api/auth/user");
+      return response.json();
+    },
     retry: false,
-    refetchOnWindowFocus: true,
-    staleTime: 0,
+    refetchOnWindowFocus: false,
+    staleTime: 60 * 1000, // 1 minute
     enabled: !AUTH_CONFIG.useFirebase, // Only run if not using Firebase
+  });
+
+  // Firebase authentication with API calls for user data
+  const { data: firebaseUserData, isLoading: firebaseDataLoading } = useQuery<ExtendedUser>({
+    queryKey: ["/api/auth/user"],
+    queryFn: async () => {
+      console.log("🔥 Firebase queryFn running...");
+      if (!firebaseUser) {
+        console.log("❌ No Firebase user found");
+        throw new Error("No Firebase user");
+      }
+      
+      console.log("🔑 Getting Firebase ID token...");
+      const token = await firebaseUser.getIdToken();
+      console.log("📡 Making API request to /api/auth/user...");
+      
+      const res = await fetch("/api/auth/user", {
+        headers: { "Authorization": `Bearer ${token}` },
+      });
+      
+      console.log(`📊 Response status: ${res.status}`);
+      
+      if (!res.ok) {
+        if (res.status === 401) {
+          console.log("🚫 401 Unauthorized - checking if redirect needed...");
+          // Redirect to auth page for protected routes
+          const currentPath = window.location.pathname;
+          const isOnPublicPage = currentPath === '/' || currentPath === '/auth';
+          console.log(`📍 Current path: ${currentPath}, isOnPublicPage: ${isOnPublicPage}`);
+          
+          if (!isOnPublicPage) {
+            console.log("🔄 Redirecting to /auth...");
+            window.location.href = "/auth";
+            throw new Error("Unauthorized - Redirecting to login");
+          }
+        }
+        console.log(`❌ HTTP error: ${res.status}: ${res.statusText}`);
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+      
+      console.log("✅ API request successful, parsing response...");
+      const data = await res.json();
+      console.log("📦 Parsed user data:", data);
+      return data;
+    },
+    retry: false,
+    refetchOnWindowFocus: false,
+    staleTime: 60 * 1000, // 1 minute
+    enabled: AUTH_CONFIG.useFirebase && !!firebaseUser, // Only run if using Firebase and user is signed in
   });
 
   // Convert Firebase user to ExtendedUser format when using Firebase
@@ -77,19 +164,30 @@ export function useAuth() {
     id: firebaseUser.uid,
     email: firebaseUser.email,
     firstName: firebaseUser.displayName?.split(' ')[0] || null,
-    lastName: firebaseUser.displayName?.split(' ').slice(1).join(' ') || null,
+    lastName: firebaseUser.displayName?.split(' ')?.slice(1).join(' ') || null,
     profileImageUrl: firebaseUser.photoURL,
     phone: firebaseUser.phoneNumber,
     medicalNotes: null,
-    isAdmin: false, // We'll need to check this against your database
-    createdAt: null,
-    updatedAt: null,
+    isAdmin: firebaseUserData?.isAdmin || false, // Use API data for admin status
+    createdAt: firebaseUserData?.createdAt || null,
+    updatedAt: firebaseUserData?.updatedAt || null,
   } : null;
 
   // Determine which user data to use
   const user: ExtendedUser | null = AUTH_CONFIG.useFirebase ? convertedFirebaseUser : (localUser || null);
   const isAuthenticated = !!user;
-  const finalIsLoading = AUTH_CONFIG.useFirebase ? isLoading : localLoading;
+  const finalIsLoading = AUTH_CONFIG.useFirebase ? (isLoading || firebaseDataLoading) : localLoading;
+  
+  // Debug logging
+  console.log("🔍 Auth Debug:", {
+    useFirebase: AUTH_CONFIG.useFirebase,
+    firebaseUser: !!firebaseUser,
+    firebaseUserData: !!firebaseUserData,
+    localUser: !!localUser,
+    user: !!user,
+    isAuthenticated,
+    isLoading: finalIsLoading
+  });
 
   return {
     user,

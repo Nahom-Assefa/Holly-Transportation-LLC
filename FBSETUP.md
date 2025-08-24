@@ -53,12 +53,38 @@ VITE_FIREBASE_MEASUREMENT_ID=G-LWN40RC1H2
 FIREBASE_CLIENT_EMAIL=your_service_account_email
 FIREBASE_PRIVATE_KEY=your_private_key
 
+# Admin Access Control
+ADMIN_EMAILS=admin@hollytransport.com,dispatch@hollytransport.com
+
 # Database (still needed)
 DATABASE_URL=your_postgresql_connection_string
 SESSION_SECRET=your_session_secret
 ```
 
 ## 🔐 Firebase Admin Setup
+
+## 👑 Admin Access Control
+
+The system uses a simple environment variable approach for admin access:
+
+### **Setup Admin Access:**
+1. **Add admin emails** to your `.env` file:
+   ```bash
+   ADMIN_EMAILS=admin@hollytransport.com,dispatch@hollytransport.com,owner@hollytransport.com
+   ```
+
+2. **Restart your server** after making changes
+
+### **How It Works:**
+- **Any email in `ADMIN_EMAILS`** gets admin access
+- **Easy to add/remove** admins by updating `.env`
+- **No database changes** required
+- **Developer controlled** - simple and secure
+
+### **Example Admin Emails:**
+- `admin@hollytransport.com` - Main admin
+- `dispatch@hollytransport.com` - Dispatch manager  
+- `owner@hollytransport.com` - Business owner
 
 ### **1. Get Service Account Key:**
 - Go to Firebase Console → Project Settings → Service Accounts

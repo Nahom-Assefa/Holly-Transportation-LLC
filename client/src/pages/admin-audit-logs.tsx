@@ -10,7 +10,7 @@ import Footer from "@/components/footer";
 import { ArrowLeft, Activity, User, MapPin, Trash2, AlertTriangle } from "lucide-react";
 import { Link } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
-import { formatTime } from "@/utils/timeUtils";
+import { formatTime, formatDate } from "@/utils/timeUtils";
 import { formatServiceType, formatStatus } from "@/utils/formatUtils";
 
 interface AuditLog {
@@ -281,7 +281,7 @@ export default function AdminAuditLogs() {
 
                         {/* Timestamp */}
                         <div className="text-sm text-gray-500">
-                          {new Date(log.createdAt).toLocaleString()}
+                          {formatDate(log.createdAt)} at {formatTime(new Date(log.createdAt).toLocaleTimeString('en-US', { hour12: false }))}
                         </div>
                       </div>
 
