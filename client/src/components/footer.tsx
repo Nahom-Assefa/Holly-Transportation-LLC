@@ -1,9 +1,13 @@
 import { Ambulance, Phone, Mail, MapPin, Clock } from "lucide-react";
+import { COMPANY_INFO } from "@shared/constants";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/useAuth";
+import { handlePhoneClick } from "@/utils/telUtility";
+import { useCustomAlert } from "@/utils/customAlert";
 
 export default function Footer() {
   const { isAuthenticated } = useAuth();
+  const customAlert = useCustomAlert();
   
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -81,10 +85,10 @@ export default function Footer() {
               <li className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
                 <button 
-                  onClick={() => window.open('tel:+16513506846', '_self')}
+                  onClick={() => handlePhoneClick({ toast: customAlert })}
                   className="hover:text-white transition-colors"
                 >
-                  651-350-6846
+                  {COMPANY_INFO.PHONE}
                 </button>
               </li>
               <li className="flex items-center space-x-2">
@@ -108,7 +112,7 @@ export default function Footer() {
         <Separator className="my-8 bg-gray-800" />
         
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400">© 2024 Holly Transportation. All rights reserved.</p>
+          <p className="text-gray-400">© 2025 Holly Transportation. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
             <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>

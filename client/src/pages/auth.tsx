@@ -2,7 +2,7 @@
  * Local Development Authentication Page
  * 
  * @description Login and registration page for local development mode.
- * Provides simple username/password authentication when not using Replit Auth.
+ * Provides simple username/password authentication for local development.
  * Includes both login and registration forms in a professional layout.
  */
 import { useState } from "react";

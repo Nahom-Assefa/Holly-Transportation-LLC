@@ -1,7 +1,21 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { useToast } from "@/hooks/use-toast";
+
 import type { InsertBooking } from "@shared/schema";
+
+// Type for the booking form data
+type BookingFormData = {
+  patientName: string;
+  phone: string;
+  pickupDate: string;
+  pickupTime: string;
+  pickupAddress: string;
+  destination: string;
+  serviceType: "one_way" | "round_trip" | "wait_and_return";
+  mobilityAssistance: "independent" | "walker" | "other";
+  notes: string;
+  agreedToTerms: boolean;
+};
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { isUnauthorizedError } from "@/lib/authUtils";
@@ -14,7 +28,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { Calendar, Phone, ArrowLeft } from "lucide-react";
+import { COMPANY_INFO } from "@shared/constants";
 import { Link } from "wouter";
+import { handlePhoneClick } from "@/utils/telUtility";
+import { useCustomAlert } from "@/utils/customAlert";
 
 /**
  * Transportation Booking Component
@@ -28,8 +45,9 @@ import { Link } from "wouter";
  */
 export default function Booking() {
   const { user, isAuthenticated, isLoading } = useAuth();
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
+
+  const customAlert = useCustomAlert();
+  const [formData, setFormData] = useState<BookingFormData>({
     patientName: "",
     phone: "",
     pickupDate: "",
@@ -44,17 +62,13 @@ export default function Booking() {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      toast({
-        title: "Unauthorized",
-        description: "You are logged out. Logging in again...",
-        variant: "destructive",
-      });
+      customAlert("You are logged out. Logging in again...", "error");
       setTimeout(() => {
         window.location.href = "/api/login";
       }, 500);
       return;
     }
-  }, [isAuthenticated, isLoading, toast]);
+  }, [isAuthenticated, isLoading]);
 
   useEffect(() => {
     if (user && user.firstName && user.lastName) {
@@ -64,17 +78,14 @@ export default function Booking() {
         phone: user.phone || "",
       }));
     }
-  }, [user]);
+  }, [user, user?.firstName, user?.lastName, user?.phone]);
 
   const bookingMutation = useMutation({
-    mutationFn: async (data: Omit<InsertBooking, 'userId'>) => {
+    mutationFn: async (data: Omit<InsertBooking, 'userId' | 'status'>) => {
       await apiRequest("POST", "/api/bookings", data);
     },
     onSuccess: () => {
-      toast({
-        title: "Booking Confirmed",
-        description: "Your transportation has been scheduled successfully!",
-      });
+      customAlert("Your transportation has been scheduled successfully!", "success");
       setFormData({
         patientName: user ? `${user.firstName} ${user.lastName}` : "",
         phone: user?.phone || "",
@@ -90,21 +101,13 @@ export default function Booking() {
     },
     onError: (error) => {
       if (isUnauthorizedError(error)) {
-        toast({
-          title: "Unauthorized",
-          description: "You are logged out. Logging in again...",
-          variant: "destructive",
-        });
+        customAlert("You are logged out. Logging in again...", "error");
         setTimeout(() => {
           window.location.href = "/api/login";
         }, 500);
         return;
       }
-      toast({
-        title: "Booking Failed",
-        description: "Failed to schedule booking. Please try again.",
-        variant: "destructive",
-      });
+      customAlert("Failed to schedule booking. Please try again.", "error");
     },
   });
 
@@ -112,11 +115,7 @@ export default function Booking() {
     e.preventDefault();
     
     if (!formData.agreedToTerms) {
-      toast({
-        title: "Terms Required",
-        description: "Please agree to the terms of service to continue.",
-        variant: "destructive",
-      });
+      customAlert("Please agree to the terms of service to continue.", "error");
       return;
     }
 
@@ -126,26 +125,18 @@ export default function Booking() {
       const cleanPhone = formData.phone.replace(/[\s\-\(\)]/g, '');
       
       if (!phoneRegex.test(formData.phone) || cleanPhone.length < 10 || cleanPhone.length > 15) {
-        toast({
-          title: "Invalid Phone Number",
-          description: "Please enter a valid phone number (e.g., (555) 123-4567 or 555-123-4567).",
-          variant: "destructive",
-        });
+        customAlert("Please enter a valid phone number (e.g., (555) 123-4567 or 555-123-4567).", "error");
         return;
       }
     }
 
-    // Validate pickup time is within business hours (6am - 9pm)
+    // Validate pickup time is within business hours (6am - 6pm)
     if (formData.pickupTime) {
       const [hours, minutes] = formData.pickupTime.split(':').map(Number);
       const timeIn24Hour = hours + minutes / 60;
       
       if (timeIn24Hour < 6 || timeIn24Hour > 21) {
-        toast({
-          title: "Invalid Pickup Time",
-          description: "Please select a pickup time between 6:00 AM and 9:00 PM. Our service hours are 6AM to 9PM daily.",
-          variant: "destructive",
-        });
+        customAlert("Please select a pickup time between 6:00 AM and 9:00 PM. Our service hours are 6AM to 6PM daily.", "error");
         return;
       }
     }
@@ -163,7 +154,7 @@ export default function Booking() {
     });
   };
 
-  const handleInputChange = (field: string, value: string | boolean) => {
+  const handleInputChange = (field: keyof typeof formData, value: string | boolean) => {
     setFormData(prev => ({
       ...prev,
       [field]: value,
@@ -228,13 +219,12 @@ export default function Booking() {
                 <Button 
                   size="lg"
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3"
-                  onClick={() => window.open('tel:+16513506846', '_self')}
-                  data-testid="phone-booking-button"
-                >
+                  onClick={() => handlePhoneClick({ toast: customAlert })}
+                  data-testid="phone-booking-button">
                   <Phone className="w-5 h-5 mr-2" />
-                  Call 651-350-6846
+                  Call {COMPANY_INFO.PHONE}
                 </Button>
-                <p className="text-xs text-gray-500 text-center mt-1">Available 6AM to 6PM</p>
+              <p className="text-xs text-gray-500 text-center mt-1">Available {COMPANY_INFO.HOURS}</p>
               </div>
             </div>
           </CardContent>
@@ -331,7 +321,7 @@ export default function Booking() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Service Type</label>
                   <Select 
                     value={formData.serviceType} 
-                    onValueChange={(value) => handleInputChange("serviceType", value)}
+                    onValueChange={(value: "one_way" | "round_trip" | "wait_and_return") => handleInputChange("serviceType", value)}
                     data-testid="select-service-type"
                   >
                     <SelectTrigger>
@@ -348,7 +338,7 @@ export default function Booking() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Mobility Assistance</label>
                   <Select 
                     value={formData.mobilityAssistance} 
-                    onValueChange={(value) => handleInputChange("mobilityAssistance", value)}
+                    onValueChange={(value: "independent" | "walker" | "other") => handleInputChange("mobilityAssistance", value)}
                     data-testid="select-mobility-assistance"
                   >
                     <SelectTrigger>
@@ -404,6 +394,7 @@ export default function Booking() {
                   variant="outline"
                   className="border-primary text-primary hover:bg-primary/5"
                   data-testid="button-call-to-book"
+                  onClick={() => handlePhoneClick({ toast: customAlert })}
                 >
                   <Phone className="w-5 h-5 mr-2" />
                   Call to Book

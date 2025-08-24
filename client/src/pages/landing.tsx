@@ -6,11 +6,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useToast } from "@/hooks/use-toast";
-import type { InsertContactMessage } from "@shared/schema";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { handlePhoneClick } from "@/utils/telUtility";
+import { COMPANY_INFO } from "@shared/constants";
+import { useCustomAlert } from "@/utils/customAlert";
+
 import { 
   Ambulance, 
   Shield, 
@@ -21,7 +20,7 @@ import {
   Phone, 
   Mail, 
   MapPin, 
-  Star, 
+
   CheckCircle,
   Calendar,
   Users,
@@ -44,7 +43,15 @@ import assistanceImage from "@assets/generated_images/Holly_Transportation_assis
  */
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { toast } = useToast();
+  const customAlert = useCustomAlert();
+  const [contactForm, setContactForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: ''
+  });
 
   // Contact form mutation - DISABLED (using mailto only)
   // const contactMutation = useMutation({
@@ -104,10 +111,20 @@ Sent from Holly Transportation contact form
     window.location.href = mailtoUrl;
     
     // Show success message
-    toast({
-      title: "Email Client Opened",
-      description: "Your default email client has been opened with the message ready to send.",
+    customAlert("Your default email client has been opened with the message ready to send.", "success");
+    
+    // Clear the form
+    setContactForm({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      subject: '',
+      message: ''
     });
+    
+    // Reset the form element
+    e.currentTarget.reset();
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -285,7 +302,7 @@ Sent from Holly Transportation contact form
                   variant="outline" 
                   size="lg"
                   className="border-primary text-primary hover:bg-primary/5 text-xl font-bold py-6 px-8"
-                  onClick={() => window.open('tel:+16515006198', '_self')}
+                  onClick={() => handlePhoneClick({ toast: customAlert })}
                   data-testid="hero-call-button"
                 >
                   <Phone className="w-6 h-6 mr-3" />
@@ -303,7 +320,7 @@ Sent from Holly Transportation contact form
                   <div className="text-sm text-gray-600">Daily Hours</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">5★</div>
+                  <div className="text-3xl font-bold text-primary">4.3★</div>
                   <div className="text-sm text-gray-600">Average Rating</div>
                 </div>
               </div>
@@ -430,7 +447,7 @@ Sent from Holly Transportation contact form
                 </p>
                 
                 <div className="bg-white rounded-lg p-6 border border-gray-200">
-                  <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4">Where We Transport You</h3>
+                  <h3 className="text-xl lg:text-2xl text-center font-bold text-gray-900 mb-4">Where We Transport You</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-healthcare-green flex-shrink-0" />
@@ -455,6 +472,14 @@ Sent from Holly Transportation contact form
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-healthcare-green flex-shrink-0" />
                       <span className="text-lg text-gray-700 font-medium">Rehab Centers</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <CheckCircle className="w-5 h-5 text-healthcare-green flex-shrink-0" />
+                      <span className="text-lg text-gray-700 font-medium">Private Function</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <CheckCircle className="w-5 h-5 text-healthcare-green flex-shrink-0" />
+                      <span className="text-lg text-gray-700 font-medium">Adult Care Center</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-healthcare-green flex-shrink-0" />
@@ -666,15 +691,15 @@ Sent from Holly Transportation contact form
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
-                    <span className="font-medium">Cash payments</span>
+                    <span className="text-3xl">Cash payments</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
-                    <span className="font-medium">Credit & debit cards</span>
+                    <span className="text-3xl">Credit & debit cards</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
-                    <span className="font-medium">Personal checks</span>
+                    <span className="text-3xl">Personal checks</span>
                   </li>
                 </ul>
               </CardContent>
@@ -692,19 +717,11 @@ Sent from Holly Transportation contact form
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
-                    <span className="font-medium">No monthly premium required</span>
+                    <span className="text-3xl">No monthly premium required</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
-                    <span className="font-medium">Small co-pays: $1 - $3</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
-                    <span className="font-medium">MinnesotaCare available</span>
-                  </li>
-                  <li className="flex items-center text-sm">
-                    <div className="w-5 h-5 mr-3 flex-shrink-0"></div>
-                    <span className="text-gray-500 italic">For Minnesotans who need affordable health care coverage options</span>
+                    <span className="text-3xl">MinnesotaCare available</span>
                   </li>
                 </ul>
               </CardContent>
@@ -719,102 +736,27 @@ Sent from Holly Transportation contact form
                 <p className="text-gray-600 mb-6">
                   We accept various Minnesota waiver programs to help cover your transportation costs.
                 </p>
-                <ul className="space-y-3 text-gray-600">
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
-                    <span className="font-medium">BI</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
-                    <span className="font-medium">CAC</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
-                    <span className="font-medium">CADI</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-healthcare-green mr-3 flex-shrink-0" />
-                    <span className="font-medium">DD</span>
-                  </li>
-                </ul>
+                <div className="grid grid-cols-1 gap-3 text-gray-600 mx-auto w-fit">
+                  <div className="grid grid-cols-[auto_1fr] items-center gap-3">
+                    <CheckCircle className="w-5 h-5 text-healthcare-green" />
+                    <span className="text-3xl">BI</span>
+                  </div>
+                  <div className="grid grid-cols-[auto_1fr] items-center gap-3">
+                    <CheckCircle className="w-5 h-5 text-healthcare-green" />
+                    <span className="text-3xl">CAC</span>
+                  </div>
+                  <div className="grid grid-cols-[auto_1fr] items-center gap-3">
+                    <CheckCircle className="w-5 h-5 text-healthcare-green" />
+                    <span className="text-3xl">CADI</span>
+                  </div>
+                  <div className="grid grid-cols-[auto_1fr] items-center gap-3">
+                    <CheckCircle className="w-5 h-5 text-healthcare-green" />
+                    <span className="text-3xl">DD</span>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
-          
-          {/* Billing Information */}
-          <Card className="p-8 bg-white">
-            <CardContent className="p-0">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">Billing Process</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-start space-x-4">
-                      <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                        <span className="text-primary font-semibold text-sm">1</span>
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-bold text-gray-900">Pre-Authorization</h4>
-                        <p className="text-lg text-gray-600">We handle insurance pre-authorization when required for your transportation.</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-4">
-                      <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                        <span className="text-primary font-semibold text-sm">2</span>
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-bold text-gray-900">Service Completion</h4>
-                        <p className="text-lg text-gray-600">After your safe transport, we process billing with your insurance provider.</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-4">
-                      <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                        <span className="text-primary font-semibold text-sm">3</span>
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-bold text-gray-900">Statement & Payment</h4>
-                        <p className="text-lg text-gray-600">You receive a clear statement for any remaining balance after insurance.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="bg-slate-50 rounded-lg p-6">
-                  <h4 className="text-xl font-bold text-gray-900 mb-4">Questions About Payment?</h4>
-                  <p className="text-lg text-gray-600 mb-4">
-                    Our billing team is here to help you understand your coverage and payment options.
-                  </p>
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-3">
-                      <Phone className="w-5 h-5 text-primary" />
-                      <div>
-                        <div className="text-lg font-bold text-gray-900">Call for Billing Questions</div>
-                        <button 
-                          onClick={() => window.open('tel:+16515006198', '_self')}
-                          className="text-lg text-gray-600 hover:text-primary transition-colors"
-                        >
-                          (651) 500-6198
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Mail className="w-5 h-5 text-healthcare-green" />
-                      <div>
-                        <div className="text-lg font-bold text-gray-900">Email Support</div>
-                        <a href="mailto:hollytransport04@gmail.com" className="text-lg text-gray-600 hover:text-healthcare-green transition-colors">
-                          hollytransport04@gmail.com
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-4 p-4 bg-primary/10 rounded-lg">
-                    <p className="text-lg text-gray-700">
-                      <strong>Important:</strong> Payment is never required upfront. We bill insurance first and work with you on any remaining balance.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </section>
 
@@ -849,11 +791,11 @@ Sent from Holly Transportation contact form
                     variant="outline" 
                     size="lg"
                     className="border-primary text-primary hover:bg-primary/5 text-xl font-bold py-6 px-8"
-                    onClick={() => window.open('tel:+16515006198', '_self')}
+                    onClick={() => handlePhoneClick({ toast: customAlert })}
                     data-testid="book-call-button"
                   >
                     <Phone className="w-6 h-6 mr-3" />
-                    Call (651) 500-6198
+                    Call {COMPANY_INFO.PHONE}
                   </Button>
                 </div>
               </div>
@@ -890,7 +832,7 @@ Sent from Holly Transportation contact form
                     <div>
                       <div className="text-lg font-bold text-gray-900">Phone</div>
                       <button 
-                        onClick={() => window.open('tel:+16515006198', '_self')}
+                        onClick={() => handlePhoneClick({ toast: customAlert })}
                         className="text-lg text-gray-600 hover:text-primary transition-colors"
                       >
                         (651) 500-6198
@@ -948,7 +890,10 @@ Sent from Holly Transportation contact form
                       <label className="block text-lg font-bold text-gray-700 mb-2">First Name *</label>
                       <Input 
                         name="firstName"
+                        value={contactForm.firstName}
+                        onChange={(e) => setContactForm(prev => ({ ...prev, firstName: e.target.value }))}
                         placeholder="John"
+                        className="placeholder:text-gray-400"
                         required
                         data-testid="input-first-name"
                       />
@@ -957,7 +902,10 @@ Sent from Holly Transportation contact form
                       <label className="block text-lg font-bold text-gray-700 mb-2">Last Name *</label>
                       <Input 
                         name="lastName"
+                        value={contactForm.lastName}
+                        onChange={(e) => setContactForm(prev => ({ ...prev, lastName: e.target.value }))}
                         placeholder="Doe"
+                        className="placeholder:text-gray-400"
                         required
                         data-testid="input-last-name"
                       />
@@ -969,7 +917,10 @@ Sent from Holly Transportation contact form
                     <Input 
                       name="email"
                       type="email"
+                      value={contactForm.email}
+                      onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
                       placeholder="john@example.com"
+                      className="placeholder:text-gray-400"
                       required
                       data-testid="input-email"
                     />
@@ -980,15 +931,24 @@ Sent from Holly Transportation contact form
                     <Input 
                       name="phone"
                       type="tel"
+                      value={contactForm.phone}
+                      onChange={(e) => setContactForm(prev => ({ ...prev, phone: e.target.value }))}
                       placeholder="(555) 123-4567"
+                      className="placeholder:text-gray-400"
                       data-testid="input-phone"
                     />
                   </div>
                   
                   <div>
                     <label className="block text-lg font-bold text-gray-700 mb-2">Subject *</label>
-                    <Select name="subject" required data-testid="select-subject">
-                      <SelectTrigger>
+                    <Select 
+                      name="subject" 
+                      value={contactForm.subject}
+                      onValueChange={(value) => setContactForm(prev => ({ ...prev, subject: value }))}
+                      required 
+                      data-testid="select-subject"
+                    >
+                      <SelectTrigger className="placeholder:text-gray-400">
                         <SelectValue placeholder="Select a subject" />
                       </SelectTrigger>
                       <SelectContent>
@@ -1007,7 +967,10 @@ Sent from Holly Transportation contact form
                     <Textarea 
                       name="message"
                       rows={4}
+                      value={contactForm.message}
+                      onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
                       placeholder="How can we help you today?"
+                      className="placeholder:text-gray-400"
                       required
                       data-testid="textarea-message"
                     />
@@ -1066,7 +1029,7 @@ Sent from Holly Transportation contact form
                 <li className="flex items-center space-x-2">
                   <Phone className="w-4 h-4 text-primary" />
                   <button 
-                    onClick={() => window.open('tel:+16515006198', '_self')}
+                    onClick={() => handlePhoneClick({ toast: customAlert })}
                     className="hover:text-primary transition-colors"
                   >
                     (651) 500-6198

@@ -11,9 +11,10 @@ import {
   type InsertMessage,
   type ContactMessage,
   type InsertContactMessage,
+  auditLog,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, and, count } from "drizzle-orm";
+import { eq, desc, and, count, inArray } from "drizzle-orm";
 
 /**
  * Storage interface defining all database operations for Holly Transportation
@@ -24,7 +25,7 @@ import { eq, desc, and, count } from "drizzle-orm";
  */
 export interface IStorage {
   // User operations
-  // (IMPORTANT) these user operations are mandatory for Replit Auth.
+  // User operations for local authentication
   getUser(id: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
   
@@ -40,6 +41,7 @@ export interface IStorage {
   getAllBookings(): Promise<Booking[]>;
   getBookingById(id: string): Promise<Booking | undefined>;
   updateBookingStatus(id: string, status: string): Promise<Booking | undefined>;
+  deleteBooking(id: string): Promise<boolean>;
   
   // Message operations
   createMessage(message: InsertMessage): Promise<Message>;
@@ -57,9 +59,21 @@ export interface IStorage {
   getAdminStats(): Promise<{
     todayBookings: number;
     activeUsers: number;
-    pendingMessages: number;
-    totalRevenue: number;
   }>;
+  
+  // Audit log methods
+  createAuditLog(data: {
+    userId: string;
+    action: string;
+    entityType: string;
+    entityId?: string;
+    details?: any;
+    ipAddress?: string;
+    userAgent?: string;
+  }): Promise<any>;
+  getAuditLogs(limit?: number, offset?: number): Promise<any[]>;
+  getAuditLogsCount(): Promise<number>;
+  deleteAuditLogs(logIds: string[]): Promise<number>;
 }
 
 /**
@@ -71,7 +85,7 @@ export interface IStorage {
  */
 export class DatabaseStorage implements IStorage {
   // User operations
-  // (IMPORTANT) these user operations are mandatory for Replit Auth.
+  // User operations for local authentication
   
   /**
    * Retrieves a user by their unique identifier
@@ -216,69 +230,47 @@ export class DatabaseStorage implements IStorage {
     return booking;
   }
 
-  /**
-   * MESSAGE OPERATIONS - DISABLED
-   * 
-   * Message functionality has been replaced with mailto protocol for direct email contact.
-   * Users now contact Holly Transportation directly via email instead of using the database
-   * messaging system. This provides immediate delivery and simpler administration.
-   * 
-   * Previously supported:
-   * - createMessage: Store user messages in database
-   * - getMessagesByUser: Fetch messages for specific user
-   * - getAllMessages: Admin view of all messages
-   * - updateMessageResponse: Admin response to user messages
-   * - markMessageAsRead: Mark messages as read
-   */
-  
-  // async createMessage(message: InsertMessage): Promise<Message> {
-  //   const [newMessage] = await db
-  //     .insert(messages)
-  //     .values(message)
-  //     .returning();
-  //   return newMessage;
-  // }
+  async deleteBooking(id: string): Promise<boolean> {
+    const [deletedBooking] = await db
+      .delete(bookings)
+      .where(eq(bookings.id, id))
+      .returning();
+    return !!deletedBooking;
+  }
 
-  // async getMessagesByUser(userId: string): Promise<Message[]> {
-  //   return await db
-  //     .select()
-  //     .from(messages)
-  //     .where(eq(messages.userId, userId))
-  //     .orderBy(desc(messages.createdAt));
-  // }
+  // Message operations (commented out but interface requires them)
+  async createMessage(messageData: any): Promise<any> {
+    // Messages are now handled via mailto protocol
+    throw new Error("Messages are now handled via mailto protocol");
+  }
 
-  // async getAllMessages(): Promise<Message[]> {
-  //   return await db
-  //     .select()
-  //     .from(messages)
-  //     .orderBy(desc(messages.createdAt));
-  // }
+  async getMessagesByUser(userId: string): Promise<any[]> {
+    // Messages are now handled via mailto protocol
+    return [];
+  }
 
-  // async updateMessageResponse(id: string, response: string): Promise<Message | undefined> {
-  //   const [message] = await db
-  //     .update(messages)
-  //     .set({ response, isResolved: true, updatedAt: new Date() })
-  //     .where(eq(messages.id, id))
-  //     .returning();
-  //   return message;
-  // }
+  async getAllMessages(): Promise<any[]> {
+    // Messages are now handled via mailto protocol
+    return [];
+  }
 
-  // async markMessageAsRead(id: string): Promise<Message | undefined> {
-  //   const [message] = await db
-  //     .update(messages)
-  //     .set({ isRead: true, updatedAt: new Date() })
-  //     .where(eq(messages.id, id))
-  //     .returning();
-  //   return message;
-  // }
+  async updateMessageResponse(id: string, response: string): Promise<any> {
+    // Messages are now handled via mailto protocol
+    throw new Error("Messages are now handled via mailto protocol");
+  }
+
+  async markMessageAsRead(id: string): Promise<any> {
+    // Messages are now handled via mailto protocol
+    throw new Error("Messages are now handled via mailto protocol");
+  }
 
   // Contact message operations
-  async createContactMessage(message: InsertContactMessage): Promise<ContactMessage> {
-    const [newMessage] = await db
+  async createContactMessage(messageData: any): Promise<any> {
+    const [message] = await db
       .insert(contactMessages)
-      .values(message)
+      .values(messageData)
       .returning();
-    return newMessage;
+    return message;
   }
 
   async getAllContactMessages(): Promise<ContactMessage[]> {
@@ -301,8 +293,6 @@ export class DatabaseStorage implements IStorage {
   async getAdminStats(): Promise<{
     todayBookings: number;
     activeUsers: number;
-    pendingMessages: number;
-    totalRevenue: number;
   }> {
     const today = new Date().toISOString().split('T')[0];
     
@@ -315,17 +305,72 @@ export class DatabaseStorage implements IStorage {
       .select({ count: count() })
       .from(users);
 
-    const [pendingMessagesResult] = await db
-      .select({ count: count() })
-      .from(messages)
-      .where(eq(messages.isRead, false));
-
     return {
       todayBookings: todayBookingsResult.count,
       activeUsers: activeUsersResult.count,
-      pendingMessages: pendingMessagesResult.count,
-      totalRevenue: 18500, // This would be calculated from completed bookings in a real app
     };
+  }
+
+  // Create audit log entry
+  async createAuditLog(data: {
+    userId: string;
+    action: string;
+    entityType: string;
+    entityId?: string;
+    details?: any;
+    ipAddress?: string;
+    userAgent?: string;
+  }): Promise<any> {
+    const [auditEntry] = await db
+      .insert(auditLog)
+      .values(data)
+      .returning();
+    return auditEntry;
+  }
+
+  // Get audit logs for admin viewing
+  async getAuditLogs(limit: number = 100, offset: number = 0): Promise<any[]> {
+    const logs = await db
+      .select({
+        id: auditLog.id,
+        action: auditLog.action,
+        entityType: auditLog.entityType,
+        entityId: auditLog.entityId,
+        details: auditLog.details,
+        ipAddress: auditLog.ipAddress,
+        userAgent: auditLog.userAgent,
+        createdAt: auditLog.createdAt,
+        user: {
+          id: users.id,
+          firstName: users.firstName,
+          lastName: users.lastName,
+          email: users.email,
+        }
+      })
+      .from(auditLog)
+      .leftJoin(users, eq(auditLog.userId, users.id))
+      .orderBy(desc(auditLog.createdAt))
+      .limit(limit)
+      .offset(offset);
+    
+    return logs;
+  }
+
+  // Get audit logs count for pagination
+  async getAuditLogsCount(): Promise<number> {
+    const [result] = await db
+      .select({ count: count() })
+      .from(auditLog);
+    return result.count;
+  }
+
+  // Delete multiple audit logs by IDs
+  async deleteAuditLogs(logIds: string[]): Promise<number> {
+    const result = await db
+      .delete(auditLog)
+      .where(inArray(auditLog.id, logIds));
+    
+    return result.rowCount || 0;
   }
 }
 

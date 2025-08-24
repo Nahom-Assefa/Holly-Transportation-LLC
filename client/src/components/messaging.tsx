@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { MessageCircle, Mail, Phone } from "lucide-react";
+import { COMPANY_INFO } from "@shared/constants";
+import { handlePhoneClick } from "@/utils/telUtility";
+import { useCustomAlert } from "@/utils/customAlert";
 
 /**
  * Contact Support Component (formerly Messaging)
@@ -18,6 +21,7 @@ import { MessageCircle, Mail, Phone } from "lucide-react";
 export default function Messaging() {
   const { user, isAuthenticated } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const customAlert = useCustomAlert();
 
   if (!isAuthenticated || !user || user.isAdmin) {
     return null;
@@ -52,7 +56,7 @@ export default function Messaging() {
               <div className="grid gap-4">
                 {/* Email Contact */}
                 <Card className="border-healthcare-green/20 hover:border-healthcare-green/40 transition-colors cursor-pointer"
-                      onClick={() => window.open('mailto:hollytransport04@gmail.com?subject=Transportation Inquiry', '_self')}>
+                      onClick={() => window.open(`mailto:${COMPANY_INFO.EMAIL}?subject=Transportation Inquiry`, '_self')}>
                   <CardHeader className="pb-3">
                     <CardTitle className="flex items-center space-x-3 text-lg">
                       <Mail className="w-5 h-5 text-healthcare-green" />
@@ -65,7 +69,7 @@ export default function Messaging() {
                       className="w-full bg-healthcare-green text-white hover:bg-healthcare-green/90"
                       onClick={(e) => {
                         e.stopPropagation();
-                        window.open('mailto:hollytransport04@gmail.com?subject=Transportation Inquiry', '_self');
+                        window.open(`mailto:${COMPANY_INFO.EMAIL}?subject=Transportation Inquiry`, '_self');
                         setIsOpen(false);
                       }}
                       data-testid="email-support-button"
@@ -73,13 +77,13 @@ export default function Messaging() {
                       <Mail className="w-4 h-4 mr-2" />
                       Email Support
                     </Button>
-                    <p className="text-xs text-gray-500 text-center mt-2">hollytransport04@gmail.com</p>
+                    <p className="text-xs text-gray-500 text-center mt-2">{COMPANY_INFO.EMAIL}</p>
                   </CardContent>
                 </Card>
 
                 {/* Phone Contact */}
                 <Card className="border-blue-200 hover:border-blue-300 transition-colors cursor-pointer"
-                      onClick={() => window.open('tel:+16515006198', '_self')}>
+                      onClick={() => handlePhoneClick({ toast: customAlert })}>
                   <CardHeader className="pb-3">
                     <CardTitle className="flex items-center space-x-3 text-lg">
                       <Phone className="w-5 h-5 text-blue-600" />
@@ -93,21 +97,21 @@ export default function Messaging() {
                       className="w-full border-blue-600 text-blue-600 hover:bg-blue-50"
                       onClick={(e) => {
                         e.stopPropagation();
-                        window.open('tel:+16515006198', '_self');
+                        handlePhoneClick({ toast: customAlert })
                         setIsOpen(false);
                       }}
                       data-testid="call-support-button"
                     >
                       <Phone className="w-4 h-4 mr-2" />
-                      Call (651) 500-6198
+                      Call {COMPANY_INFO.PHONE}
                     </Button>
-                    <p className="text-xs text-gray-500 text-center mt-2">Available 6AM - 6PM Daily</p>
+                    <p className="text-xs text-gray-500 text-center mt-2">Available {COMPANY_INFO.HOURS} Daily</p>
                   </CardContent>
                 </Card>
               </div>
               
               <div className="text-center text-xs text-gray-500 mt-4">
-                <p>Common topics: Booking assistance • Insurance questions • Special requests</p>
+                <p>Common topics: Booking assistance • State Programs • Special requests</p>
               </div>
             </div>
           </DialogContent>

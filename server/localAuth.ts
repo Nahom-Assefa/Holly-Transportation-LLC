@@ -12,6 +12,7 @@ import { Express } from "express";
 import { storage } from "./storage";
 import { insertUserSchema } from "@shared/schema";
 import { z } from "zod";
+import { COMPANY_INFO } from "@shared/constants";
 
 const scryptAsync = promisify(scrypt);
 
@@ -246,7 +247,7 @@ async function createDefaultUsers() {
       password: adminPassword,
       firstName: "Holly",
       lastName: "Admin",
-      phone: "(651) 500-6198",
+      phone: COMPANY_INFO.PHONE,
       profileImageUrl: null,
       medicalNotes: null,
       isAdmin: true,

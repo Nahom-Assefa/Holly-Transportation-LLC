@@ -11,6 +11,18 @@ import { QueryClient, QueryFunction } from "@tanstack/react-query";
  */
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
+    // Special handling for 401 - only redirect if we're on a protected route
+    if (res.status === 401) {
+      const currentPath = window.location.pathname;
+      const isOnPublicPage = currentPath === '/' || currentPath === '/auth';
+      
+      // Only redirect to auth if we're not already on a public page
+      if (!isOnPublicPage) {
+        window.location.href = "/auth";
+        throw new Error("Unauthorized - Redirecting to login");
+      }
+    }
+    
     const text = (await res.text()) || res.statusText;
     throw new Error(`${res.status}: ${text}`);
   }
@@ -27,7 +39,6 @@ async function throwIfResNotOk(res: Response) {
  * @param {unknown} [data] - Optional request body data to be JSON serialized
  * 
  * @returns {Promise<Response>} The fetch Response object for further processing
- * 
  * @throws {Error} When response status is not ok (non-2xx status codes)
  * 
  * @example

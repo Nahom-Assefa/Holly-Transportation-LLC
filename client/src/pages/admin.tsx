@@ -5,8 +5,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -30,7 +28,9 @@ import {
   Trash2
 } from "lucide-react";
 import { Link } from "wouter";
-import type { Booking, Message, ContactMessage } from "@shared/schema";
+import type { Booking } from "@shared/schema";
+import { formatTime } from "@/utils/timeUtils";
+import { formatServiceType, formatStatus } from "@/utils/formatUtils";
 
 /**
  * Admin Portal Component
@@ -47,6 +47,8 @@ export default function Admin() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [bookingStatusFilter, setBookingStatusFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -63,10 +65,6 @@ export default function Admin() {
   }, [isAuthenticated, isLoading, toast]);
 
   useEffect(() => {
-    // Skip admin check for demo purposes when on /admin-demo route
-    if (window.location.pathname === '/admin-demo') {
-      return;
-    }
     if (!isLoading && isAuthenticated && user && !user.isAdmin) {
       toast({
         title: "Access Denied",
@@ -80,31 +78,28 @@ export default function Admin() {
     }
   }, [user, isAuthenticated, isLoading, toast]);
 
-  // Determine if this is demo mode
-  const isDemo = window.location.pathname === '/admin-demo';
+
   
   // Fetch admin stats
-  const { data: stats = {}, isLoading: statsLoading } = useQuery<{
+  const { data: stats, isLoading: statsLoading } = useQuery<{
     todayBookings: number;
     activeUsers: number;
-    pendingMessages: number;
-    totalRevenue: number;
   }>({
-    queryKey: isDemo ? ["/api/admin/demo-stats"] : ["/api/admin/stats"],
-    enabled: isDemo || !!user?.isAdmin,
+    queryKey: ['/api/admin/stats'],
+    enabled: !!user?.isAdmin,
   });
 
   // Fetch all bookings
   const { data: bookings = [], isLoading: bookingsLoading } = useQuery<Booking[]>({
-    queryKey: isDemo ? ["/api/admin/demo-bookings"] : ["/api/bookings"],
-    enabled: isDemo || !!user?.isAdmin,
+    queryKey: ['/api/bookings'],
+    enabled: !!user?.isAdmin,
   });
 
-  // Fetch all messages
-  const { data: messages = [], isLoading: messagesLoading } = useQuery<Message[]>({
-    queryKey: isDemo ? ["/api/admin/demo-messages"] : ["/api/messages"],
-    enabled: isDemo || !!user?.isAdmin,
-  });
+  // Fetch all messages - DISABLED since using mailto: protocol
+  // const { data: messages = [], isLoading: messagesLoading } = useQuery<Message[]>({
+  //   queryKey: ['/api/messages'],
+  //   enabled: !!user?.isAdmin,
+  // });
 
   // Fetch contact messages - DISABLED
   // const { data: contactMessages = [], isLoading: contactMessagesLoading } = useQuery<ContactMessage[]>({
@@ -145,17 +140,50 @@ export default function Admin() {
     },
   });
 
-  // Respond to message mutation
-  const respondToMessageMutation = useMutation({
-    mutationFn: async ({ id, response }: { id: string; response: string }) => {
-      await apiRequest("PATCH", `/api/messages/${id}/response`, { response });
+  // Respond to message mutation - DISABLED since using mailto: protocol
+  // const respondToMessageMutation = useMutation({
+  //   mutationFn: async ({ id, response }: { id: string; response: string }) => {
+  //     await apiRequest("PATCH", `/api/messages/${id}/response`, { response });
+  //   },
+  //   onSuccess: () => {
+  //     toast({
+  //       title: "Response Sent",
+  //       description: "Your response has been sent successfully.",
+  //     });
+  //     queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
+  //   },
+  //   onError: (error) => {
+  //     if (isUnauthorizedError(error)) {
+  //       toast({
+  //         title: "Unauthorized",
+  //         description: "You are logged out. Logging in again...",
+  //         variant: "destructive",
+  //       });
+  //       setTimeout(() => {
+  //         title: "Error",
+  //         description: "Failed to send response.",
+  //         variant: "destructive",
+  //       });
+  //     }
+  //   },
+  // });
+
+  // Delete booking mutation
+  const deleteBookingMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await apiRequest("DELETE", `/api/bookings/${id}`);
     },
     onSuccess: () => {
       toast({
-        title: "Response Sent",
-        description: "Your response has been sent successfully.",
+        title: "Booking Deleted",
+        description: "Booking has been deleted successfully.",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/bookings"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      // Reset to first page if current page becomes empty
+      if (bookings.length <= pageSize) {
+        setCurrentPage(1);
+      }
     },
     onError: (error) => {
       if (isUnauthorizedError(error)) {
@@ -171,13 +199,15 @@ export default function Admin() {
       }
       toast({
         title: "Error",
-        description: "Failed to send response.",
+        description: "Failed to delete booking.",
         variant: "destructive",
       });
     },
   });
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: string | null) => {
+    if (!status) return 'bg-gray-100 text-gray-700';
+    
     switch (status) {
       case 'confirmed':
         return 'bg-green-100 text-green-700';
@@ -194,22 +224,28 @@ export default function Admin() {
     }
   };
 
-  const formatServiceType = (type: string) => {
-    switch (type) {
-      case 'one_way':
-        return 'One-way';
-      case 'round_trip':
-        return 'Round-trip';
-      case 'wait_and_return':
-        return 'Wait and return';
-      default:
-        return type;
-    }
-  };
+
+
 
   const filteredBookings = bookings?.filter((booking: Booking) => 
     bookingStatusFilter === "all" || booking.status === bookingStatusFilter
   ) || [];
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredBookings.length / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const paginatedBookings = filteredBookings.slice(startIndex, endIndex);
+
+  // Reset to first page when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [bookingStatusFilter]);
+
+  // Reset to first page when page size changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [pageSize]);
 
   if (isLoading) {
     return (
@@ -222,8 +258,7 @@ export default function Admin() {
     );
   }
 
-  // Allow demo access for /admin-demo route
-  if (window.location.pathname !== '/admin-demo' && (!isAuthenticated || !user || !user.isAdmin)) {
+  if (!isAuthenticated || !user || !user.isAdmin) {
     return null;
   }
 
@@ -241,20 +276,19 @@ export default function Admin() {
             </Link>
           </Button>
           <h1 className="text-3xl font-bold text-gray-900" data-testid="admin-title">
-            Admin Portal {isDemo && <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded ml-2">DEMO</span>}
+            Admin Portal
           </h1>
           <p className="text-gray-600 mt-2">
             Holly Transportation Management Dashboard
-            {isDemo && " - Preview Mode"}
           </p>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
           <Card className="bg-primary/5">
             <CardContent className="p-6">
               <div className="text-2xl font-bold text-primary" data-testid="stat-today-bookings">
-                {statsLoading ? "..." : stats?.todayBookings || 0}
+                {statsLoading ? "..." : stats?.todayBookings ?? 0}
               </div>
               <div className="text-sm text-gray-600">Today's Bookings</div>
             </CardContent>
@@ -262,27 +296,13 @@ export default function Admin() {
           <Card className="bg-healthcare-green/5">
             <CardContent className="p-6">
               <div className="text-2xl font-bold text-healthcare-green" data-testid="stat-active-users">
-                {statsLoading ? "..." : stats?.activeUsers || 0}
+                {statsLoading ? "..." : stats?.activeUsers ?? 0}
               </div>
               <div className="text-sm text-gray-600">Active Users</div>
             </CardContent>
           </Card>
-          <Card className="bg-yellow-50">
-            <CardContent className="p-6">
-              <div className="text-2xl font-bold text-yellow-600" data-testid="stat-pending-messages">
-                {statsLoading ? "..." : stats?.pendingMessages || 0}
-              </div>
-              <div className="text-sm text-gray-600">Pending Messages</div>
-            </CardContent>
-          </Card>
-          <Card className="bg-slate-50">
-            <CardContent className="p-6">
-              <div className="text-2xl font-bold text-gray-600" data-testid="stat-monthly-revenue">
-                ${statsLoading ? "..." : ((stats?.totalRevenue || 0) / 1000).toFixed(1)}k
-              </div>
-              <div className="text-sm text-gray-600">Monthly Revenue</div>
-            </CardContent>
-          </Card>
+
+
         </div>
 
         <Tabs defaultValue="bookings" className="space-y-6" data-testid="admin-tabs">
@@ -316,6 +336,17 @@ export default function Admin() {
                         <SelectItem value="cancelled">Cancelled</SelectItem>
                       </SelectContent>
                     </Select>
+                    <Select value={pageSize.toString()} onValueChange={(value) => setPageSize(parseInt(value))}>
+                      <SelectTrigger className="w-24">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="5">5</SelectItem>
+                        <SelectItem value="10">10</SelectItem>
+                        <SelectItem value="20">20</SelectItem>
+                        <SelectItem value="50">50</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <Button variant="outline">Export</Button>
                   </div>
                 </div>
@@ -340,7 +371,7 @@ export default function Admin() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {filteredBookings.map((booking: Booking) => (
+                        {paginatedBookings.map((booking: Booking) => (
                           <TableRow key={booking.id} data-testid={`booking-row-${booking.id}`}>
                             <TableCell>
                               <div>
@@ -351,7 +382,7 @@ export default function Admin() {
                             <TableCell>
                               <div>
                                 <div className="text-sm text-gray-900">{booking.pickupDate}</div>
-                                <div className="text-sm text-gray-500">{booking.pickupTime}</div>
+                                <div className="text-sm text-gray-500">{formatTime(booking.pickupTime)}</div>
                               </div>
                             </TableCell>
                             <TableCell>
@@ -366,7 +397,7 @@ export default function Admin() {
                             </TableCell>
                             <TableCell>
                               <Badge className={getStatusColor(booking.status)}>
-                                {booking.status}
+                                {formatStatus(booking.status)}
                               </Badge>
                             </TableCell>
                             <TableCell>
@@ -387,12 +418,27 @@ export default function Admin() {
                                     size="sm"
                                     variant="destructive"
                                     onClick={() => updateBookingStatusMutation.mutate({ id: booking.id, status: 'cancelled' })}
-                                    data-testid={`cancel-booking-${booking.id}`}
+                                    data-testid={`deny-booking-${booking.id}`}
                                   >
                                     <XCircle className="w-3 h-3 mr-1" />
-                                    Cancel
+                                    Deny
                                   </Button>
                                 )}
+                                <Button
+                                  size="sm"
+                                  variant="destructive"
+                                  className="bg-red-600 hover:bg-red-700 text-white"
+                                  onClick={() => {
+                                    console.log("Delete button clicked for booking:", booking.id);
+                                    if (confirm(`Are you sure you want to deny the booking for ${booking.patientName}?`)) {
+                                      deleteBookingMutation.mutate(booking.id);
+                                    }
+                                  }}
+                                  data-testid={`delete-booking-${booking.id}`}
+                                >
+                                  <Trash2 className="w-4 h-4 mr-1" />
+                                  Delete
+                                </Button>
                               </div>
                             </TableCell>
                           </TableRow>
@@ -403,6 +449,46 @@ export default function Admin() {
                       <div className="text-center py-8">
                         <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                         <p className="text-gray-500">No bookings found for the selected filter</p>
+                      </div>
+                    )}
+                    
+                    {/* Pagination Controls */}
+                    {filteredBookings.length > 0 && (
+                      <div className="flex items-center justify-between mt-6">
+                        <div className="text-sm text-gray-600">
+                          Showing {startIndex + 1} to {Math.min(endIndex, filteredBookings.length)} of {filteredBookings.length} bookings
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                          >
+                            Previous
+                          </Button>
+                          <div className="flex items-center space-x-1">
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                              <Button
+                                key={page}
+                                variant={currentPage === page ? "default" : "outline"}
+                                size="sm"
+                                onClick={() => setCurrentPage(page)}
+                                className="w-8 h-8 p-0"
+                              >
+                                {page}
+                              </Button>
+                            ))}
+                          </div>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                          >
+                            Next
+                          </Button>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -429,125 +515,25 @@ export default function Admin() {
             </Card>
           </TabsContent>
 
-          {/* Messages */}
+          {/* Messages - DISABLED since using mailto: protocol */}
           <TabsContent value="messages" className="space-y-6" data-testid="messages-content">
-            <div className="grid lg:grid-cols-2 gap-6">
-              {/* User Messages */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <MessageCircle className="w-5 h-5 text-blue-600" />
-                    <span>User Messages</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {messagesLoading ? (
-                    <div className="text-center py-8">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-                      <p className="mt-2 text-gray-600">Loading messages...</p>
-                    </div>
-                  ) : messages && messages.length > 0 ? (
-                    <div className="space-y-4 max-h-96 overflow-y-auto">
-                      {messages.map((message: Message) => (
-                        <Card key={message.id} className="p-4" data-testid={`user-message-${message.id}`}>
-                          <div className="space-y-3">
-                            <div className="flex justify-between items-start">
-                              <div className="font-medium text-gray-900">{message.subject}</div>
-                              <div className="text-sm text-gray-500">
-                                {new Date(message.createdAt).toLocaleDateString()}
-                              </div>
-                            </div>
-                            <p className="text-gray-600 text-sm">{message.message}</p>
-                            {!message.response && (
-                              <div className="space-y-2">
-                                <Textarea
-                                  placeholder="Write your response..."
-                                  id={`response-${message.id}`}
-                                  rows={3}
-                                  data-testid={`response-textarea-${message.id}`}
-                                />
-                                <Button
-                                  size="sm"
-                                  className="bg-primary text-white hover:bg-primary/90"
-                                  onClick={() => {
-                                    const textarea = document.getElementById(`response-${message.id}`) as HTMLTextAreaElement;
-                                    if (textarea?.value) {
-                                      respondToMessageMutation.mutate({ id: message.id, response: textarea.value });
-                                    }
-                                  }}
-                                  data-testid={`send-response-${message.id}`}
-                                >
-                                  Send Response
-                                </Button>
-                              </div>
-                            )}
-                            {message.response && (
-                              <div className="bg-primary/5 p-3 rounded-lg">
-                                <div className="text-sm font-medium text-gray-900 mb-1">Your Response:</div>
-                                <p className="text-gray-600 text-sm">{message.response}</p>
-                              </div>
-                            )}
-                          </div>
-                        </Card>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8">
-                      <MessageCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                      <p className="text-gray-500">No user messages</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Contact Form Messages - DISABLED */}
-              {/* <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Mail className="w-5 h-5 text-healthcare-green" />
-                    <span>Contact Messages</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {contactMessagesLoading ? (
-                    <div className="text-center py-8">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-                      <p className="mt-2 text-gray-600">Loading contact messages...</p>
-                    </div>
-                  ) : contactMessages && contactMessages.length > 0 ? (
-                    <div className="space-y-4 max-h-96 overflow-y-auto">
-                      {contactMessages.map((message: ContactMessage) => (
-                        <Card key={message.id} className="p-4" data-testid={`contact-message-${message.id}`}>
-                          <div className="space-y-3">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <div className="font-medium text-gray-900">
-                                  {message.firstName} {message.lastName}
-                                </div>
-                                <div className="text-sm text-gray-500">{message.email}</div>
-                              </div>
-                              <div className="text-sm text-gray-500">
-                                {new Date(message.createdAt).toLocaleDateString()}
-                              </div>
-                            </div>
-                            <div className="text-sm font-medium text-gray-700">{message.subject}</div>
-                            <p className="text-gray-600 text-sm">{message.message}</p>
-                            {message.phone && (
-                              <div className="text-sm text-gray-500">Phone: {message.phone}</div>
-                            )}
-                          </div>
-                        </Card>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8">
-                      <Mail className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                      <p className="text-gray-500">No contact messages</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card> */}
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <MessageCircle className="w-5 h-5 text-blue-600" />
+                  <span>Messages</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <MessageCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-500 mb-2">Message management features coming soon</p>
+                  <p className="text-sm text-gray-400">
+                    Currently using mailto: protocol for direct email communication
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Analytics */}

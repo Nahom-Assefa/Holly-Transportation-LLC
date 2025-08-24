@@ -12,8 +12,7 @@ import {
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-// Session storage table.
-// (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
+// Session storage table for local authentication
 export const sessions = pgTable(
   "sessions",
   {
@@ -24,8 +23,7 @@ export const sessions = pgTable(
   (table) => [index("IDX_session_expire").on(table.expire)],
 );
 
-// User storage table.
-// (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
+// User storage table for local authentication
 export const users = pgTable("users", {
   id: varchar("id").primaryKey(),
   email: varchar("email").unique(),
@@ -109,15 +107,36 @@ export const contactMessages = pgTable("contact_messages", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Audit log table for tracking user actions
+export const auditLog = pgTable("audit_log", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  action: varchar("action").notNull(), // e.g., 'booking_deleted', 'profile_updated', 'booking_created'
+  entityType: varchar("entity_type").notNull(), // e.g., 'booking', 'profile', 'user'
+  entityId: varchar("entity_id"), // ID of the affected entity
+  details: jsonb("details"), // Additional metadata about the action
+  ipAddress: varchar("ip_address"),
+  userAgent: text("user_agent"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   bookings: many(bookings),
   messages: many(messages),
+  auditLogs: many(auditLog),
 }));
 
 export const bookingsRelations = relations(bookings, ({ one }) => ({
   user: one(users, {
     fields: [bookings.userId],
+    references: [users.id],
+  }),
+}));
+
+export const auditLogRelations = relations(auditLog, ({ one }) => ({
+  user: one(users, {
+    fields: [auditLog.userId],
     references: [users.id],
   }),
 }));

@@ -1,220 +1,131 @@
-# Holly Transportation - Development vs Production Guide
+# Holly Transportation - Development Guide
 
-## Authentication System Differences
+## Authentication System
 
-### Production Environment
-- **Authentication Method**: Replit OpenID Connect (OAuth)
-- **Session Storage**: PostgreSQL database via `connect-pg-simple`
-- **User Creation**: Automatic via Replit user claims
-- **Login Flow**: `/api/login` → Replit OAuth → `/api/callback`
-- **Environment Detection**: `process.env.REPLIT_DOMAINS` exists
-- **Security**: HTTPS required, secure cookies, 1-week session TTL
-
-### Development Environment  
+### Current Implementation
 - **Authentication Method**: Local username/password system
-- **Session Storage**: In-memory store (faster for local development)
+- **Session Storage**: PostgreSQL database via `connect-pg-simple`
 - **User Creation**: Manual registration or pre-created test accounts
 - **Login Flow**: `/auth` → Local login form → Session creation
-- **Environment Detection**: `NODE_ENV === 'development'` AND no `REPLIT_DOMAINS`
-- **Security**: HTTP allowed, non-secure cookies for localhost
+- **Environment**: Local development with PostgreSQL database
+- **Security**: HTTP allowed for localhost, 1-week session TTL
 
-## Database Schema Differences
+## Database Schema
 
-### Production Schema
+### Users Table
 ```sql
--- Users table (Replit Auth fields)
 users (
-  id VARCHAR PRIMARY KEY,           -- Replit user ID
-  email VARCHAR UNIQUE,             -- From Replit claims
-  firstName VARCHAR,                -- From Replit claims  
-  lastName VARCHAR,                 -- From Replit claims
-  profileImageUrl VARCHAR,          -- From Replit claims
+  id VARCHAR PRIMARY KEY,           -- Local user ID
+  email VARCHAR UNIQUE,             -- User email
+  firstName VARCHAR,                -- User first name
+  lastName VARCHAR,                 -- User last name
+  profileImageUrl VARCHAR,          -- Profile image URL
   phone VARCHAR,                    -- User-provided
   medicalNotes TEXT,               -- User-provided
   isAdmin BOOLEAN DEFAULT false,    -- Manually set
+  username VARCHAR UNIQUE,          -- For local login
+  password VARCHAR,                 -- Hashed password (scrypt)
   createdAt TIMESTAMP,
   updatedAt TIMESTAMP
 );
 ```
 
-### Development Schema (Additional Fields)
-```sql
--- Users table (includes local auth fields)
-users (
-  -- All production fields PLUS:
-  username VARCHAR UNIQUE,          -- For local login
-  password VARCHAR,                 -- Hashed password (scrypt)
-  -- Note: username/password are NULL in production
-);
-```
-
-## Code Structure Differences
+## Code Structure
 
 ### File Organization
 
-#### Production-Only Files
-- `server/replitAuth.ts` - Replit OpenID Connect setup
-- Session configuration with PostgreSQL store
-
-#### Development-Only Files  
+#### Authentication Files
 - `server/localAuth.ts` - Local username/password authentication
 - `client/src/pages/auth.tsx` - Local login/registration forms
 
-#### Shared Files (Environment-Aware)
-- `server/storage.ts` - Includes both Replit and local user methods
-- `client/src/App.tsx` - Routes to different auth pages based on environment
-- `shared/schema.ts` - Database schema supports both auth methods
-
-### Environment Detection Logic
-
-```typescript
-// server/replitAuth.ts
-const isLocalDevelopment = process.env.NODE_ENV === 'development' && !process.env.REPLIT_DOMAINS;
-
-export async function setupAuth(app: Express) {
-  if (isLocalDevelopment) {
-    console.log("🔧 Using local development authentication");
-    setupLocalAuth(app);
-    return;
-  }
-  
-  console.log("🔒 Using Replit authentication");
-  // ... Replit auth setup
-}
-```
+#### Shared Files
+- `server/storage.ts` - User management and database operations
+- `client/src/App.tsx` - Application routing
+- `shared/schema.ts` - Database schema definitions
 
 ## API Endpoints
 
-### Production Endpoints (Replit Auth)
-- `GET /api/login` - Redirects to Replit OAuth
-- `GET /api/callback` - Handles OAuth callback
-- `GET /api/logout` - Logs out and redirects to Replit
-- `GET /api/auth/user` - Returns current user from session
-
-### Development Endpoints (Local Auth)
+### Authentication Endpoints
 - `POST /api/register` - Creates new local user account
 - `POST /api/login` - Authenticates with username/password
 - `POST /api/logout` - Destroys local session
 - `GET /api/auth/user` - Returns current user from session
 
-### Shared Business Logic Endpoints
-- `POST /api/bookings` - Create transportation booking
-- `GET /api/bookings` - Get user's bookings
-- `POST /api/messages` - Send message to admin
-- `GET /api/admin/*` - Admin portal endpoints (both environments)
+### Business Logic Endpoints
+- `POST /api/bookings` - Create new booking
+- `GET /api/bookings` - Get user's bookings (or all for admins)
+- `PATCH /api/bookings/:id/status` - Update booking status (admin only)
+- `DELETE /api/bookings/:id` - Delete booking (admin only)
+- `DELETE /api/bookings/:id/user` - Delete user's own booking
+- `PUT /api/profile` - Update user profile
+- `GET /api/admin/stats` - Get admin statistics
+- `GET /api/admin/audit-logs` - Get audit logs (admin only)
+- `DELETE /api/admin/audit-logs/bulk` - Bulk delete audit logs (admin only)
 
-## Environment Variables
+## Development Setup
 
-### Production Environment Variables
+### Prerequisites
+- Node.js 18+
+- PostgreSQL database
+- Environment variables configured
+
+### Environment Variables
 ```bash
-# Replit-provided (automatic)
-REPLIT_DOMAINS=hollytransportation.replit.app
-REPL_ID=abc123-def456-ghi789
-SESSION_SECRET=auto-generated-secure-secret
-DATABASE_URL=postgresql://...
-ISSUER_URL=https://replit.com/oidc
+# Database
+DATABASE_URL=postgresql://username:password@localhost:5432/holly_transportation
 
-# Optional business features
-STRIPE_SECRET_KEY=sk_live_...
-VITE_STRIPE_PUBLIC_KEY=pk_live_...
-```
+# Session
+SESSION_SECRET=your-secure-session-secret
 
-### Development Environment Variables (.env file)
-```bash
-# Required for local development
-DATABASE_URL=postgresql://neondb_owner:...
+# Server
+PORT=3001
 NODE_ENV=development
-
-# Local auth (no REPLIT_DOMAINS = local mode)
-SESSION_SECRET=local-dev-session-secret-key-123
-
-# Optional for testing Replit integration locally
-# REPLIT_DOMAINS=localhost:5000
-# REPL_ID=local-dev-holly-transport
-# ISSUER_URL=https://replit.com/oidc
 ```
 
-## User Experience Differences
+### Default Users
+The system automatically creates these test accounts:
+- **Admin**: username=admin, password=admin123
+- **User**: username=testuser, password=test123
 
-### Production User Flow
-1. Visit Holly Transportation website
-2. Click "Get Started" → Redirects to Replit login
-3. Login with Replit account (GitHub, Google, etc.)
-4. Automatic account creation with Replit profile data
-5. Access dashboard with full features
+### Running the Application
+```bash
+# Install dependencies
+npm install
 
-### Development User Flow
-1. Visit Holly Transportation website  
-2. Click "Get Started" → Local auth page at `/auth`
-3. Choose "Login" or "Register" tab
-4. Use test accounts or create new account:
-   - **Admin**: username=`admin`, password=`admin123`
-   - **User**: username=`testuser`, password=`test123`
-5. Access dashboard with full features
+# Start development server
+npm run dev
 
-## Default Test Data
+# Build for production
+npm run build
 
-### Development Test Accounts (Auto-Created)
-```typescript
-// Created automatically in localAuth.ts
-const adminUser = {
-  username: "admin",
-  password: "admin123",
-  email: "admin@hollytransportation.com", 
-  firstName: "Holly",
-  lastName: "Admin",
-  isAdmin: true
-};
+# Start production server
+npm start
 
-const testUser = {
-  username: "testuser", 
-  password: "test123",
-  email: "test@example.com",
-  firstName: "Test", 
-  lastName: "User",
-  isAdmin: false
-};
+# Database operations
+npm run db:push
 ```
 
-## Security Considerations
+## Features
 
-### Production Security
-- OAuth 2.0 / OpenID Connect standard
-- No password storage required
-- Managed by Replit's secure infrastructure
-- HTTPS enforcement
-- Secure session cookies
-- PostgreSQL session persistence
+### User Management
+- Local user registration and authentication
+- Profile management with audit logging
+- Admin user creation and management
 
-### Development Security
-- Passwords hashed with scrypt + salt
-- HTTP allowed for localhost convenience
-- In-memory sessions (reset on restart)
-- Test accounts with known passwords
-- **Warning**: Never use local auth in production
+### Booking System
+- Create, view, and manage transportation bookings
+- Status tracking (pending, confirmed, in progress, completed, denied)
+- Service type selection (one-way, round-trip, wait-and-return)
+- Mobility assistance options
 
-## Deployment Process
+### Admin Features
+- View all bookings across all users
+- Update booking statuses
+- View audit logs of user actions
+- Bulk operations for audit logs
+- Statistics dashboard
 
-### Production Deployment
-1. Push code to Replit
-2. Environment automatically detects Replit context
-3. Uses Replit authentication seamlessly
-4. Sessions stored in PostgreSQL
-5. No manual user setup required
-
-### Local Development Setup
-1. Clone repository
-2. Run `npm install`
-3. Create `.env` file with local environment variables
-4. Run `npm run db:push` to setup database schema
-5. Run `npm run dev` to start local server
-6. Default test accounts created automatically
-
-## Switching Between Environments
-
-The codebase automatically detects the environment and switches authentication methods without any code changes needed. The detection logic ensures:
-
-- **Local Development**: No `REPLIT_DOMAINS` environment variable
-- **Production**: `REPLIT_DOMAINS` exists (set by Replit platform)
-
-This allows the same codebase to work in both environments without modification.
+### Audit Logging
+- Tracks profile updates
+- Tracks booking deletions
+- Provides admin visibility into user actions

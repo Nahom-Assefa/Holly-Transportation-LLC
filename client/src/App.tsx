@@ -9,9 +9,9 @@ import Home from "@/pages/home";
 import Booking from "@/pages/booking";
 import Dashboard from "@/pages/dashboard";
 import Admin from "@/pages/admin";
-import AdminPreview from "@/pages/admin-preview";
+import AdminAuditLogs from "@/pages/admin-audit-logs";
 import AuthPage from "@/pages/auth";
-import NotFound from "@/pages/not-found";
+
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -22,7 +22,6 @@ function Router() {
         <>
           <Route path="/" component={Landing} />
           <Route path="/auth" component={AuthPage} />
-          <Route path="/admin-preview" component={AdminPreview} />
         </>
       ) : (
         <>
@@ -30,9 +29,9 @@ function Router() {
           <Route path="/book" component={Booking} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/admin" component={Admin} />
+          <Route path="/admin/audit-logs" component={AdminAuditLogs} />
         </>
       )}
-      <Route component={NotFound} />
     </Switch>
   );
 }
