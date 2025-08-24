@@ -1,5 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import type { User } from "@shared/schema";
+import { AUTH_CONFIG } from "@/lib/authConfig";
+import { auth } from "@/lib/firebase";
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signOut as firebaseSignOut,
+  onAuthStateChanged,
+  User as FirebaseUser
+} from "firebase/auth";
+
+// Extended user type that works with both Firebase and local auth
+interface ExtendedUser {
+  id: string;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  profileImageUrl: string | null;
+  phone: string | null;
+  medicalNotes: string | null;
+  isAdmin: boolean;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+}
 
 /**
  * Custom hook for managing user authentication state
@@ -25,16 +49,57 @@ import type { User } from "@shared/schema";
  * ```
  */
 export function useAuth() {
-  const { data: user, isLoading } = useQuery<User>({
+  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Firebase authentication
+  useEffect(() => {
+    if (AUTH_CONFIG.useFirebase) {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        setFirebaseUser(user);
+        setIsLoading(false);
+      });
+      return unsubscribe;
+    }
+  }, []);
+
+  // Local authentication (existing React Query approach)
+  const { data: localUser, isLoading: localLoading } = useQuery<ExtendedUser>({
     queryKey: ["/api/auth/user"],
     retry: false,
     refetchOnWindowFocus: true,
-    staleTime: 0, // Always consider data stale to ensure fresh data
+    staleTime: 0,
+    enabled: !AUTH_CONFIG.useFirebase, // Only run if not using Firebase
   });
+
+  // Convert Firebase user to ExtendedUser format when using Firebase
+  const convertedFirebaseUser: ExtendedUser | null = firebaseUser ? {
+    id: firebaseUser.uid,
+    email: firebaseUser.email,
+    firstName: firebaseUser.displayName?.split(' ')[0] || null,
+    lastName: firebaseUser.displayName?.split(' ').slice(1).join(' ') || null,
+    profileImageUrl: firebaseUser.photoURL,
+    phone: firebaseUser.phoneNumber,
+    medicalNotes: null,
+    isAdmin: false, // We'll need to check this against your database
+    createdAt: null,
+    updatedAt: null,
+  } : null;
+
+  // Determine which user data to use
+  const user: ExtendedUser | null = AUTH_CONFIG.useFirebase ? convertedFirebaseUser : (localUser || null);
+  const isAuthenticated = !!user;
+  const finalIsLoading = AUTH_CONFIG.useFirebase ? isLoading : localLoading;
 
   return {
     user,
-    isLoading,
-    isAuthenticated: !!user,
+    isLoading: finalIsLoading,
+    isAuthenticated,
+    // Add Firebase-specific methods when using Firebase
+    ...(AUTH_CONFIG.useFirebase && {
+      signIn: signInWithEmailAndPassword,
+      signUp: createUserWithEmailAndPassword,
+      signOut: firebaseSignOut,
+    }),
   };
 }

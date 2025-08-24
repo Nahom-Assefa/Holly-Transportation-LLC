@@ -15,9 +15,24 @@ import { insertBookingSchema, insertMessageSchema, insertContactMessageSchema } 
  * @returns {Promise<Server>} HTTP server instance for the application
  */
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Local authentication setup
-  const { setupLocalAuth, requireAuth, requireAdmin } = await import("./localAuth");
-  await setupLocalAuth(app);
+  // Feature flag: Choose authentication method
+  const useFirebaseAuth = process.env.VITE_USE_FIREBASE_AUTH === 'true';
+  
+  let requireAuth: any, requireAdmin: any;
+  
+  if (useFirebaseAuth) {
+    console.log('🔥 Using Firebase Authentication');
+    const { setupFirebaseAuth, requireAuth: firebaseRequireAuth, requireAdmin: firebaseRequireAdmin } = await import("./firebaseAuth");
+    await setupFirebaseAuth(app);
+    requireAuth = firebaseRequireAuth;
+    requireAdmin = firebaseRequireAdmin;
+  } else {
+    console.log('🔐 Using Local Authentication');
+    const { setupLocalAuth, requireAuth: localRequireAuth, requireAdmin: localRequireAdmin } = await import("./localAuth");
+    await setupLocalAuth(app);
+    requireAuth = localRequireAuth;
+    requireAdmin = localRequireAdmin;
+  }
 
   // Auth routes
   app.get('/api/auth/user', requireAuth, async (req: any, res) => {

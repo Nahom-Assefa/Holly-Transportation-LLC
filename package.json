@@ -5,12 +5,15 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx server/index.ts",
+    "dev:firebase": "NODE_ENV=development VITE_USE_FIREBASE_AUTH=true tsx server/index.ts",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build:firebase": "VITE_USE_FIREBASE_AUTH=true vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc",
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
+    "@firebase/auth": "^1.11.0",
     "@hookform/resolvers": "^3.10.0",
     "@jridgewell/trace-mapping": "^0.3.25",
     "@neondatabase/serverless": "^0.10.4",
@@ -56,13 +59,14 @@
     "embla-carousel-react": "^8.6.0",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
+    "firebase": "^12.1.0",
+    "firebase-admin": "^13.4.0",
     "framer-motion": "^11.13.1",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.453.0",
     "memoizee": "^0.4.17",
     "memorystore": "^1.6.7",
     "next-themes": "^0.4.6",
-
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "react": "^18.3.1",

@@ -29,6 +29,7 @@ export const useCustomAlert = () => {
       title: getTitle(type),
       description: message,
       variant: getVariant(type),
+      duration: type === "warning" ? 20000 : 5000, // 10 seconds for warnings, 5 for others
     });
   };
 

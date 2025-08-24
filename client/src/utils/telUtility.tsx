@@ -12,6 +12,7 @@ export const handlePhoneClick = (options?: HandlePhoneClickOptions): void => {
 
   const showFallbackToast = () => {
     if (options?.toast) {
+      // Show warning toast with longer duration for phone call fallback
       options.toast(`If there was a problem making the call please manually dial the phone number: ${phoneNumber}`, "warning");
     }
     navigator.clipboard.writeText(cleanNumber).catch(() => {

@@ -1,0 +1,144 @@
+# Firebase Authentication Setup Guide
+
+## 🚀 Feature Flag System
+
+This project now supports both **Local Authentication** and **Firebase Authentication** through a feature flag system.
+
+## 🔧 How to Use
+
+### **1. Local Authentication (Default)**
+```bash
+npm run dev          # Uses local auth
+npm run build        # Builds with local auth
+```
+
+### **2. Firebase Authentication**
+```bash
+npm run dev:firebase # Uses Firebase auth
+npm run build:firebase # Builds with Firebase auth
+```
+
+## 🌍 Environment Variables
+
+### **Copy the template:**
+```bash
+cp env.template .env
+```
+
+### **For Local Auth (VITE_USE_FIREBASE_AUTH=false):**
+```bash
+# .env
+VITE_USE_FIREBASE_AUTH=false
+VITE_APP_ENV=development
+DATABASE_URL=your_postgresql_connection_string
+SESSION_SECRET=your_session_secret
+```
+
+### **For Firebase Auth (VITE_USE_FIREBASE_AUTH=true):**
+```bash
+# .env
+VITE_USE_FIREBASE_AUTH=true
+VITE_APP_ENV=production
+
+# Firebase Config (from your Firebase Console)
+VITE_FIREBASE_API_KEY=AIzaSyDvoXfsYn2M2KkFIedE9bot4Jr0kCqKsG0
+VITE_FIREBASE_AUTH_DOMAIN=holly-transportation-efb90.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=holly-transportation-efb90
+VITE_FIREBASE_STORAGE_BUCKET=holly-transportation-efb90.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=644505818979
+VITE_FIREBASE_APP_ID=1:644505818979:web:ec0bf5ea1d73ae19502556
+VITE_FIREBASE_MEASUREMENT_ID=G-LWN40RC1H2
+
+# Firebase Admin (for server-side auth)
+FIREBASE_CLIENT_EMAIL=your_service_account_email
+FIREBASE_PRIVATE_KEY=your_private_key
+
+# Database (still needed)
+DATABASE_URL=your_postgresql_connection_string
+SESSION_SECRET=your_session_secret
+```
+
+## 🔐 Firebase Admin Setup
+
+### **1. Get Service Account Key:**
+- Go to Firebase Console → Project Settings → Service Accounts
+- Click "Generate New Private Key"
+- Download the JSON file
+
+### **2. Extract Credentials:**
+```json
+{
+  "client_email": "firebase-adminsdk-xxxxx@holly-transportation-efb90.iam.gserviceaccount.com",
+  "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+}
+```
+
+### **3. Add to .env:**
+```bash
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@holly-transportation-efb90.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+```
+
+## 🧪 Testing
+
+### **Test Local Auth:**
+```bash
+npm run dev
+# Visit http://localhost:3000
+# Use local username/password
+```
+
+### **Test Firebase Auth:**
+```bash
+npm run dev:firebase
+# Visit http://localhost:3000
+# Use Firebase sign-in
+```
+
+## 🔄 Switching Between Auth Methods
+
+### **Quick Switch:**
+1. **Change .env:** `VITE_USE_FIREBASE_AUTH=true/false`
+2. **Restart server:** The feature flag is read on startup
+3. **No code changes needed!**
+
+### **Environment-Specific:**
+- **Development:** Use local auth for fast testing
+- **Production:** Use Firebase auth for real users
+- **Testing:** Switch between both as needed
+
+## 📁 Files Modified
+
+- `server/routes.ts` - Feature flag logic
+- `server/firebaseAuth.ts` - Firebase server auth
+- `client/src/hooks/useAuth.ts` - Client-side auth logic
+- `client/src/lib/authConfig.ts` - Feature flag config
+- `package.json` - New build scripts
+- `env.template` - Environment template
+
+## 🎯 Benefits
+
+- ✅ **Keep local auth** for development/testing
+- ✅ **Add Firebase auth** for production
+- ✅ **Easy switching** between auth methods
+- ✅ **No code changes** needed to switch
+- ✅ **Best of both worlds**
+
+## 🚨 Important Notes
+
+- **Local auth** = Fast development, no external dependencies
+- **Firebase auth** = Production-ready, scalable authentication
+- **PostgreSQL** = Still your main database (not changing)
+- **Feature flag** = Controls which auth method to use
+
+## 🔥 Ready to Deploy?
+
+1. **Set up Firebase Admin** (get service account key)
+2. **Update .env** with Firebase credentials
+3. **Set VITE_USE_FIREBASE_AUTH=true**
+4. **Run npm run build:firebase**
+5. **Deploy!**
+
+---
+
+**Questions?** Check the Firebase Console or ask for help!
