@@ -7,8 +7,8 @@
 
 export const COMPANY_INFO = {
   // Contact Information
-  PHONE: "(651) 500-6198",
-  PHONE_CLEAN: "+16515006198",
+  PHONE: "(612) 597-4248",
+  PHONE_CLEAN: "+16125974248",
   EMAIL: "hollytransport04@gmail.com",
   
   // Company Details
