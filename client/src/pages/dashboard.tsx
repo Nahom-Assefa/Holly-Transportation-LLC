@@ -142,7 +142,7 @@ export default function Dashboard() {
           console.log("📥 Fresh user data:", freshUserData);
           
           // Update React Query cache with fresh data
-          queryClient.setQueryData(["/api/auth/user"], freshUserData);
+          queryClient.setQueryData(["/api/auth/user", AUTH_CONFIG.useFirebase ? "firebase" : "local"], freshUserData);
           
           // Also refresh local user data for immediate UI updates
           await refreshUserData();

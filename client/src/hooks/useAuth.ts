@@ -99,7 +99,7 @@ export function useAuth() {
 
   // Local authentication (existing React Query approach)
   const { data: localUser, isLoading: localLoading } = useQuery<ExtendedUser>({
-    queryKey: ["/api/auth/user"],
+    queryKey: ["/api/auth/user", "local"],
     queryFn: async () => {
       const response = await apiRequest("GET", "/api/auth/user");
       return response.json();
@@ -112,7 +112,7 @@ export function useAuth() {
 
   // Firebase authentication with API calls for user data
   const { data: firebaseUserData, isLoading: firebaseDataLoading } = useQuery<ExtendedUser>({
-    queryKey: ["/api/auth/user"],
+    queryKey: ["/api/auth/user", "firebase"],
     queryFn: async () => {
       console.log("🔥 Firebase queryFn running...");
       if (!firebaseUser) {

@@ -112,7 +112,7 @@ export default function AuthPage() {
             
             if (userResponse.ok) {
               const userData = await userResponse.json();
-              queryClient.setQueryData(["/api/auth/user"], userData);
+              queryClient.setQueryData(["/api/auth/user", "firebase"], userData);
             }
           }
         } catch (error) {
@@ -123,10 +123,10 @@ export default function AuthPage() {
         try {
           const userResponse = await apiRequest("GET", "/api/auth/user");
           const userData = await userResponse.json();
-          queryClient.setQueryData(["/api/auth/user"], userData);
+          queryClient.setQueryData(["/api/auth/user", "local"], userData);
         } catch (error) {
           console.error("Failed to fetch user data after login:", error);
-          queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+          queryClient.invalidateQueries({ queryKey: ["/api/auth/user", "local"] });
         }
       }
       
@@ -200,7 +200,7 @@ export default function AuthPage() {
             
             if (userResponse.ok) {
               const userData = await userResponse.json();
-              queryClient.setQueryData(["/api/auth/user"], userData);
+              queryClient.setQueryData(["/api/auth/user", "firebase"], userData);
             }
           }
         } catch (error) {
@@ -211,10 +211,10 @@ export default function AuthPage() {
         try {
           const userResponse = await apiRequest("GET", "/api/auth/user");
           const userData = await userResponse.json();
-          queryClient.setQueryData(["/api/auth/user"], userData);
+          queryClient.setQueryData(["/api/auth/user", "local"], userData);
         } catch (error) {
           console.error("Failed to fetch user data after registration:", error);
-          queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+          queryClient.invalidateQueries({ queryKey: ["/api/auth/user", "local"] });
         }
       }
       
