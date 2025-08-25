@@ -41,13 +41,13 @@ VITE_USE_FIREBASE_AUTH=true
 VITE_APP_ENV=production
 
 # Firebase Config (from your Firebase Console)
-VITE_FIREBASE_API_KEY=AIzaSyDvoXfsYn2M2KkFIedE9bot4Jr0kCqKsG0
-VITE_FIREBASE_AUTH_DOMAIN=holly-transportation-efb90.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=holly-transportation-efb90
-VITE_FIREBASE_STORAGE_BUCKET=holly-transportation-efb90.firebasestorage.app
-VITE_FIREBASE_MESSAGING_SENDER_ID=644505818979
-VITE_FIREBASE_APP_ID=1:644505818979:web:ec0bf5ea1d73ae19502556
-VITE_FIREBASE_MEASUREMENT_ID=G-LWN40RC1H2
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
 
 # Firebase Admin (for server-side auth)
 FIREBASE_CLIENT_EMAIL=your_service_account_email
