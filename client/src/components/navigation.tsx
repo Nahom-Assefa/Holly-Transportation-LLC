@@ -6,10 +6,30 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Ambulance, Menu, X, Calendar, User, Settings, LogOut, Shield } from "lucide-react";
 import { Link } from "wouter";
 import Messaging from "./messaging";
+import { AUTH_CONFIG } from "@/lib/authConfig";
+import { auth } from "@/lib/firebase";
+import { signOut as firebaseSignOut } from "firebase/auth";
 
 export default function Navigation() {
   const { user, isAuthenticated } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      if (AUTH_CONFIG.useFirebase) {
+        // Firebase auth - sign out and redirect to landing page
+        await firebaseSignOut(auth);
+        window.location.href = "/";
+      } else {
+        // Local auth - use the logout endpoint
+        window.location.href = "/api/logout";
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+      // Fallback redirect
+      window.location.href = "/";
+    }
+  };
 
   const userInitials = user ? 
     `${(user.firstName || '').charAt(0)}${(user.lastName || '').charAt(0)}`.toUpperCase() || 
@@ -80,6 +100,11 @@ export default function Navigation() {
                         <p className="w-[200px] truncate text-sm text-muted-foreground">
                           {user.email}
                         </p>
+                        {user.phone && (
+                          <p className="w-[200px] truncate text-sm text-muted-foreground">
+                            {user.phone}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <DropdownMenuSeparator />
@@ -108,7 +133,7 @@ export default function Navigation() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       className="cursor-pointer text-red-600 focus:text-red-600"
-                      onClick={() => window.location.href = '/api/logout'}
+                      onClick={handleLogout}
                       data-testid="logout-button"
                     >
                       <LogOut className="mr-2 h-4 w-4" />

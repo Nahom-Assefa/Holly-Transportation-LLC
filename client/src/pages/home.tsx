@@ -120,7 +120,7 @@ export default function Home() {
         {/* Welcome Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900" data-testid="welcome-heading">
-            Welcome back, {localUser?.firstName || localUser?.email}!
+            Welcome back, {user?.firstName || user?.email}!
           </h1>
           <p className="text-gray-600 mt-2">
             Manage your transportation needs with Holly Transportation

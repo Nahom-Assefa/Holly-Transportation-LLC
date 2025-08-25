@@ -278,7 +278,7 @@ export default function AuthPage() {
                     <Input
                       id="login-username"
                       {...loginForm.register("username")}
-                      placeholder="Enter your username"
+                      placeholder={AUTH_CONFIG.useFirebase ? "Enter your email" : "Enter your username"}
                       data-testid="input-username"
                     />
                     {loginForm.formState.errors.username && (

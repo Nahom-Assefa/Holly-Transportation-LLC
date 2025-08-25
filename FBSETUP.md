@@ -167,4 +167,68 @@ npm run dev:firebase
 
 ---
 
+## 🔄 Firebase Auth Data Flow
+
+### **Understanding the Three User Objects:**
+
+#### **1. `convertedFirebaseUser`**
+```typescript
+// This is Firebase auth data converted to our format
+const convertedFirebaseUser = {
+  id: firebaseUser.uid,                    // From Firebase
+  email: firebaseUser.email,               // From Firebase  
+  firstName: firebaseUser.displayName?.split(' ')[0] || null,  // From Firebase (usually null)
+  lastName: firebaseUser.displayName?.split(' ')?.slice(1).join(' ') || null,  // From Firebase (usually null)
+  profileImageUrl: firebaseUser.photoURL,  // From Firebase (usually null)
+  phone: firebaseUser.phoneNumber,         // From Firebase (usually null)
+  medicalNotes: null,                      // Hardcoded null
+  isAdmin: false,                          // Default value - will be overridden by database
+  createdAt: null,                         // Default value - will be overridden by database
+  updatedAt: null,                         // Default value - will be overridden by database
+}
+```
+
+#### **2. `firebaseUserData`**
+```typescript
+// This is the complete profile from our PostgreSQL database
+const firebaseUserData = {
+  id: "qhr9FEih6sOUBoGPayLsAKBXTHM2",    // From database
+  email: "nzenebe@gmail.com",             // From database
+  firstName: "Nahom",                     // From database
+  lastName: "Zenebe",                     // From database
+  phone: "(612) 500-6198",               // From database
+  isAdmin: true,                          // From database
+  medicalNotes: "Admin user - Business owner",  // From database
+  createdAt: "2025-08-24T17:44:48.034Z", // From database
+  updatedAt: "2025-08-24T18:47:00.727Z", // From database
+  // ... any other profile fields
+}
+```
+
+#### **3. `mergedFirebaseUser`**
+```typescript
+// This is the FINAL result after merging both
+const mergedFirebaseUser = {
+  ...convertedFirebaseUser!,              // Firebase auth as base
+  ...firebaseUserData,                    // Database profile OVERRIDES base
+  id: firebaseUser.uid,                   // Keep Firebase UID
+}
+```
+
+### **The Key Insight:**
+
+**`convertedFirebaseUser`** = **Firebase's limited data** (mostly nulls)  
+**`firebaseUserData`** = **Our database's complete profile**  
+**`mergedFirebaseUser`** = **Best of both worlds** (Firebase auth + database profile)
+
+### **Why This Matters:**
+
+- **Firebase only knows:** Who you are (email, uid)
+- **Our database knows:** Everything about you (name, phone, admin status, etc.)
+- **Merging gives us:** Complete user profile for the UI
+
+**So `convertedFirebaseUser` is basically just a "placeholder" with Firebase auth data, while `firebaseUserData` has the real profile information!**
+
+---
+
 **Questions?** Check the Firebase Console or ask for help!

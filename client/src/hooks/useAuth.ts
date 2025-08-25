@@ -168,13 +168,35 @@ export function useAuth() {
     profileImageUrl: firebaseUser.photoURL,
     phone: firebaseUser.phoneNumber,
     medicalNotes: null,
-    isAdmin: firebaseUserData?.isAdmin || false, // Use API data for admin status
-    createdAt: firebaseUserData?.createdAt || null,
-    updatedAt: firebaseUserData?.updatedAt || null,
+    isAdmin: false,           // Default value - will be overridden by database
+    createdAt: null,          // Default value - will be overridden by database
+    updatedAt: null,          // Default value - will be overridden by database
+  } : null;
+
+  // Merge Firebase auth data with our database profile data
+  const mergedFirebaseUser: ExtendedUser | null = firebaseUser && firebaseUserData ? {
+    ...convertedFirebaseUser!, // Firebase auth data as base
+    ...firebaseUserData, // Override with database profile data (firstName, lastName, phone, etc.)
+    id: firebaseUser.uid, // Keep Firebase UID as the ID
+  } : convertedFirebaseUser;
+
+  // Debug logging for data merging
+  if (AUTH_CONFIG.useFirebase && firebaseUser && firebaseUserData) {
+    console.log("🔍 Data Merging Debug:", {
+      convertedFirebaseUser,
+      firebaseUserData,
+      mergedFirebaseUser
+    });
+  }
+
+  // Add stable dummy ID for local auth users (for testing purposes)
+  const localUserWithStableId: ExtendedUser | null = localUser ? {
+    ...localUser,
+    id: localUser.id || `local-test-${localUser.email?.replace(/[^a-zA-Z0-9]/g, '') || 'user'}`
   } : null;
 
   // Determine which user data to use
-  const user: ExtendedUser | null = AUTH_CONFIG.useFirebase ? convertedFirebaseUser : (localUser || null);
+  const user: ExtendedUser | null = AUTH_CONFIG.useFirebase ? mergedFirebaseUser : localUserWithStableId;
   const isAuthenticated = !!user;
   const finalIsLoading = AUTH_CONFIG.useFirebase ? (isLoading || firebaseDataLoading) : localLoading;
   

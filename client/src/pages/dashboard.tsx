@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { AUTH_CONFIG } from "@/lib/authConfig";
 import type { Booking } from "@shared/schema";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -77,7 +78,7 @@ export default function Dashboard() {
       // Also update local user state to keep them in sync
       setLocalUser(user);
     }
-  }, [user]);
+  }, [user?.id]);
 
   // Local state for immediate UI updates
   const [localUser, setLocalUser] = useState(user);
@@ -118,6 +119,13 @@ export default function Dashboard() {
 
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // In Firebase mode, prevent email changes for security
+    if (AUTH_CONFIG.useFirebase && profileForm.email !== user?.email) {
+      customAlert("Email cannot be changed in Firebase authentication mode for security reasons.", "warning");
+      return;
+    }
+    
     try {
       console.log("🔄 Updating profile...");
       const response = await apiRequest("PUT", "/api/profile", profileForm);
@@ -168,7 +176,7 @@ export default function Dashboard() {
       // Also refresh bookings to ensure we have the latest data
       refetchBookings();
     }
-  }, [user, refreshUserData, refetchBookings]);
+  }, [user?.id, refreshUserData, refetchBookings]);
 
   // Delete booking mutation
   const deleteBookingMutation = useMutation({
@@ -516,13 +524,21 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Email Address
+                      {AUTH_CONFIG.useFirebase && (
+                        <span className="text-sm text-gray-500 ml-2">(Cannot be changed for security reasons)</span>
+                      )}
+                    </label>
                     <Input
                       type="email"
                       value={profileForm.email}
                       onChange={(e) => setProfileForm(prev => ({ ...prev, email: e.target.value }))}
                       placeholder="Enter your email address"
-                      className="placeholder:text-gray-400 border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary/20"
+                      disabled={AUTH_CONFIG.useFirebase}
+                      className={`placeholder:text-gray-400 border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary/20 ${
+                        AUTH_CONFIG.useFirebase ? "bg-gray-100 cursor-not-allowed" : ""
+                      }`}
                       data-testid="input-email"
                     />
                   </div>
