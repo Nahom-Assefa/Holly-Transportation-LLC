@@ -10,6 +10,7 @@ import { Link } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
+import { COMPANY_INFO } from "@shared/constants";
 import { formatTime } from "@/utils/timeUtils";
 import { formatStatus } from "@/utils/formatUtils";
 
@@ -208,7 +209,7 @@ export default function Home() {
           {!user.isAdmin && (
             <Card 
               className="hover:shadow-lg transition-shadow cursor-pointer"
-              onClick={() => window.open('mailto:hollytransport04@gmail.com?subject=Transportation Inquiry from Dashboard', '_self')}
+              onClick={() => window.open(`mailto:${COMPANY_INFO.EMAIL}?subject=Transportation Inquiry from Dashboard`, '_self')}
             >
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4">

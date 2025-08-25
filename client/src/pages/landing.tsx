@@ -105,7 +105,7 @@ ${message}
 Sent from Holly Transportation contact form
     `.trim();
     
-    const mailtoUrl = `mailto:hollytransport04@gmail.com?subject=${encodeURIComponent(`Contact Form: ${subject}`)}&body=${encodeURIComponent(emailBody)}`;
+    const mailtoUrl = `mailto:${COMPANY_INFO.EMAIL}?subject=${encodeURIComponent(`Contact Form: ${subject}`)}&body=${encodeURIComponent(emailBody)}`;
     
     // Open default email client
     window.location.href = mailtoUrl;
@@ -306,7 +306,7 @@ Sent from Holly Transportation contact form
                   data-testid="hero-call-button"
                 >
                   <Phone className="w-6 h-6 mr-3" />
-                  Call (651) 500-6198
+                  Call {COMPANY_INFO.PHONE}
                 </Button>
               </div>
               
@@ -316,7 +316,7 @@ Sent from Holly Transportation contact form
                   <div className="text-sm text-gray-600">Satisfied Patients</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-healthcare-green">6AM to 6PM</div>
+                  <div className="text-2xl font-bold text-healthcare-green">{COMPANY_INFO.HOURS}</div>
                   <div className="text-sm text-gray-600">Daily Hours</div>
                 </div>
                 <div className="text-center">
@@ -804,7 +804,7 @@ Sent from Holly Transportation contact form
           
           <div className="text-center mt-8">
             <p className="text-xl text-primary-foreground/90 mb-4 font-semibold">Need immediate assistance or have questions?</p>
-            <p className="text-2xl text-black font-black tracking-wide">Call us at (651) 500-6198 or email hollytransport04@gmail.com</p>
+                            <p className="text-2xl text-black font-black tracking-wide">Call us at {COMPANY_INFO.PHONE} or email {COMPANY_INFO.EMAIL}</p>
           </div>
         </div>
       </section>
@@ -835,7 +835,7 @@ Sent from Holly Transportation contact form
                         onClick={() => handlePhoneClick({ toast: customAlert })}
                         className="text-lg text-gray-600 hover:text-primary transition-colors"
                       >
-                        (651) 500-6198
+                        {COMPANY_INFO.PHONE}
                       </button>
                     </div>
                   </div>
@@ -845,7 +845,7 @@ Sent from Holly Transportation contact form
                     </div>
                     <div>
                       <div className="text-lg font-bold text-gray-900">Email</div>
-                      <div className="text-lg text-gray-600">hollytransport04@gmail.com</div>
+                      <div className="text-lg text-gray-600">{COMPANY_INFO.EMAIL}</div>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
@@ -865,7 +865,7 @@ Sent from Holly Transportation contact form
                 <div className="space-y-2 text-lg text-gray-600">
                   <div className="flex justify-between">
                     <span>Monday - Sunday:</span>
-                    <span className="text-healthcare-green font-bold">6:00 AM - 6:00 PM</span>
+                    <span className="text-healthcare-green font-bold">{COMPANY_INFO.HOURS}</span>
                   </div>
                 </div>
               </div>
@@ -1032,13 +1032,13 @@ Sent from Holly Transportation contact form
                     onClick={() => handlePhoneClick({ toast: customAlert })}
                     className="hover:text-primary transition-colors"
                   >
-                    (651) 500-6198
+                    {COMPANY_INFO.PHONE}
                   </button>
                 </li>
                 <li className="flex items-center space-x-2">
                   <Mail className="w-4 h-4 text-primary" />
-                  <a href="mailto:hollytransport04@gmail.com" className="hover:text-primary transition-colors">
-                    hollytransport04@gmail.com
+                  <a href={`mailto:${COMPANY_INFO.EMAIL}`} className="hover:text-primary transition-colors">
+                    {COMPANY_INFO.EMAIL}
                   </a>
                 </li>
                 <li className="flex items-center space-x-2">
@@ -1047,7 +1047,7 @@ Sent from Holly Transportation contact form
                 </li>
                 <li className="flex items-center space-x-2">
                   <Clock className="w-4 h-4 text-healthcare-green" />
-                  <span>6AM to 6PM Daily</span>
+                  <span>{COMPANY_INFO.HOURS} Daily</span>
                 </li>
               </ul>
             </div>
