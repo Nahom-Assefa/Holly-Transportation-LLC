@@ -111,7 +111,7 @@ export function useAuth() {
   });
 
   // Firebase authentication with API calls for user data
-  const { data: firebaseUserData, isLoading: firebaseDataLoading } = useQuery<ExtendedUser>({
+  const { data: internalPGData, isLoading: firebaseDataLoading } = useQuery<ExtendedUser>({
     queryKey: ["/api/auth/user", "firebase"],
     queryFn: async () => {
       console.log("🔥 Firebase queryFn running...");
@@ -160,7 +160,7 @@ export function useAuth() {
   });
 
   // Convert Firebase user to ExtendedUser format when using Firebase
-  const convertedFirebaseUser: ExtendedUser | null = firebaseUser ? {
+  const firebaseLimited: ExtendedUser | null = firebaseUser ? {
     id: firebaseUser.uid,
     email: firebaseUser.email,
     firstName: firebaseUser.displayName?.split(' ')[0] || null,
@@ -174,17 +174,17 @@ export function useAuth() {
   } : null;
 
   // Merge Firebase auth data with our database profile data
-  const mergedFirebaseUser: ExtendedUser | null = firebaseUser && firebaseUserData ? {
-    ...convertedFirebaseUser!, // Firebase auth data as base
-    ...firebaseUserData, // Override with database profile data (firstName, lastName, phone, etc.)
+  const mergedFirebaseUser: ExtendedUser | null = firebaseUser && internalPGData ? {
+    ...firebaseLimited!, // Firebase auth data as base
+    ...internalPGData, // Override with database profile data (firstName, lastName, phone, etc.)
     id: firebaseUser.uid, // Keep Firebase UID as the ID
-  } : convertedFirebaseUser;
+  } : firebaseLimited;
 
   // Debug logging for data merging
-  if (AUTH_CONFIG.useFirebase && firebaseUser && firebaseUserData) {
+  if (AUTH_CONFIG.useFirebase && firebaseUser && internalPGData) {
     console.log("🔍 Data Merging Debug:", {
-      convertedFirebaseUser,
-      firebaseUserData,
+      firebaseLimited,
+      internalPGData,
       mergedFirebaseUser
     });
   }
@@ -204,7 +204,7 @@ export function useAuth() {
   console.log("🔍 Auth Debug:", {
     useFirebase: AUTH_CONFIG.useFirebase,
     firebaseUser: !!firebaseUser,
-    firebaseUserData: !!firebaseUserData,
+    internalPGData: !!internalPGData,
     localUser: !!localUser,
     user: !!user,
     isAuthenticated,

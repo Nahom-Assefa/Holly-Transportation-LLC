@@ -103,7 +103,9 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchInterval: false,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: false, // Disable to prevent excessive requests
+      refetchOnMount: "always", // Only refetch when component mounts, not on every focus
+      staleTime: 2 * 60 * 1000, // Data becomes stale after 5 minutes
       retry: false,
     },
     mutations: {

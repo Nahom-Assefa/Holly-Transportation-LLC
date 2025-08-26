@@ -38,6 +38,8 @@ export default function Home() {
       return response.json();
     },
     enabled: !!user && !user.isAdmin,
+    staleTime: 5 * 60 * 1000, // 5 minutes - prevent excessive refetching
+    refetchOnWindowFocus: false, // Prevent refetching when window gains focus
   });
 
   // Get the 4 most recent bookings
@@ -84,7 +86,7 @@ export default function Home() {
     if (user && !user.isAdmin) {
       refetchBookings();
     }
-  }, [user, refetchBookings]);
+  }, [user?.id, user?.isAdmin]); // Removed refetchBookings dependency
 
   // Refresh bookings when page becomes visible (user navigates back)
   useEffect(() => {
@@ -96,7 +98,7 @@ export default function Home() {
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, [user, refetchBookings]);
+  }, [user?.id, user?.isAdmin]); // Fixed dependencies - removed refetchBookings
 
   if (isLoading) {
     return (

@@ -65,7 +65,7 @@ export default function Dashboard() {
       }, 500);
       return;
     }
-  }, [isAuthenticated, isLoading, customAlert]);
+  }, [isAuthenticated, isLoading]); // Removed customAlert dependency
 
   useEffect(() => {
     if (user) {
@@ -113,7 +113,7 @@ export default function Dashboard() {
     } catch (error) {
       console.error("❌ Failed to refresh user data:", error);
     }
-  }, []);
+  }, []); // Empty dependency array - this function never needs to change
 
 
 
@@ -167,16 +167,19 @@ export default function Dashboard() {
       return response.json();
     },
     enabled: !!user,
+    staleTime: 2 * 60 * 1000, // 5 minutes - prevent excessive refetching
+    refetchOnWindowFocus: false, // Prevent refetching when window gains focus
   });
 
-  // Refresh user data when component mounts or user changes
+  // Refresh data when component mounts or user changes
   useEffect(() => {
     if (user) {
-      refreshUserData();
-      // Also refresh bookings to ensure we have the latest data
-      refetchBookings();
+      // Refresh user data if needed
+      if (!localUser || localUser.id !== user.id) {
+        refreshUserData();
+      }
     }
-  }, [user?.id, refreshUserData, refetchBookings]);
+  }, [user?.id, refreshUserData]); // refreshUserData is stable due to useCallback
 
   // Delete booking mutation
   const deleteBookingMutation = useMutation({
@@ -260,14 +263,7 @@ export default function Dashboard() {
     setCurrentPage(1);
   }, [pageSize]);
 
-  // Refresh data when component mounts or when user navigates back
-  useEffect(() => {
-    if (user) {
-      // Force a fresh fetch of bookings data
-      console.log("🔄 Dashboard mounted, fetching fresh bookings data...");
-      refetchBookings();
-    }
-  }, [user, refetchBookings]);
+  // React Query handles this automatically - no manual refetching needed
 
   if (isLoading) {
     return (

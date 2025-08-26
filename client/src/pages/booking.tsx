@@ -78,7 +78,7 @@ export default function Booking() {
         phone: user.phone || "",
       }));
     }
-  }, [user, user?.firstName, user?.lastName, user?.phone]);
+  }, [user?.id]); // Only when user changes (sign in/out)
 
   const bookingMutation = useMutation({
     mutationFn: async (data: Omit<InsertBooking, 'userId' | 'status'>) => {

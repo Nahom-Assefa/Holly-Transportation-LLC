@@ -171,10 +171,10 @@ npm run dev:firebase
 
 ### **Understanding the Three User Objects:**
 
-#### **1. `convertedFirebaseUser`**
+#### **1. `firebaseLimited`**
 ```typescript
-// This is Firebase auth data converted to our format
-const convertedFirebaseUser = {
+// This is Firebase auth data converted to our format (limited data)
+const firebaseLimited = {
   id: firebaseUser.uid,                    // From Firebase
   email: firebaseUser.email,               // From Firebase  
   firstName: firebaseUser.displayName?.split(' ')[0] || null,  // From Firebase (usually null)
@@ -188,14 +188,14 @@ const convertedFirebaseUser = {
 }
 ```
 
-#### **2. `firebaseUserData`**
+#### **2. `internalPGData`**
 ```typescript
 // This is the complete profile from our PostgreSQL database
-const firebaseUserData = {
+const internalPGData = {
   id: "qhr9FEih6sOUBoGPayLsAKBXTHM2",    // From database
   email: "nzenebe@gmail.com",             // From database
   firstName: "Nahom",                     // From database
-  lastName: "Zenebe",                     // From database
+  lastName: "Assefa",                     // From database
   phone: "(612) 500-6198",               // From database
   isAdmin: true,                          // From database
   medicalNotes: "Admin user - Business owner",  // From database
@@ -209,16 +209,16 @@ const firebaseUserData = {
 ```typescript
 // This is the FINAL result after merging both
 const mergedFirebaseUser = {
-  ...convertedFirebaseUser!,              // Firebase auth as base
-  ...firebaseUserData,                    // Database profile OVERRIDES base
+  ...firebaseLimited!,                     // Firebase auth as base
+  ...internalPGData,                      // Database profile OVERRIDES base
   id: firebaseUser.uid,                   // Keep Firebase UID
 }
 ```
 
 ### **The Key Insight:**
 
-**`convertedFirebaseUser`** = **Firebase's limited data** (mostly nulls)  
-**`firebaseUserData`** = **Our database's complete profile**  
+**`firebaseLimited`** = **Firebase's limited data** (mostly nulls)  
+**`internalPGData`** = **Our database's complete profile**  
 **`mergedFirebaseUser`** = **Best of both worlds** (Firebase auth + database profile)
 
 ### **Why This Matters:**

@@ -76,7 +76,7 @@ export default function Admin() {
       }, 500);
       return;
     }
-  }, [user, isAuthenticated, isLoading, toast]);
+  }, [user?.id, user?.isAdmin, isAuthenticated, isLoading, toast]);
 
 
   
