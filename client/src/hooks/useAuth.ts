@@ -59,11 +59,13 @@ export function useAuth() {
     if (AUTH_CONFIG.useFirebase) {
       console.log("🔥 Setting up Firebase auth state listener...");
       console.log("🔥 Firebase auth object:", auth);
-      console.log("🔥 Firebase current user:", auth.currentUser);
+      // console.log("🔥 Firebase current user:", auth.currentUser);
       
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         console.log("👤 Firebase auth state changed:", user ? `User: ${user.email}` : "No user");
-        setFirebaseUser(user);
+        if (firebaseUser?.uid !== user?.uid) {
+          setFirebaseUser(user);
+        }
         setIsLoading(false); // Always set loading to false, even for no user
         
         // If no user and we're on a protected route, redirect to auth
@@ -120,7 +122,7 @@ export function useAuth() {
         throw new Error("No Firebase user");
       }
       
-      console.log("🔑 Getting Firebase ID token...");
+      // console.log("🔑 Getting Firebase ID token...");
       const token = await firebaseUser.getIdToken();
       console.log("📡 Making API request to /api/auth/user...");
       
