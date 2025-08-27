@@ -62,10 +62,9 @@ export function useAuth() {
       // console.log("🔥 Firebase current user:", auth.currentUser);
       
       const unsubscribe = onAuthStateChanged(auth, (user) => {
-        console.log("👤 Firebase auth state changed:", user ? `User: ${user.email}` : "No user");
-        if (firebaseUser?.uid !== user?.uid) {
-          setFirebaseUser(user);
-        }
+        // console.log("👤 Firebase auth state changed:", user ? `User: ${user.email}` : "No user");
+        console.log("🔥 Firebase user inside HOOK:", user);
+        setFirebaseUser(user);
         setIsLoading(false); // Always set loading to false, even for no user
         
         // If no user and we're on a protected route, redirect to auth
@@ -74,7 +73,7 @@ export function useAuth() {
           const isOnPublicPage = currentPath === '/' || currentPath === '/auth';
           
           if (!isOnPublicPage) {
-            console.log("🚫 No Firebase user on protected route, redirecting to /auth");
+            // console.log("🚫 No Firebase user on protected route, redirecting to /auth");
             window.location.href = "/auth";
           }
         }
@@ -82,7 +81,7 @@ export function useAuth() {
       
       // Set loading to false immediately if no user (not stuck waiting)
       if (!auth.currentUser) {
-        console.log("🔥 No current user, setting loading to false");
+        // console.log("🔥 No current user, setting loading to false");
         setIsLoading(false);
         
         // Also check if we need to redirect immediately
@@ -90,7 +89,7 @@ export function useAuth() {
         const isOnPublicPage = currentPath === '/' || currentPath === '/auth';
         
         if (!isOnPublicPage) {
-          console.log("🚫 No current user on protected route, redirecting to /auth");
+          // console.log("🚫 No current user on protected route, redirecting to /auth");
           window.location.href = "/auth";
         }
       }
@@ -116,16 +115,17 @@ export function useAuth() {
   const { data: internalPGData, isLoading: firebaseDataLoading } = useQuery<ExtendedUser>({
     queryKey: ["/api/auth/user", "firebase"],
     queryFn: async () => {
-      console.log("🔥 Firebase queryFn running...");
+      // console.log("🔥 Firebase queryFn running...");
       if (!firebaseUser) {
-        console.log("❌ No Firebase user found");
+        // console.log("❌ No Firebase user found");
         throw new Error("No Firebase user");
       }
       
       // console.log("🔑 Getting Firebase ID token...");
       const token = await firebaseUser.getIdToken();
-      console.log("📡 Making API request to /api/auth/user...");
-      
+      console.log("🔑 Firebase ID token:", token);
+      // console.log("📡 Making API request to /api/auth/user...");
+      console.log("🔑 Firebase user:", firebaseUser);
       const res = await fetch("/api/auth/user", {
         headers: { "Authorization": `Bearer ${token}` },
       });
@@ -150,9 +150,9 @@ export function useAuth() {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
       
-      console.log("✅ API request successful, parsing response...");
+      // console.log("✅ API request successful, parsing response...");
       const data = await res.json();
-      console.log("📦 Parsed user data:", data);
+      // console.log("📦 Parsed user data:", data);
       return data;
     },
     retry: false,
