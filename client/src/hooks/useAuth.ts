@@ -183,10 +183,12 @@ export function useAuth() {
   } : firebaseLimited;
 
   // Debug logging for data merging
-  if (AUTH_CONFIG.useFirebase && firebaseUser && internalPGData) {
-    console.log("🔍 Data Merging Debug:", {
+  if (AUTH_CONFIG.useFirebase && firebaseUser) {
+    console.log("🔍 Firebase Auth Debug:", {
+      firebaseUser: !!firebaseUser,
+      internalPGData: !!internalPGData,
+      internalPGDataValue: internalPGData,
       firebaseLimited,
-      internalPGData,
       mergedFirebaseUser
     });
   }
