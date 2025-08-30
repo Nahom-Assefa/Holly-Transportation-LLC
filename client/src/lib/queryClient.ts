@@ -34,7 +34,11 @@ export async function apiRequest(
   
   // Get the base URL for the backend
   const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+  console.log('🔍 Debug - VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+  console.log('🔍 Debug - baseUrl:', baseUrl);
+  console.log('🔍 Debug - original url:', url);
   const fullUrl = baseUrl + url;
+  console.log('🔍 Debug - fullUrl:', fullUrl);
   
   let headers: Record<string, string> = {};
   let credentials: RequestCredentials | undefined = undefined;
