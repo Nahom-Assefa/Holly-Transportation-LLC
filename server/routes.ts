@@ -16,7 +16,21 @@ import { insertBookingSchema, insertMessageSchema, insertContactMessageSchema } 
  */
 export async function registerRoutes(app: Express): Promise<Server> {
   // Feature flag: Choose authentication method
+  console.log('🔍 Environment Variables Debug:');
+  console.log('VITE_USE_FIREBASE_AUTH:', process.env.VITE_USE_FIREBASE_AUTH);
+  console.log('Type:', typeof process.env.VITE_USE_FIREBASE_AUTH);
+  console.log('Length:', process.env.VITE_USE_FIREBASE_AUTH?.length);
+  
   const useFirebaseAuth = process.env.VITE_USE_FIREBASE_AUTH === 'true';
+  console.log('useFirebaseAuth result:', useFirebaseAuth);
+  
+  // Fallback: Check for alternative variable names
+  if (!useFirebaseAuth) {
+    console.log('🔍 Checking alternative variable names:');
+    console.log('USE_FIREBASE_AUTH:', process.env.USE_FIREBASE_AUTH);
+    console.log('FIREBASE_AUTH:', process.env.FIREBASE_AUTH);
+    console.log('AUTH_TYPE:', process.env.AUTH_TYPE);
+  }
   
   let requireAuth: any, requireAdmin: any;
   
