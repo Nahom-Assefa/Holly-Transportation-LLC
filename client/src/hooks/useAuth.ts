@@ -177,8 +177,8 @@ export function useAuth() {
 
   // Merge Firebase auth data with our database profile data
   const mergedFirebaseUser: ExtendedUser | null = firebaseUser && internalPGData ? {
-    ...firebaseLimited!, // Firebase auth data as base
-    ...internalPGData, // Override with database profile data (firstName, lastName, phone, etc.)
+    ...internalPGData, // Database profile data FIRST (includes isAdmin, firstName, lastName, etc.)
+    ...firebaseLimited!, // Firebase auth data SECOND (only for missing fields)
     id: firebaseUser.uid, // Keep Firebase UID as the ID
   } : firebaseLimited;
 
