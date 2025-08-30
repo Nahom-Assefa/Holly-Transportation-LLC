@@ -106,9 +106,7 @@ export default function AuthPage() {
           const token = await auth.currentUser?.getIdToken();
           
           if (token) {
-            const userResponse = await fetch("/api/auth/user", {
-              headers: { "Authorization": `Bearer ${token}` }
-            });
+            const userResponse = await apiRequest("GET", "/api/auth/user");
             
             if (userResponse.ok) {
               const userData = await userResponse.json();
@@ -170,14 +168,7 @@ export default function AuthPage() {
         };
         
         // Create user in our database
-        await fetch("/api/auth/user", {
-          method: "POST",
-          headers: { 
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(userData)
-        });
+        await apiRequest("POST", "/api/auth/user", userData);
         
         return { success: true, user: userCredential.user };
       } else {
@@ -194,9 +185,7 @@ export default function AuthPage() {
           const token = await auth.currentUser?.getIdToken();
           
           if (token) {
-            const userResponse = await fetch("/api/auth/user", {
-              headers: { "Authorization": `Bearer ${token}` }
-            });
+            const userResponse = await apiRequest("GET", "/api/auth/user");
             
             if (userResponse.ok) {
               const userData = await userResponse.json();
