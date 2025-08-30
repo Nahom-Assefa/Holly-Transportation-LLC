@@ -49,17 +49,26 @@ export async function apiRequest(
     // Firebase auth - get token and use Authorization header
     try {
       const { auth } = await import("@/lib/firebase");
+      console.log("🔍 Debug - Firebase auth object:", auth);
+      console.log("🔍 Debug - Firebase current user:", auth.currentUser);
+      console.log("🔍 Debug - Firebase user ID:", auth.currentUser?.uid);
+      
       const token = await auth.currentUser?.getIdToken();
+      console.log("🔍 Debug - Firebase token:", token);
+      console.log("🔍 Debug - Token length:", token?.length);
       
       if (token) {
         headers["Authorization"] = `Bearer ${token}`;
+        console.log("🔍 Debug - Authorization header set:", `Bearer ${token.substring(0, 20)}...`);
+      } else {
+        console.log("🔍 Debug - No token generated!");
       }
       
       if (data) {
         headers["Content-Type"] = "application/json";
       }
     } catch (error) {
-      console.error("Failed to get Firebase token:", error);
+      console.error("🔍 Debug - Failed to get Firebase token:", error);
       // Fall back to local auth
       credentials = "include";
     }
@@ -72,6 +81,9 @@ export async function apiRequest(
     }
   }
 
+  console.log("🔍 Debug - Final headers being sent:", headers);
+  console.log("🔍 Debug - Full URL being called:", fullUrl);
+  
   const res = await fetch(fullUrl, {
     method,
     headers,
