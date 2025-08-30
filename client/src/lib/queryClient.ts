@@ -32,6 +32,10 @@ export async function apiRequest(
   // Check if we're using Firebase auth
   const useFirebase = import.meta.env.VITE_USE_FIREBASE_AUTH === 'true';
   
+  // Get the base URL for the backend
+  const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+  const fullUrl = baseUrl + url;
+  
   let headers: Record<string, string> = {};
   let credentials: RequestCredentials | undefined = undefined;
   
@@ -62,7 +66,7 @@ export async function apiRequest(
     }
   }
 
-  const res = await fetch(url, {
+  const res = await fetch(fullUrl, {
     method,
     headers,
     body: data ? JSON.stringify(data) : undefined,
