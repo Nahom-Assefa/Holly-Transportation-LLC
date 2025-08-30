@@ -177,9 +177,19 @@ export function useAuth() {
 
   // Merge Firebase auth data with our database profile data
   const mergedFirebaseUser: ExtendedUser | null = firebaseUser && internalPGData ? {
-    ...internalPGData, // Database profile data FIRST (includes isAdmin, firstName, lastName, etc.)
-    ...firebaseLimited!, // Firebase auth data SECOND (only for missing fields)
-    id: firebaseUser.uid, // Keep Firebase UID as the ID
+    // Database data (business logic) - takes priority
+    id: firebaseUser.uid,
+    email: internalPGData.email,
+    firstName: internalPGData.firstName,
+    lastName: internalPGData.lastName,
+    phone: internalPGData.phone,
+    isAdmin: internalPGData.isAdmin,        // Explicitly use database value
+    medicalNotes: internalPGData.medicalNotes,
+    createdAt: internalPGData.createdAt,
+    updatedAt: internalPGData.updatedAt,
+    
+    // Firebase data (only for missing fields)
+    profileImageUrl: firebaseUser.photoURL || internalPGData.profileImageUrl,
   } : firebaseLimited;
 
   // Debug logging for data merging
