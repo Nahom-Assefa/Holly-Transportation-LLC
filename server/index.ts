@@ -7,6 +7,7 @@
  */
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
+import cors from "cors";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
@@ -14,6 +15,19 @@ import { setupVite, serveStatic, log } from "./vite";
  * Main Express application instance
  */
 const app = express();
+
+// CORS middleware - allow requests from your frontend domain
+app.use(cors({
+  origin: [
+    'https://holly-transportation.com',
+    'http://localhost:3000', // For local development
+    'http://localhost:5173'  // For Vite dev server
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
