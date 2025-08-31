@@ -8,10 +8,6 @@
     ],
     "rewrites": [
       {
-        "source": "/api/**",
-        "destination": "https://holly-transportation-llc-production.up.railway.app/api/**"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
       }
