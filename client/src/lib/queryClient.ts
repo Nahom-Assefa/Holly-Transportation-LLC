@@ -32,12 +32,10 @@ export async function apiRequest(
   // Check if we're using Firebase auth
   const useFirebase = import.meta.env.VITE_USE_FIREBASE_AUTH === 'true';
 
-  console.log('🔍 Debug - VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
-  const baseUrl = 'https://holly-transportation-llc-production.up.railway.app';
-  console.log('🔍 Debug - baseUrl:', baseUrl);
+  // Use relative URLs - Firebase Hosting will handle routing to Railway
+  const baseUrl = '';
   const fullUrl = baseUrl + url;
-  console.log('🔍 Debug - original url:', url);
-  console.log('🔍 Debug - fullUrl:', fullUrl);
+  console.log('🔍 Debug - Using relative URL:', fullUrl);
 
   let headers: Record<string, string> = {};
   let credentials: RequestCredentials | undefined = undefined;
