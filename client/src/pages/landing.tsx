@@ -94,16 +94,12 @@ export default function Landing() {
     
     // Create mailto URL
     const emailBody = `
-Name: ${firstName} ${lastName}
-Email: ${email}
-Phone: ${phone || 'Not provided'}
-
-Message:
-${message}
-
----
-Sent from Holly Transportation contact form
-    `.trim();
+      Name:    ${firstName} ${lastName}
+      Email:   ${email}
+      Phone:   ${phone || 'Not provided'}
+      Message: ${message}
+      ---
+      Sent from Holly Transportation contact form`.trim();
     
     const mailtoUrl = `mailto:${COMPANY_INFO.EMAIL}?subject=${encodeURIComponent(`Contact Form: ${subject}`)}&body=${encodeURIComponent(emailBody)}`;
     
@@ -845,7 +841,9 @@ Sent from Holly Transportation contact form
                     </div>
                     <div>
                       <div className="text-lg font-bold text-gray-900">Email</div>
-                      <div className="text-lg text-gray-600">{COMPANY_INFO.EMAIL}</div>
+                      <div className="text-lg text-gray-600">
+                        <a href={`mailto:${COMPANY_INFO.EMAIL}`} className="hover:text-primary transition-colors">{COMPANY_INFO.EMAIL}</a>
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">

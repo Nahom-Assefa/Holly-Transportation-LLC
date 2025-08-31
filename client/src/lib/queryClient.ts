@@ -38,10 +38,7 @@ export async function apiRequest(
   const fullUrl = baseUrl + url;
   console.log('🔍 Debug - original url:', url);
   console.log('🔍 Debug - fullUrl:', fullUrl);
-  
-  // Get the base URL for the backend - hardcoded for now
 
-  
   let headers: Record<string, string> = {};
   let credentials: RequestCredentials | undefined = undefined;
   
