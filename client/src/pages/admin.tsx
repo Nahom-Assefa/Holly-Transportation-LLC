@@ -182,12 +182,17 @@ export default function Admin() {
       await apiRequest("DELETE", `/api/bookings/${id}`);
     },
     onSuccess: () => {
+      console.log("Delete successful, refreshing bookings...");
+      
       toast({
         title: "Booking Deleted",
         description: "Booking has been deleted successfully.",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/bookings"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      
+      // Get fresh data immediately
+      queryClient.refetchQueries({ queryKey: ["/api/bookings"] });
+      queryClient.refetchQueries({ queryKey: ["/api/admin/stats"] });
+      
       // Reset to first page if current page becomes empty
       if (bookings.length <= pageSize) {
         setCurrentPage(1);
