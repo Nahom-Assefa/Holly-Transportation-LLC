@@ -522,7 +522,7 @@ export default function Dashboard() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Email Address
-                      {AUTH_CONFIG.useFirebase && (
+                      {user?.isAdmin && (
                         <span className="text-sm text-gray-500 ml-2">(Cannot be changed for security reasons)</span>
                       )}
                     </label>
@@ -531,9 +531,9 @@ export default function Dashboard() {
                       value={profileForm.email}
                       onChange={(e) => setProfileForm(prev => ({ ...prev, email: e.target.value }))}
                       placeholder="Enter your email address"
-                      disabled={AUTH_CONFIG.useFirebase}
+                      disabled={user?.isAdmin}
                       className={`placeholder:text-gray-400 border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary/20 ${
-                        AUTH_CONFIG.useFirebase ? "bg-gray-100 cursor-not-allowed" : ""
+                        user?.isAdmin ? "bg-gray-100 cursor-not-allowed" : ""
                       }`}
                       data-testid="input-email"
                     />
