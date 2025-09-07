@@ -411,26 +411,26 @@ export default function Admin() {
                             <TableCell>
                               <div className="flex space-x-2">
                                 {booking.status === 'pending' && (
-                                  <Button
-                                    size="sm"
-                                    className="bg-healthcare-green text-white hover:bg-healthcare-green/90"
-                                    onClick={() => updateBookingStatusMutation.mutate({ id: booking.id, status: 'confirmed' })}
-                                    data-testid={`confirm-booking-${booking.id}`}
-                                  >
-                                    <CheckCircle className="w-3 h-3 mr-1" />
-                                    Confirm
-                                  </Button>
-                                )}
-                                {(booking.status === 'pending' || booking.status === 'confirmed') && (
-                                  <Button
-                                    size="sm"
-                                    variant="destructive"
-                                    onClick={() => updateBookingStatusMutation.mutate({ id: booking.id, status: 'cancelled' })}
-                                    data-testid={`deny-booking-${booking.id}`}
-                                  >
-                                    <XCircle className="w-3 h-3 mr-1" />
-                                    Deny
-                                  </Button>
+                                  <>
+                                    <Button
+                                      size="sm"
+                                      className="bg-healthcare-green text-white hover:bg-healthcare-green/90"
+                                      onClick={() => updateBookingStatusMutation.mutate({ id: booking.id, status: 'confirmed' })}
+                                      data-testid={`confirm-booking-${booking.id}`}
+                                    >
+                                      <CheckCircle className="w-3 h-3 mr-1" />
+                                      Confirm
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      variant="destructive"
+                                      onClick={() => updateBookingStatusMutation.mutate({ id: booking.id, status: 'cancelled' })}
+                                      data-testid={`deny-booking-${booking.id}`}
+                                    >
+                                      <XCircle className="w-3 h-3 mr-1" />
+                                      Deny
+                                    </Button>
+                                  </>
                                 )}
                                 <Button
                                   size="sm"
