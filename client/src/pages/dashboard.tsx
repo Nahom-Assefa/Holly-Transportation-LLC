@@ -86,10 +86,8 @@ export default function Dashboard() {
   // Function to refresh user data from the server
   const refreshUserData = useCallback(async () => {
     try {
-      console.log("🔄 Fetching fresh user data from server...");
       const response = await apiRequest("GET", "/api/auth/user");
       const userData = await response.json();
-      console.log("📥 Received user data from server:", userData);
       
       if (userData) {
         // Update the local user state with fresh data from server
@@ -98,12 +96,6 @@ export default function Dashboard() {
         
         // Also update the profile form with the fresh data
         setProfileForm({
-          firstName: userData.firstName || "",
-          lastName: userData.lastName || "",
-          email: userData.email || "",
-          phone: userData.phone || "",
-        });
-        console.log("✅ Updated profileForm state:", {
           firstName: userData.firstName || "",
           lastName: userData.lastName || "",
           email: userData.email || "",
@@ -127,11 +119,9 @@ export default function Dashboard() {
     }
     
     try {
-      console.log("🔄 Updating profile...");
       const response = await apiRequest("PUT", "/api/profile", profileForm);
       
       if (response.ok) {
-        console.log("✅ Profile updated successfully");
         customAlert("Profile updated successfully!", "success");
         
         // Get fresh user data from server and update React Query cache directly
@@ -146,16 +136,14 @@ export default function Dashboard() {
           
           // Also refresh local user data for immediate UI updates
           await refreshUserData();
-          console.log("✅ User data refreshed successfully");
         }
         
       } else {
-        console.error("❌ Failed to update profile:", response.statusText);
-        customAlert("Failed to update profile. Please try again.", "error");
+        customAlert(`Failed to update profile: ${response.statusText}. Please try again.`, "error");
       }
     } catch (error) {
-      console.error("❌ Failed to update profile:", error);
-      customAlert("Failed to update profile. Please try again.", "error");
+      customAlert(`Failed to update profile: ${error instanceof Error ? error.message
+                                                                      : 'Unknown error'}. Please try again.`, "error");
     }
   };
 
@@ -197,8 +185,8 @@ export default function Dashboard() {
       setSelectedBookings(new Set());
     },
     onError: (error) => {
-      console.error("Error deleting booking:", error);
-      customAlert("Failed to delete booking. Please try again.", "error");
+      customAlert(`Failed to delete booking: ${error instanceof Error ? error.message
+                                                                      : 'Unknown error'}. Please try again.`, "error");
     },
   });
 

@@ -442,7 +442,6 @@ export default function Admin() {
                                   variant="destructive"
                                   className="bg-red-600 hover:bg-red-700 text-white"
                                   onClick={() => {
-                                    console.log("Delete button clicked for booking:", booking.id);
                                     if (confirm(`Are you sure you want to deny the booking for ${booking.patientName}?`)) {
                                       deleteBookingMutation.mutate(booking.id);
                                     }

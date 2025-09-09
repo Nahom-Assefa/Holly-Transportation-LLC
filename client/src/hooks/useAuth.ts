@@ -57,9 +57,7 @@ export function useAuth() {
   // Firebase authentication
   useEffect(() => {
     if (AUTH_CONFIG.useFirebase) {
-      console.log("🔥 Setting up Firebase auth state listener...");
       console.log("🔥 Firebase auth object:", auth);
-      // console.log("🔥 Firebase current user:", auth.currentUser);
       
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         // console.log("👤 Firebase auth state changed:", user ? `User: ${user.email}` : "No user");
@@ -73,7 +71,6 @@ export function useAuth() {
           const isOnPublicPage = currentPath === '/' || currentPath === '/auth';
           
           if (!isOnPublicPage) {
-            // console.log("🚫 No Firebase user on protected route, redirecting to /auth");
             window.location.href = "/auth";
           }
         }
@@ -81,7 +78,6 @@ export function useAuth() {
       
       // Set loading to false immediately if no user (not stuck waiting)
       if (!auth.currentUser) {
-        // console.log("🔥 No current user, setting loading to false");
         setIsLoading(false);
         
         // Also check if we need to redirect immediately
@@ -89,7 +85,6 @@ export function useAuth() {
         const isOnPublicPage = currentPath === '/' || currentPath === '/auth';
         
         if (!isOnPublicPage) {
-          // console.log("🚫 No current user on protected route, redirecting to /auth");
           window.location.href = "/auth";
         }
       }
@@ -115,22 +110,15 @@ export function useAuth() {
   const { data: internalPGData, isLoading: firebaseDataLoading } = useQuery<ExtendedUser>({
     queryKey: ["/api/auth/user", "firebase"],
     queryFn: async () => {
-      // console.log("🔥 Firebase queryFn running...");
       if (!firebaseUser) {
-        // console.log("❌ No Firebase user found");
         throw new Error("No Firebase user");
       }
       
-      // console.log("🔑 Getting Firebase ID token...");
       const token = await firebaseUser.getIdToken();
-      console.log("🔑 Firebase ID token:", token);
-      // console.log("📡 Making API request to /api/auth/user...");
       console.log("🔑 Firebase user:", firebaseUser);
       const res = await fetch("/api/auth/user", {
         headers: { "Authorization": `Bearer ${token}` },
       });
-      
-      console.log(`📊 Response status: ${res.status}`);
       
       if (!res.ok) {
         if (res.status === 401) {
@@ -138,7 +126,6 @@ export function useAuth() {
           // Redirect to auth page for protected routes
           const currentPath = window.location.pathname;
           const isOnPublicPage = currentPath === '/' || currentPath === '/auth';
-          console.log(`📍 Current path: ${currentPath}, isOnPublicPage: ${isOnPublicPage}`);
           
           if (!isOnPublicPage) {
             console.log("🔄 Redirecting to /auth...");
@@ -146,13 +133,11 @@ export function useAuth() {
             throw new Error("Unauthorized - Redirecting to login");
           }
         }
-        console.log(`❌ HTTP error: ${res.status}: ${res.statusText}`);
+
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
       
-      // console.log("✅ API request successful, parsing response...");
       const data = await res.json();
-      // console.log("📦 Parsed user data:", data);
       return data;
     },
     retry: false,
@@ -191,17 +176,6 @@ export function useAuth() {
     // Firebase data (only for missing fields)
     profileImageUrl: firebaseUser.photoURL || internalPGData.profileImageUrl,
   } : firebaseLimited;
-
-  // Debug logging for data merging
-  if (AUTH_CONFIG.useFirebase && firebaseUser) {
-    console.log("🔍 Firebase Auth Debug:", {
-      firebaseUser: !!firebaseUser,
-      internalPGData: !!internalPGData,
-      internalPGDataValue: internalPGData,
-      firebaseLimited,
-      mergedFirebaseUser
-    });
-  }
 
   // Add stable dummy ID for local auth users (for testing purposes)
   const localUserWithStableId: ExtendedUser | null = localUser ? {
